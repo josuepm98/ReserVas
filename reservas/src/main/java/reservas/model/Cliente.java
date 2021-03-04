@@ -1,68 +1,95 @@
 package reservas.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Table(name = "equipos")
-public class Cliente {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String nombre;
+@Table(name = "cliente")
+public class Cliente implements Serializable {
 
-    @ManyToMany
-    @JoinTable(name = "equipo_usuario",
-            joinColumns = { @JoinColumn(name = "fk_equipo") },
-            inverseJoinColumns = {@JoinColumn(name = "fk_usuario")})
-    Set<Usuario> usuarios = new HashSet<>();
+    @NotNull
+    private String email;
+    @NotNull
+    private String nombreUser;
+    @NotNull
+    private String apellidos;
+    @NotNull
+    private String password;
+    @Column(name = "fechaNac")
+    @Temporal(TemporalType.DATE)
+    private Date fechaNacimiento;
 
-    private Cliente(){
+    // Constructor vacío necesario para JPA/Hibernate.
+    // Lo hacemos privado para que no se pueda usar desde el código de la aplicación. Para crear un
+    // usuario en la aplicación habrá que llamar al constructor público. Hibernate sí que lo puede usar, a pesar
+    // de ser privado.
+    private Cliente() {}
 
-    }
-
-    public Cliente(String nombre){
-        this.nombre = nombre;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-    public void setNombre(String nombre){
-        this.nombre = nombre;
-    }
-    public void setId(Long id){
-        this.id = id;
-    }
-    public Set<Usuario> getUsuarios() {
-        return usuarios;
-    }
-    public void setUsuarios(Set<Usuario> usuarios){
-        this.usuarios = usuarios;
+    // Constructor público con email por parámetro
+    public Cliente(String email) {
+        this.email = email;
     }
 
+    //getters and setters
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getNombreUser() {
+        return nombreUser;
+    }
+
+    public void setNombreUser(String nombreUser) {
+        this.nombreUser = nombreUser;
+    }
+
+    public String getApellidos() {
+        return apellidos;
+    }
+
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Date getFechaNacimiento() {
+        return fechaNacimiento;
+    }
+
+    public void setFechaNacimiento(Date fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
+    }
+
+
+    //equals basado en el email
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Cliente equipo = (Cliente) o;
-        if (id != null && equipo.id != null)
-            // Si tenemos los ID, comparamos por ID
-            return Objects.equals(id, equipo.id);
-        // sino comparamos por nombre
-        return nombre.equals(equipo.nombre);
+        Cliente cliente = (Cliente) o;
+
+        return email.equals(cliente.email);
     }
 
     @Override
     public int hashCode() {
-        // Generamos un hash basado en el nombre
-        return Objects.hash(nombre);
+        // Generamos un hash basado en los campos obligatorios
+        return Objects.hash(email);
     }
-
 }
