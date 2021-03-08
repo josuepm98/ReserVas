@@ -5,18 +5,16 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
-@Table(name = "cliente")
-public class Cliente extends Usuario{
+@Table(name = "empresa")
+public class Empresa extends Usuario{
 
     @NotNull
-    @Column(name = "fechaNac")
-    @Temporal(TemporalType.DATE)
-    private Date fechaNacimiento;
+    private String direccion;
 
-    private Cliente() {}
+    private Empresa() {}
 
     // Constructor público con nombreUser por parámetro
-    public Cliente(String nombreUser) {
+    public Empresa(String nombreUser) {
         super(nombreUser);
     }
 
@@ -53,11 +51,12 @@ public class Cliente extends Usuario{
         this.password = password;
     }
 
-    public Date getFechaNacimiento() {
-        return fechaNacimiento;
+    public String getDireccion() {
+        return direccion;
     }
 
-    public void setFechaNacimiento(Date fechaNacimiento) {
-        this.fechaNacimiento = fechaNacimiento;
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
     }
+
 }
