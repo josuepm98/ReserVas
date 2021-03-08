@@ -6,35 +6,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reservas.model.Cliente;
-import reservas.model.ClienteRepository;
-
+import reservas.model.Usuario;
+import reservas.model.UsuarioRepository;
 import java.util.Optional;
 
-
 @Service
-public class ClienteService {
+public class ClienteService extends UsuarioService{
 
     Logger logger = LoggerFactory.getLogger(ClienteService.class);
 
-    public enum LoginStatus {LOGIN_OK, USER_NOT_FOUND, ERROR_PASSWORD}
-
-    private ClienteRepository clienteRepository;
+    private UsuarioRepository usuarioRepository;
 
     @Autowired
-    public ClienteService(ClienteRepository clienteRepository) {
-        this.clienteRepository = clienteRepository;
-    }
-
-    @Transactional(readOnly = true)
-    public LoginStatus login(String email, String password) {
-        Optional<Cliente> cliente = clienteRepository.findByEmail(email);
-        if (!cliente.isPresent()) {
-            return LoginStatus.USER_NOT_FOUND;
-        } else if (!cliente.get().getPassword().equals(password)) {
-            return LoginStatus.ERROR_PASSWORD;
-        } else {
-            return LoginStatus.LOGIN_OK;
-        }
+    public ClienteService(UsuarioRepository usuarioRepository) {
+        super(usuarioRepository);
     }
 
     // Se añade un usuario en la aplicación.
@@ -42,13 +27,19 @@ public class ClienteService {
     // El email no debe estar registrado en la base de datos
     @Transactional
     public Cliente registrar(Cliente cliente) {
-        Optional<Cliente> clienteRegistrado = clienteRepository.findByEmail(cliente.getEmail());
+        Optional<Usuario> clienteRegistrado = usuarioRepository.findByNombreUser(cliente.getNombreUser());
         if (clienteRegistrado.isPresent())
-            throw new ClienteServiceException("El usuario " + cliente.getEmail() + " ya está registrado");
+            throw new ClienteServiceException("El usuario " + cliente.getNombreUser() + " ya está registrado");
+        else if (cliente.getNombreUser() == null)
+            throw new ClienteServiceException("El usuario debe tener un nombre de usuario");
         else if (cliente.getEmail() == null)
             throw new ClienteServiceException("El usuario debe tener un email");
         else if (cliente.getPassword() == null)
             throw new ClienteServiceException("El usuario debe tener una contraseña");
-        else return clienteRepository.save(cliente);
+        else if (cliente.getNombre() == null)
+            throw new ClienteServiceException("El usuario debe tener nombre");
+        else if (cliente.getApellidos() == null)
+            throw new ClienteServiceException("El usuario debe tener apellidos");
+        else return usuarioRepository.save(cliente);
     }
 }
