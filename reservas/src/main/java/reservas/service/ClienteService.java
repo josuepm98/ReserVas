@@ -19,7 +19,7 @@ public class ClienteService extends UsuarioService{
 
     @Autowired
     public ClienteService(UsuarioRepository usuarioRepository) {
-        super(usuarioRepository);
+        //super(usuarioRepository);
     }
 
     // Se añade un usuario en la aplicación.
