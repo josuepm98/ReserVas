@@ -1,18 +1,16 @@
 package reservas.model;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.util.Date;
+import reservas.service.ClienteService;
 
 public class Cliente extends Usuario{
 
     private String fechaNacimiento;
 
-    public Cliente() {}
+    public Cliente() {super();}
 
-    // Constructor público con nombreUser por parámetro
-    public Cliente(String nombreUser, String password, String nombre, String apellidos, String email) {
+    public Cliente(String nombreUser, String password, String nombre, String apellidos, String email, String fechaNacimiento) {
         super(nombreUser, password, nombre, apellidos, email);
+        this.fechaNacimiento = fechaNacimiento;
     }
 
     //getters and setters
@@ -23,4 +21,15 @@ public class Cliente extends Usuario{
     public void setFechaNacimiento(String fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
+
+    public boolean crearCliente() {
+        ClienteService cliente = new ClienteService();
+        return cliente.crearCliente(this);
+    }
+
+    public boolean eliminarCliente() {
+        return super.eliminarUsuario();
+    }
+
+
 }

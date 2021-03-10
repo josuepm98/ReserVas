@@ -1,9 +1,6 @@
 package reservas.model;
 
 import reservas.service.UsuarioService;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 public class Usuario{
@@ -70,24 +67,19 @@ public class Usuario{
         this.email = email;
     }
 
-    public boolean createUser() {
+    public boolean eliminarUsuario() {
         UsuarioService usuario = new UsuarioService();
-        return usuario.createUser(this);
+        return usuario.eliminarUsuario(this);
     }
 
-    public boolean deleteUser() {
+    public boolean existe() {
         UsuarioService usuario = new UsuarioService();
-        return usuario.deleteUser(this);
+        return usuario.existe(nombreUser);
     }
 
-    public boolean exists() {
+    public boolean autenticacion() {
         UsuarioService usuario = new UsuarioService();
-        return usuario.exists(nombreUser);
-    }
-
-    public boolean autentication() {
-        UsuarioService usuario = new UsuarioService();
-        return usuario.autentication(nombreUser, password);
+        return usuario.autenticacion(nombreUser, password);
     }
 
     //Equals basado en el nombreUser

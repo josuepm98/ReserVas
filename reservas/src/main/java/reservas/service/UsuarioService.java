@@ -2,7 +2,6 @@ package reservas.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reservas.model.Usuario;
@@ -24,56 +23,20 @@ public class UsuarioService {
 
     private UsuarioRepository usuarioRepository;
 
-    public boolean createUser(Usuario usuario) {
+    public boolean eliminarUsuario(Usuario usuario) {
         Connection conn = SQL.conectarMySQL();  // Nos conectamos a la BBDD
         boolean resultado = false;
 
         try {
 
-            if(usuario.exists()) {
-                System.out.println("Ese usuario ya existe");
-            }else {
-                // String contrasenyaEncriptada = encript(usuario.getPassword());  // Esta línea será para encriptar cuando tengamos el método
-                String contrasenyaEncriptada = usuario.getPassword();
-
-                String query = "insert into usuario values ('" + usuario.getNombreUser() + "', '" + contrasenyaEncriptada + "', '" +
-                        usuario.getNombre() + "', '" + usuario.getApellidos() + "', '" + usuario.getEmail() + "');";
-
-                PreparedStatement comando = conn.prepareStatement(query);
-                if(comando.executeUpdate() > 0) {  // Se ha insertado el usuario
-                    resultado = true;
-                }
-            }
-            return resultado;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Se ha producido un error.");
-            return resultado;
-        } finally {
-            try {
-                if(conn != null){
-                    conn.close();
-                }
-            } catch (SQLException e){
-                System.out.println(e.getMessage());
-            }
-        }
-    }
-
-    public boolean deleteUser(Usuario usuario) {
-        Connection conn = SQL.conectarMySQL();  // Nos conectamos a la BBDD
-        boolean resultado = false;
-
-        try {
-
-            if(!usuario.exists()) {
+            if(!usuario.existe()) {
                 System.out.println("Ese usuario no existe");
             }else {
-                String query = "delete from usuario where ('nombreUser' = '" + usuario.getNombreUser() + "'); ";
-
+                // A la hora de borrar son muy importantes las comillas simples que cogen la palabra nombreUser, no tengo ni puta
+                // idea de por qué con 'nombreUser' no funciona. Tiene que ser `nombreUser`
+                String query = "delete from usuario where (`nombreUser` = '" + usuario.getNombreUser() + "'); ";
                 PreparedStatement comando = conn.prepareStatement(query);
-                if(comando.executeUpdate() > 0) {  // Se ha eliminado el usuario
+                if(comando.executeUpdate() > 0) {  // Se ha eliminado el usuario de sus dos tablas
                     resultado = true;
                 }
             }
@@ -95,7 +58,7 @@ public class UsuarioService {
     }
 
     // Devuelve true si el usuario pasado por parámetro existe
-    public boolean exists(String nombreUser){
+    public boolean existe(String nombreUser){
         Connection conn = SQL.conectarMySQL();  // Nos conectamos a la BBDD
         boolean resultado = true;
 
@@ -125,7 +88,7 @@ public class UsuarioService {
     }
 
     // Comprueba que existe el usuario y que la contraseña es correcta
-    public boolean autentication(String nombreUser, String passwordIntroducida) {
+    public boolean autenticacion(String nombreUser, String passwordIntroducida) {
         Connection conn = SQL.conectarMySQL();  // Nos conectamos a la BBDD
         boolean resultado = true;
 

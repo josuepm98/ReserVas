@@ -4,77 +4,77 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import reservas.model.Usuario;
-import reservas.model.UsuarioRepository;
-import reservas.service.UsuarioService;
+import reservas.model.Cliente;
 import static org.junit.Assert.assertEquals;
 
 public class ClienteTest {
 
     @Test
-    public void testExists1() {
+    public void testExiste1() {
         // Debe dar true ya que buscamos un usuario que SÍ existe
-        Usuario usuario = new Usuario("taesCliente", "taes", "TaesCliente", "Taes Taes", "taesCliente@gmail.com");
+        Cliente cliente = new Cliente("taesCliente", "taes", "TaesCliente", "Taes Taes", "taesCliente@gmail.com", "2000-05-10");
         boolean resultadoEsperado = true;
-        boolean resultadoReal = usuario.exists();
+        boolean resultadoReal = cliente.existe();
         assertEquals(resultadoEsperado, resultadoReal);
     }
 
     @Test
-    public void testExists2() {
+    public void testExiste2() {
         // Debe dar false ya que buscamos un usuario que NO existe
-        Usuario usuario = new Usuario("noExiste", "taes", "TaesCliente", "Taes Taes", "taesCliente@gmail.com");
+        Cliente cliente = new Cliente("noExiste", "taes", "TaesCliente", "Taes Taes", "taesCliente@gmail.com", "2000-05-10");
         boolean resultadoEsperado = false;
-        boolean resultadoReal = usuario.exists();
+        boolean resultadoReal = cliente.existe();
         assertEquals(resultadoEsperado, resultadoReal);
     }
 
     @Test
-    public void testAutentication1() {
+    public void testAutenticacion1() {
         // Debe dar true ya que el usuario existe y la contraseña está bien
-        Usuario usuario = new Usuario("taesCliente", "taes", "TaesCliente", "Taes Taes", "taesCliente@gmail.com");
+        Cliente cliente = new Cliente("taesCliente", "taes", "TaesCliente", "Taes Taes", "taesCliente@gmail.com", "2000-05-10");
         boolean resultadoEsperado = true;
-        boolean resultadoReal = usuario.autentication();
+        boolean resultadoReal = cliente.autenticacion();
         assertEquals(resultadoEsperado, resultadoReal);
     }
 
     @Test
-    public void testAutentication2() {
+    public void testAutenticacion2() {
         // Debe dar false ya que el usuario existe pero la contraseña está mal
-        Usuario usuario = new Usuario("taesCliente", "errorPassword", "TaesCliente", "Taes Taes", "taesCliente@gmail.com");
+        Cliente cliente = new Cliente("taesCliente", "errorPassword", "TaesCliente", "Taes Taes", "taesCliente@gmail.com", "2000-05-10");
         boolean resultadoEsperado = false;
-        boolean resultadoReal = usuario.autentication();
+        boolean resultadoReal = cliente.autenticacion();
         assertEquals(resultadoEsperado, resultadoReal);
     }
 
     @Test
-    public void testCreate() {
-        Usuario usuario = new Usuario("taesNuevo", "taes", "TaesNuevo", "Taes Nuevo", "taesNuevo@gmail.com");
+    public void testCrearCliente() {
+        // Este test prueba que se crea correctamente los clientes
+
+        Cliente cliente = new Cliente("taesNuevo", "taes", "TaesNuevo", "Taes Nuevo", "taesNuevo@gmail.com", "2000-05-10");
 
         // Debe dar false ya que el usuario NO existe
         boolean resultadoEsperado = false;
-        boolean resultadoReal = usuario.exists();
+        boolean resultadoReal = cliente.existe();
         assertEquals(resultadoEsperado, resultadoReal);
 
         // Debe dar true ya que no hay error al crear
         resultadoEsperado = true;
-        resultadoReal = usuario.createUser();
+        resultadoReal = cliente.crearCliente();
         assertEquals(resultadoEsperado, resultadoReal);
 
         // Debe dar true ya que ahora SÍ existe
         resultadoEsperado = true;
-        resultadoReal = usuario.exists();
+        resultadoReal = cliente.existe();
         assertEquals(resultadoEsperado, resultadoReal);
 
         // Para dejar la BD igual procedemos a eliminarlo
-        /*  ESTO SE DBERÍA DE HACER PERO EL MÉTODO DELETE DA ERROR, HAY QUE DEPURARLO
         resultadoEsperado = true;
-        resultadoReal = usuario.deleteUser();
+        resultadoReal = cliente.eliminarCliente();
         assertEquals(resultadoEsperado, resultadoReal);
 
+        // Ya no existe
         resultadoEsperado = false;
-        resultadoReal = usuario.exists();
+        resultadoReal = cliente.existe();
         assertEquals(resultadoEsperado, resultadoReal);
-        */
     }
 
 }

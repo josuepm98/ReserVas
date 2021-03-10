@@ -1,8 +1,6 @@
 package reservas.model;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.util.Date;
+import reservas.service.EmpresaService;
 
 public class Empresa extends Usuario{
 
@@ -10,8 +8,9 @@ public class Empresa extends Usuario{
 
     public Empresa() {}
 
-    public Empresa(String nombreUser, String password, String nombre, String apellidos, String email) {
+    public Empresa(String nombreUser, String password, String nombre, String apellidos, String email, String direccion) {
         super(nombreUser, password, nombre, apellidos, email);
+        this.direccion = direccion;
     }
 
     //getters and setters
@@ -23,4 +22,12 @@ public class Empresa extends Usuario{
         this.direccion = direccion;
     }
 
+    public boolean crearEmpresa() {
+        EmpresaService empresa = new EmpresaService();
+        return empresa.crearEmpresa(this);
+    }
+
+    public boolean eliminarEmpresa() {
+        return super.eliminarUsuario();
+    }
 }
