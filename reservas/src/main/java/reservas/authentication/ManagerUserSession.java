@@ -7,17 +7,17 @@ import javax.servlet.http.HttpSession;
 @Component
 public class ManagerUserSession {
 
-    // Añadimos el id de usuario en la sesión HTTP para hacer
+    // Añadimos el nombreUser de usuario en la sesión HTTP para hacer
     // una autorización sencilla. En los métodos de controllers
-    // comprobamos si el id del usuario logeado coincide con el obtenido
+    // comprobamos si el nombreUser del usuario logeado coincide con el obtenido
     // desde la URL
-    public void logearUsuario(HttpSession session, String emailUsuario) {
-        session.setAttribute("emailUsuarioLogeado", emailUsuario);
+    public void logearUsuario(HttpSession session, String nombreUser) {
+        session.setAttribute("nombreUserLogeado", nombreUser);
     }
 
-    public void comprobarUsuarioLogeado(HttpSession session, String emailUsuario) {
-        String emailUsuarioLogeado = (String) session.getAttribute("emailUsuarioLogeado");
-        if (!emailUsuario.equals(emailUsuarioLogeado))
+    public void comprobarUsuarioLogeado(HttpSession session, String nombreUser) {
+        String nombreUserLogeado = (String) session.getAttribute("nombreUserLogeado");
+        if (!nombreUser.equals(nombreUserLogeado))
             throw new UsuarioNoLogeadoException();
     }
 }
