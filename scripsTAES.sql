@@ -2,10 +2,11 @@ CREATE SCHEMA `reservas` ;
 
 CREATE TABLE `reservas`.`usuario` (
   `nombreUser` VARCHAR(255) NOT NULL,
-  `password` VARCHAR(255) NOT NULL,
+  `password` SHA(VARCHAR(255)) NOT NULL,
   `nombre` VARCHAR(255) NOT NULL,
   `apellidos` VARCHAR(255) NOT NULL,
   `email` VARCHAR(255) NOT NULL,
+  `img` VARCHAR(255) NOT NULL DEFAULT 'src/main/resources/imagenes/Default.jpg',
   PRIMARY KEY (`nombreUser`));
   
 CREATE TABLE `reservas`.`cliente` (
