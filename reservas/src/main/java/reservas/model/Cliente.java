@@ -4,22 +4,22 @@ import reservas.service.ClienteService;
 
 public class Cliente extends Usuario{
 
-    private String fechaNacimiento;
+    private String fechaNac;
 
     public Cliente() {super();}
 
-    public Cliente(String nombreUser, String password, String nombre, String apellidos, String email, String fechaNacimiento) {
+    public Cliente(String nombreUser, String password, String nombre, String apellidos, String email, String fechaNac) {
         super(nombreUser, password, nombre, apellidos, email);
-        this.fechaNacimiento = fechaNacimiento;
+        this.fechaNac = fechaNac;
     }
 
     //getters and setters
-    public String getFechaNacimiento() {
-        return fechaNacimiento;
+    public String getFechaNac() {
+        return fechaNac;
     }
 
-    public void setFechaNacimiento(String fechaNacimiento) {
-        this.fechaNacimiento = fechaNacimiento;
+    public void setFechaNac(String fechaNac) {
+        this.fechaNac = fechaNac;
     }
 
     public boolean crearCliente() {

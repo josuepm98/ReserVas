@@ -3,12 +3,9 @@ package reservas.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import reservas.model.Usuario;
-import reservas.model.UsuarioRepository;
 
 import java.sql.*;
-import java.util.Optional;
 
 
 @Service
@@ -20,8 +17,6 @@ public class UsuarioService {
     private ConexionMySQL SQL = new ConexionMySQL();
 
     public enum LoginStatus {LOGIN_OK, USER_NOT_FOUND, ERROR_PASSWORD}
-
-    private UsuarioRepository usuarioRepository;
 
     public boolean eliminarUsuario(Usuario usuario) {
         Connection conn = SQL.conectarMySQL();  // Nos conectamos a la BBDD

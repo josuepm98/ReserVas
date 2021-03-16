@@ -1,23 +1,21 @@
 package reservas.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import reservas.authentication.ManagerUserSession;
 import reservas.model.Cliente;
-import reservas.model.Usuario;
 import reservas.model.Empresa;
+import reservas.model.Usuario;
 import reservas.service.ClienteService;
 import reservas.service.EmpresaService;
 import reservas.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 
 @Controller
 public class LoginController {
@@ -35,93 +33,72 @@ public class LoginController {
     ManagerUserSession managerUserSesion;
 
     @GetMapping("/")
-    public String home(Model model) {
-        return "redirect:/login";
+    public ResponseEntity<String> home() {
+        return new ResponseEntity<>("OK", HttpStatus.OK);
     }
 
     @GetMapping("/login")
-    public String loginForm(Model model) {
-        model.addAttribute("loginData", new LoginData());
-        return "formLogin";
+    public ResponseEntity<String> loginForm() {
+        return new ResponseEntity<>("OK", HttpStatus.OK);
     }
 
     @PostMapping("/login")
-    public String login(@ModelAttribute LoginData loginData, Model model, RedirectAttributes flash, HttpSession session) {
+    public ResponseEntity<String> login(@RequestBody Usuario usuario, Model model, HttpSession session) {
 
-        String nombreUser = loginData.getNombreUser();
+        String nombreUser = usuario.getNombreUser();
         // Llamada al servicio para comprobar si el login es correcto
-        boolean loginStatus = usuarioService.autenticacion(nombreUser, loginData.getPassword());
-
+        boolean loginStatus = usuarioService.autenticacion(nombreUser, usuario.getPassword());
 
         if (loginStatus) {
             managerUserSesion.logearUsuario(session, nombreUser);
-            /* Aqui deberiamos ver si es empresa o cliente, y segun lo que sea, devolver un redirect u otro
-            if(){
-                return "redirect:/cliente";
-            }
-            else{
-                return "redirect:/empresa";
-            }*/
         } else {
-            model.addAttribute("error", "Nombre de usuario o contraseña incorrectos");
-            return "formLogin";
+            //model.addAttribute("error", "Nombre de usuario o contraseña incorrectos");
+            return new ResponseEntity<>("Nombre de usuario o contraseña incorrectos", HttpStatus.OK);
         }
-        return "formLogin";
+        return new ResponseEntity<>("OK", HttpStatus.OK);
     }
 
     @GetMapping("/registroCliente")
-    public String registroClienteForm(Model model) {
-        model.addAttribute("registroClienteData", new RegistroClienteData());
-        return "formRegistroCliente";
+    public ResponseEntity<String> registroClienteForm() {
+        return new ResponseEntity<>("OK", HttpStatus.OK);
     }
 
     @PostMapping("/registroCliente")
-    public String registroCliente(@Valid RegistroClienteData registroData, BindingResult result, Model model) {
-
-        if (result.hasErrors()) {
-            return "formRegistroCliente";
-        }
-        boolean existeUsuario = usuarioService.existe(registroData.getNombreUser());
+    public ResponseEntity<String> registroCliente(@RequestBody Cliente cliente, Model model) {
+        boolean existeUsuario = usuarioService.existe(cliente.getNombreUser());
 
         if (existeUsuario) {
-            model.addAttribute("registroClienteData", registroData);
-            model.addAttribute("error", "El usuario " + registroData.getNombreUser() + " ya existe");
-            return "formRegistroCliente";
+            model.addAttribute("registroCliente", cliente);
+            return new ResponseEntity<>("Error, ya existe un usuario con ese nombre de usuario.", HttpStatus.OK);
         }
 
-        Cliente cliente = new Cliente(registroData.getNombreUser(), registroData.getPassword(), registroData.getNombre(), registroData.getApellidos(), registroData.getEmail(), registroData.getFechaNacimiento());
         clienteService.crearCliente(cliente);
-        return "redirect:/login";
+
+        return new ResponseEntity<>("OK", HttpStatus.OK);
     }
 
     @GetMapping("/registroEmpresa")
-    public String registroEmpresaForm(Model model) {
-        model.addAttribute("registroEmpresaData", new RegistroEmpresaData());
-        return "formRegistroEmpresa";
+    public ResponseEntity<String> registroEmpresaForm() {
+        return new ResponseEntity<>("OK", HttpStatus.OK);
     }
 
     @PostMapping("/registroEmpresa")
-    public String registroEmpresa(@Valid RegistroEmpresaData registroData, BindingResult result, Model model) {
+    public ResponseEntity<String> registroEmpresa(@RequestBody Empresa empresa, Model model) {
+        boolean existeEmpresa = empresaService.existe(empresa.getNombreUser());
 
-        if (result.hasErrors()) {
-            return "formRegistroEmpresa";
-        }
-        boolean existeUsuario = usuarioService.existe(registroData.getNombreUser());
-
-        if (existeUsuario) {
-            model.addAttribute("registroEmpresaData", registroData);
-            model.addAttribute("error", "La empresa " + registroData.getNombreUser() + " ya existe");
-            return "formRegistroEmpresa";
+        if (existeEmpresa) {
+            model.addAttribute("registroEmpresa", empresa);
+            return new ResponseEntity<>("Error, ya existe un usuario con ese nombre de usuario.", HttpStatus.OK);
         }
 
-        Empresa empresa = new Empresa(registroData.getNombreUser(), registroData.getPassword(), registroData.getNombre(), registroData.getApellidos(), registroData.getEmail(), registroData.getDireccion());
         empresaService.crearEmpresa(empresa);
-        return "redirect:/login";
+
+        return new ResponseEntity<>("OK", HttpStatus.OK);
     }
 
     @GetMapping("/logout")
-    public String logout(HttpSession session) {
+    public ResponseEntity<String> logout(HttpSession session) {
         session.setAttribute("nombreUserLogeado", null);
-        return "redirect:/login";
+        return new ResponseEntity<>("OK", HttpStatus.OK);
     }
 }
