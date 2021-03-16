@@ -1,7 +1,5 @@
 package reservas.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import reservas.model.Cliente;
 
@@ -11,8 +9,6 @@ import java.sql.SQLException;
 
 @Service
 public class ClienteService extends UsuarioService{
-
-    Logger logger = LoggerFactory.getLogger(ClienteService.class);
 
     // Creamos la cadena para conectar a la BBDD
     private ConexionMySQL SQL = new ConexionMySQL();
@@ -34,7 +30,7 @@ public class ClienteService extends UsuarioService{
                         cliente.getNombre() + "', '" + cliente.getApellidos() + "', '" + cliente.getEmail() + "');";
 
                 // query para insertar en la tabla cliente
-                String query2 = "insert into cliente values ('" + cliente.getNombreUser() + "', '" + cliente.getFechaNacimiento() + "');";
+                String query2 = "insert into cliente values ('" + cliente.getNombreUser() + "', '" + cliente.getFechaNac() + "');";
 
                 // Empieza la transacción
                 conn.setAutoCommit(false);
