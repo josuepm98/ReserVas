@@ -1,5 +1,7 @@
 package reservas.controller;
 
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,8 +21,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import sun.security.util.SecurityConstants;
+
 
 import javax.servlet.http.HttpSession;
+
+//CREAR TOKENS https://www.adictosaltrabajo.com/2017/09/25/securizar-un-api-rest-utilizando-json-web-tokens/
 
 @CrossOrigin(origins = "http://localhost:19006", methods= {RequestMethod.GET,RequestMethod.POST})
 @RestController
@@ -49,7 +55,7 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody Usuario usuario, Model model, HttpSession session) {
+    public ResponseEntity<?> login(@RequestBody Usuario usuario, Model model, HttpSession session) {
 
         String nombreUser = usuario.getNombreUser();
         // Llamada al servicio para comprobar si el login es correcto
@@ -57,32 +63,35 @@ public class LoginController {
 
         if (loginStatus) {
             managerUserSesion.logearUsuario(session, nombreUser);
+            //token = Jwts.builder().toString();
         } else {
             //model.addAttribute("error", "Nombre de usuario o contraseña incorrectos");
             return new ResponseEntity<>("Nombre de usuario o contraseña incorrectos", HttpStatus.OK);
         }
-        return new ResponseEntity<>("OK", HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/registroCliente")
+    /*@GetMapping("/register")
     public ResponseEntity<String> registroClienteForm() {
         return new ResponseEntity<>("OK", HttpStatus.OK);
-    }
+    }*/
 
-    @PostMapping("/registroCliente")
-    public ResponseEntity<String> registroCliente(@RequestBody Cliente cliente, Model model) {
+    @PostMapping("/register")
+    public ResponseEntity<?> registroCliente(@RequestBody Cliente cliente, Model model) {
         boolean existeUsuario = usuarioService.existe(cliente.getNombreUser());
 
         if (existeUsuario) {
             model.addAttribute("registroCliente", cliente);
-            return new ResponseEntity<>("Error, ya existe un usuario con ese nombre de usuario.", HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
 
         clienteService.crearCliente(cliente);
 
-        return new ResponseEntity<>("OK", HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
+
+    //VER LAS RUTAS PORQUE REGISTRO EMPRESA NO EXISTE EN EL FRONT
     @GetMapping("/registroEmpresa")
     public ResponseEntity<String> registroEmpresaForm() {
         return new ResponseEntity<>("OK", HttpStatus.OK);
