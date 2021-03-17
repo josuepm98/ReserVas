@@ -66,7 +66,7 @@ public class LoginController {
             //token = Jwts.builder().toString();
         } else {
             //model.addAttribute("error", "Nombre de usuario o contraseña incorrectos");
-            return new ResponseEntity<>("Nombre de usuario o contraseña incorrectos", HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -76,7 +76,7 @@ public class LoginController {
         return new ResponseEntity<>("OK", HttpStatus.OK);
     }*/
 
-    @PostMapping("/register")
+    @PostMapping("/registerUser")
     public ResponseEntity<?> registroCliente(@RequestBody Cliente cliente, Model model) {
         boolean existeUsuario = usuarioService.existe(cliente.getNombreUser());
 
@@ -92,23 +92,24 @@ public class LoginController {
 
 
     //VER LAS RUTAS PORQUE REGISTRO EMPRESA NO EXISTE EN EL FRONT
-    @GetMapping("/registroEmpresa")
+
+    /*@GetMapping("/registerEmpresa")
     public ResponseEntity<String> registroEmpresaForm() {
         return new ResponseEntity<>("OK", HttpStatus.OK);
-    }
+    }*/
 
-    @PostMapping("/registroEmpresa")
-    public ResponseEntity<String> registroEmpresa(@RequestBody Empresa empresa, Model model) {
+    @PostMapping("/registerStore")
+    public ResponseEntity<?> registroEmpresa(@RequestBody Empresa empresa, Model model) {
         boolean existeEmpresa = empresaService.existe(empresa.getNombreUser());
 
         if (existeEmpresa) {
             model.addAttribute("registroEmpresa", empresa);
-            return new ResponseEntity<>("Error, ya existe un usuario con ese nombre de usuario.", HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
 
         empresaService.crearEmpresa(empresa);
 
-        return new ResponseEntity<>("OK", HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/logout")
