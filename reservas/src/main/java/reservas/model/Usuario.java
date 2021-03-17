@@ -1,6 +1,7 @@
 package reservas.model;
 
 import reservas.service.UsuarioService;
+
 import java.util.Objects;
 
 public class Usuario{

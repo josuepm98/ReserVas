@@ -45,7 +45,7 @@ public class EmpresaTest {
     }
 
     @Test
-    public void testCrearCliente() {
+    public void testCrearEmpresa() {
         // Este test prueba que se crea correctamente las empresas
 
         Empresa empresa = new Empresa("taesNuevo", "taes", "TaesNuevo", "Taes Nuevo", "taesNuevo@gmail.com", "Aspe");
