@@ -16,8 +16,6 @@ public class UsuarioService {
     // Creamos la cadena para conectar a la BBDD
     private ConexionMySQL SQL = new ConexionMySQL();
 
-    public enum LoginStatus {LOGIN_OK, USER_NOT_FOUND, ERROR_PASSWORD}
-
     public boolean eliminarUsuario(Usuario usuario) {
         Connection conn = SQL.conectarMySQL();  // Nos conectamos a la BBDD
         boolean resultado = false;
