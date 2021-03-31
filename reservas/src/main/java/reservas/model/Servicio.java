@@ -19,9 +19,9 @@ public class Servicio {
     public String direccion;
     public double precio;
     public String fecha;
-    public Time horaInicio;
-    public Time horaFin;
-    public Categoria categoria;
+    public String horaInicio;
+    public String horaFin;
+    public String categoria;
     public ServicioEstado estado;
     public String empresa;
     public String cliente;
@@ -29,7 +29,7 @@ public class Servicio {
     //Constructores
     public Servicio(){ }
 
-    public Servicio(String nombre, String direccion, double precio, String fecha, Time horaInicio, Time horaFin, Categoria categoria,ServicioEstado estado, String empresa, String cliente){
+    public Servicio(String nombre, String direccion, double precio, String fecha, String horaInicio, String horaFin, String categoria,ServicioEstado estado, String empresa, String cliente){
         this.nombre = nombre;
         this.direccion = direccion;
         this.precio = precio;
@@ -64,15 +64,15 @@ public class Servicio {
         return fecha;
     }
 
-    public Time getHoraInicio() {
+    public String getHoraInicio() {
         return horaInicio;
     }
 
-    public Time getHoraFin() {
+    public String getHoraFin() {
         return horaFin;
     }
 
-    public Categoria getCategoria() {
+    public String getCategoria() {
         return categoria;
     }
 
@@ -108,15 +108,15 @@ public class Servicio {
         this.fecha = fecha;
     }
 
-    public void setHoraInicio(Time horaInicio) {
+    public void setHoraInicio(String horaInicio) {
         this.horaInicio = horaInicio;
     }
 
-    public void setHoraFin(Time horaFin) {
+    public void setHoraFin(String horaFin) {
         this.horaFin = horaFin;
     }
 
-    public void setCategoria(Categoria categoria) {
+    public void setCategoria(String categoria) {
         this.categoria = categoria;
     }
 
