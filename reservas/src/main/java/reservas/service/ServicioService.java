@@ -12,6 +12,38 @@ public class ServicioService {
 
     private ConexionMySQL SQL = new ConexionMySQL();
 
+    public boolean createService(Servicio servicio){
+        Connection conn = SQL.conectarMySQL();  // Nos conectamos a la BBDD
+        boolean resultado = false;
+
+        try{
+
+            String query = "INSERT INTO servicio (id, nombre, direccion, precio, fecha, horaInicio, horaFin, categoria, estado, " +
+                    "empresa, cliente) VALUES (null, '" + servicio.nombre + "', '" + servicio.direccion + "', " + servicio.precio +
+                    ", '" + servicio.fecha + "', '" + servicio.horaInicio + "', '" + servicio.horaFin + "', '" + servicio.categoria +
+                    "', '" + servicio.estado + "', '" + servicio.empresa + "', null);";
+
+            PreparedStatement comando = conn.prepareStatement(query);
+            if(comando.executeUpdate() > 0) {  // Se ha insertado el servicio
+                resultado = true;
+            }
+            return resultado;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Se ha producido un error.");
+            return resultado;
+        }finally {
+            try {
+                conn.close();
+            }catch (Exception e){
+                System.out.println("Error al cerrar la conexión");
+            }
+        }
+    }
+
+
+
     public boolean getServicios(){
         Connection conn = SQL.conectarMySQL();  // Nos conectamos a la BBDD
         boolean resultado = false;
