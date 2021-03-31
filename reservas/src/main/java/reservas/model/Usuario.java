@@ -72,6 +72,7 @@ public class Usuario{
     public boolean existe() {
         UsuarioService usuario = new UsuarioService();
         return usuario.existe(nombreUser);
+        
     }
 
     public boolean autenticacion() {
