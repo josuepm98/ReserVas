@@ -132,8 +132,13 @@ public class Servicio {
         this.cliente = cliente;
     }
 
-    public boolean crearServicio() {
+    public boolean createService() {
         ServicioService servicio = new ServicioService();
         return servicio.createService(this);
+    }
+
+    public boolean deleteService() {
+        ServicioService servicio = new ServicioService();
+        return servicio.deleteService(this);
     }
 }
