@@ -1,5 +1,7 @@
 package reservas.controller;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.http.HttpStatus;
@@ -45,16 +47,28 @@ public class ServicioController {
     @Autowired
     ManagerUserSession managerUserSesion;
 
-    @GetMapping("/servicios") //NO SE LA RUTA QUE PEDIRAN, HOME SEGURAMENTE
-    public ResponseEntity<?> servicios(@RequestBody Usuario usuario, Model model, HttpSession session) {
-        managerUserSesion.comprobarUsuarioLogeado(session, usuario.getNombreUser());
+    @GetMapping("/users/{nombreUser}/services") //NO SE LA RUTA QUE PEDIRAN
+    public ResponseEntity<?> serviciosCliente(@PathVariable(value="nombreUser") String nombreUser, Model model, HttpSession session) {
+        managerUserSesion.comprobarUsuarioLogeado(session, nombreUser);
 
-        //List<Servicio> services = servicioService.getServicios(); TENEMOS QUE DEVOLVER LA SELECT DE SERVICIOS Y PASARLA AL FRONT COMO JSON
+        List<Servicio> services = servicioService.getServicios(nombreUser, 0); //TENEMOS QUE DEVOLVER LA SELECT DE SERVICIOS Y PASARLA AL FRONT COMO JSON
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        Gson gson =  new Gson();
+        String json = gson.toJson(services);
+
+        return new ResponseEntity<>(json ,HttpStatus.OK);
     }
 
+    @GetMapping("/stores/{nombreUser}/services") //NO SE LA RUTA QUE PEDIRAN
+    public ResponseEntity<?> serviciosEmpresa(@PathVariable(value="nombreUser") String nombreUser, Model model, HttpSession session) {
+        managerUserSesion.comprobarUsuarioLogeado(session, nombreUser);
 
+        List<Servicio> services = servicioService.getServicios(nombreUser, 1); //TENEMOS QUE DEVOLVER LA SELECT DE SERVICIOS Y PASARLA AL FRONT COMO JSON
 
+        Gson gson =  new Gson();
+        String json = gson.toJson(services);
+
+        return new ResponseEntity<>(json ,HttpStatus.OK);
+    }
 
 }
