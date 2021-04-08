@@ -1,5 +1,8 @@
 package reservas.model;
 
+import reservas.service.ClienteService;
+import reservas.service.ServicioService;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import java.sql.Time;
@@ -16,23 +19,24 @@ public class Servicio {
     public String direccion;
     public double precio;
     public String fecha;
-    public Time horaInicio;
-    public Time horaFin;
-    //public Categoria categoria; //incluir en constructor por parametro y descomentar getter y setter
+    public String horaInicio;
+    public String horaFin;
+    public String categoria;
     public ServicioEstado estado;
-    public Empresa empresa;
-    public Cliente cliente;
+    public String empresa;
+    public String cliente;
 
     //Constructores
     public Servicio(){ }
 
-    public Servicio(String nombre, String direccion, double precio, String fecha, Time horaInicio, Time horaFin, ServicioEstado estado, Empresa empresa, Cliente cliente){
+    public Servicio(String nombre, String direccion, double precio, String fecha, String horaInicio, String horaFin, String categoria,ServicioEstado estado, String empresa, String cliente){
         this.nombre = nombre;
         this.direccion = direccion;
         this.precio = precio;
         this.fecha = fecha;
         this.horaInicio = horaInicio;
         this.horaFin = horaFin;
+        this.categoria = categoria;
         this.estado = estado;
         this.empresa = empresa;
         this.cliente = cliente;
@@ -60,27 +64,27 @@ public class Servicio {
         return fecha;
     }
 
-    public Time getHoraInicio() {
+    public String getHoraInicio() {
         return horaInicio;
     }
 
-    public Time getHoraFin() {
+    public String getHoraFin() {
         return horaFin;
     }
 
-    /*public Categoria getCategoria() {
+    public String getCategoria() {
         return categoria;
-    }*/
+    }
 
     public ServicioEstado getEstado() {
         return estado;
     }
 
-    public Empresa getEmpresa() {
+    public String getEmpresa() {
         return empresa;
     }
 
-    public Cliente getCliente() {
+    public String getCliente() {
         return cliente;
     }
 
@@ -104,27 +108,37 @@ public class Servicio {
         this.fecha = fecha;
     }
 
-    public void setHoraInicio(Time horaInicio) {
+    public void setHoraInicio(String horaInicio) {
         this.horaInicio = horaInicio;
     }
 
-    public void setHoraFin(Time horaFin) {
+    public void setHoraFin(String horaFin) {
         this.horaFin = horaFin;
     }
 
-    /*public void setCategoria(Categoria categoria) {
+    public void setCategoria(String categoria) {
         this.categoria = categoria;
-    }*/
+    }
 
     public void setEstado(ServicioEstado estado) {
         this.estado = estado;
     }
 
-    public void setEmpresa(Empresa empresa) {
+    public void setEmpresa(String empresa) {
         this.empresa = empresa;
     }
 
-    public void setCliente(Cliente cliente) {
+    public void setCliente(String cliente) {
         this.cliente = cliente;
+    }
+
+    public boolean createService() {
+        ServicioService servicio = new ServicioService();
+        return servicio.createService(this);
+    }
+
+    public boolean deleteService() {
+        ServicioService servicio = new ServicioService();
+        return servicio.deleteService(this);
     }
 }

@@ -71,10 +71,6 @@ public class LoginController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    /*@GetMapping("/register")
-    public ResponseEntity<String> registroClienteForm() {
-        return new ResponseEntity<>("OK", HttpStatus.OK);
-    }*/
 
     @PostMapping("/registerUser")
     public ResponseEntity<?> registroCliente(@RequestBody Cliente cliente, Model model) {
@@ -92,11 +88,6 @@ public class LoginController {
 
 
     //VER LAS RUTAS PORQUE REGISTRO EMPRESA NO EXISTE EN EL FRONT
-
-    /*@GetMapping("/registerEmpresa")
-    public ResponseEntity<String> registroEmpresaForm() {
-        return new ResponseEntity<>("OK", HttpStatus.OK);
-    }*/
 
     @PostMapping("/registerStore")
     public ResponseEntity<?> registroEmpresa(@RequestBody Empresa empresa, Model model) {
