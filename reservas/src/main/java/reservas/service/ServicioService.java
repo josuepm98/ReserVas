@@ -21,7 +21,6 @@ public class ServicioService {
         boolean resultado = false;
 
         try{
-
             String query = "INSERT INTO servicio (id, nombre, direccion, precio, fecha, horaInicio, horaFin, categoria, estado, " +
                     "empresa, cliente) VALUES (null, '" + servicio.nombre + "', '" + servicio.direccion + "', " + servicio.precio +
                     ", '" + servicio.fecha + "', '" + servicio.horaInicio + "', '" + servicio.horaFin + "', '" + servicio.categoria +
@@ -56,7 +55,6 @@ public class ServicioService {
         boolean resultado = false;
 
         try{
-
             String query = "DELETE FROM servicio WHERE (`id` = '" + servicio.getId() + "');";
 
             PreparedStatement comando = conn.prepareStatement(query);
@@ -76,6 +74,54 @@ public class ServicioService {
                 System.out.println("Error al cerrar la conexión");
             }
         }
+    }
+
+    public Servicio getService(int serviceId){
+        Connection conn = SQL.conectarMySQL();  // Nos conectamos a la BBDD
+        Servicio service = new Servicio();
+
+        try {
+            String query = "SELECT * FROM servicio WHERE (`id` = '" + serviceId + "');";
+
+            Statement st = conn.createStatement(); //creamos el statement -> nos permite sacar los datos obtenidos de la select
+            ResultSet rs = st.executeQuery(query); //ejecutamos la query
+
+            rs.next();
+
+            service.setId(rs.getInt("id"));
+            service.nombre = rs.getString("nombre");
+            service.direccion = rs.getString("direccion");
+            service.precio = rs.getDouble("precio");
+
+            DateFormat dateFormatFecha = new SimpleDateFormat("yyyy-mm-dd"); //se necesita para la conversión de la BBDD (Date) a String
+            service.fecha = dateFormatFecha.format(rs.getDate("fecha"));
+
+            DateFormat dateFormatHora = new SimpleDateFormat("hh:mm:ss"); //se necesita para la conversión de la BBDD (Time) a String
+            service.horaInicio = dateFormatHora.format(rs.getDate("horaInicio"));
+            service.horaFin = dateFormatHora.format(rs.getDate("horaFin"));
+
+            service.categoria = rs.getString("categoria");
+            service.estado = service.estado.valueOf(rs.getString("estado")); //se necesita la conversión a ENUM (valueOf) (Yo cambiaría el enum si nos da problemas)
+            service.empresa = rs.getString("empresa");
+            service.cliente = rs.getString("cliente");
+
+            return service;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Se ha producido un error.");
+            return service;
+        } finally {
+            try {
+                if(conn != null){
+                    conn.close();
+                }
+            } catch (SQLException e){
+                System.out.println(e.getMessage());
+            }
+        }
+
+
     }
 
     //0 -> cliente
@@ -99,7 +145,7 @@ public class ServicioService {
             while (rs.next())
             {
                 Servicio service = new Servicio();
-                service.id = rs.getInt("id");
+                service.setId(rs.getInt("id"));
                 service.nombre = rs.getString("nombre");
                 service.direccion = rs.getString("direccion");
                 service.precio = rs.getDouble("precio");

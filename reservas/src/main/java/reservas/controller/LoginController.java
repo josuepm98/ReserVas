@@ -65,10 +65,9 @@ public class LoginController {
             managerUserSesion.logearUsuario(session, nombreUser);
             //token = Jwts.builder().toString();
         } else {
-            //model.addAttribute("error", "Nombre de usuario o contraseña incorrectos");
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("Nombre de usuario o contraseña incorrectos", HttpStatus.FORBIDDEN);
         }
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>("Sesión iniciada correctamente", HttpStatus.OK);
     }
 
 
@@ -77,13 +76,12 @@ public class LoginController {
         boolean existeUsuario = usuarioService.existe(cliente.getNombreUser());
 
         if (existeUsuario) {
-            model.addAttribute("registroCliente", cliente);
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+            return new ResponseEntity<>("Ya existe un usuario con ese nombre de usuario", HttpStatus.CONFLICT);
         }
 
         clienteService.crearCliente(cliente);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>("Registro realizado correctamente", HttpStatus.OK);
     }
 
 
@@ -94,18 +92,17 @@ public class LoginController {
         boolean existeEmpresa = empresaService.existe(empresa.getNombreUser());
 
         if (existeEmpresa) {
-            model.addAttribute("registroEmpresa", empresa);
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+            return new ResponseEntity<>("Ya existe una empresa con ese nombre de usuario", HttpStatus.CONFLICT);
         }
 
         empresaService.crearEmpresa(empresa);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>("Registro realizado correctamente", HttpStatus.OK);
     }
 
     @GetMapping("/logout")
     public ResponseEntity<String> logout(HttpSession session) {
         session.setAttribute("nombreUserLogeado", null);
-        return new ResponseEntity<>("OK", HttpStatus.OK);
+        return new ResponseEntity<>("Sesión finalizada", HttpStatus.OK);
     }
 }
