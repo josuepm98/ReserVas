@@ -4,10 +4,14 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Test;
 
 import reservas.model.Categoria;
 import reservas.model.Cliente;
+import reservas.service.CategoriaService;
 
 public class CategoriaTest {
 
@@ -44,5 +48,15 @@ public class CategoriaTest {
         resultadoReal = categoria.existe();
         assertFalse(resultadoReal);
     }
+    @Test
+    public void testGetCategorias() {
+    
+    	CategoriaService cService = new CategoriaService(); 
+    	List<Categoria> resultadoEsperado = new ArrayList<>();
+    	resultadoEsperado.add(new Categoria("Peluqueria"));
+    	resultadoEsperado.add(new Categoria("Spa"));
 
+    	System.out.println(cService.getCategorias());
+    	assertEquals(resultadoEsperado,cService.getCategorias());
+    }
 }

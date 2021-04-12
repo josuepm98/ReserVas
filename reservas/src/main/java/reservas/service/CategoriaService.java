@@ -5,10 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
+import java.util.ArrayList;
+import java.util.List;
 import reservas.model.Categoria;
-import reservas.model.Usuario;
-
 
 public class CategoriaService {
 
@@ -104,5 +103,36 @@ public class CategoriaService {
         }
     }
 
+    public List<Categoria> getCategorias(){
+        Connection conn = SQL.conectarMySQL();  // Nos conectamos a la BBDD
+        List<Categoria> categorias = new ArrayList<>();
+
+        try {
+            String query = "";
+            query = "SELECT * FROM categoria;";
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(query); 
+
+            while (rs.next())
+            {
+            	Categoria categoria = new Categoria();
+            	categoria.setNombre(rs.getString("nombre"));
+            	categorias.add(categoria);
+            }
+            return categorias;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Se ha producido un error.");
+            return categorias;
+        } finally {
+            try {
+                if(conn != null){
+                    conn.close();
+                }
+            } catch (SQLException e){
+                System.out.println(e.getMessage());
+            }
+        }
+    }
 
 }
