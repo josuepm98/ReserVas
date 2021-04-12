@@ -63,10 +63,26 @@ public class ServicioController {
     public ResponseEntity<?> serviciosEmpresa(@PathVariable(value="nombreUser") String nombreUser, Model model, HttpSession session) {
         managerUserSesion.comprobarUsuarioLogeado(session, nombreUser);
 
-        List<Servicio> services = servicioService.getServicios(nombreUser, 1); //TENEMOS QUE DEVOLVER LA SELECT DE SERVICIOS Y PASARLA AL FRONT COMO JSON
+        List<Servicio> services = servicioService.getServicios(nombreUser, 1); //DEVOLVEMOS LA SELECT DE SERVICIOS Y PASARLA AL FRONT COMO JSON
 
         Gson gson =  new Gson();
         String json = gson.toJson(services);
+
+        return new ResponseEntity<>(json ,HttpStatus.OK);
+    }
+
+    @GetMapping("/services/{id}") //NO SE LA RUTA QUE PEDIRAN
+    public ResponseEntity<?> servicioInfo(@PathVariable(value="id") Integer idService, Model model, HttpSession session) {
+        String nombreUsuarioLogeado = (String) session.getAttribute("nombreUserLogeado");
+
+        if(nombreUsuarioLogeado == null){
+            return new ResponseEntity<>("Usuario no autorizado, debes iniciar sesión", HttpStatus.UNAUTHORIZED);
+        }
+
+        Servicio service = servicioService.getService(idService); //DEVOLVEMOS LA SELECT DE SERVICIO Y PASARLA AL FRONT COMO JSON
+
+        Gson gson =  new Gson();
+        String json = gson.toJson(service);
 
         return new ResponseEntity<>(json ,HttpStatus.OK);
     }
