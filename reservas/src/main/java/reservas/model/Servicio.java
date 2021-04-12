@@ -29,6 +29,10 @@ public class Servicio {
     //Constructores
     public Servicio(){ }
 
+    public Servicio(String nombre){
+        this.nombre = nombre;
+    }
+
     public Servicio(String nombre, String direccion, double precio, String fecha, String horaInicio, String horaFin, String categoria,ServicioEstado estado, String empresa, String cliente){
         this.nombre = nombre;
         this.direccion = direccion;
