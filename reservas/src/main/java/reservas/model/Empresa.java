@@ -5,6 +5,12 @@ import reservas.service.EmpresaService;
 public class Empresa extends Usuario{
 
     private String direccion;
+    
+    private String inicioJornada;  // hh:mm
+    
+    private String finJornada;  // hh:mm
+
+    private String tiempoServicio;  // hh:mm
 
     public Empresa() {}
 

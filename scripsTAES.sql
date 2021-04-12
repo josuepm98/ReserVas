@@ -22,6 +22,9 @@ CREATE TABLE `reservas`.`cliente` (
 CREATE TABLE `reservas`.`empresa` (
   `nombreUser` VARCHAR(255) NOT NULL,
   `direccion` VARCHAR(255) NOT NULL,
+  `inicioJornada` VARCHAR(255) NULL,
+  `finJornada` VARCHAR(255) NULL,
+  `tiempoServicio` VARCHAR(255) NULL,
   PRIMARY KEY (`nombreUser`),
   CONSTRAINT `empresa_usuario`
     FOREIGN KEY (`nombreUser`)

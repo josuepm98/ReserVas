@@ -19,8 +19,8 @@ public class Servicio {
     public String direccion;
     public double precio;
     public String fecha;
-    public String horaInicio;
-    public String horaFin;
+    public String horaInicio;  // hh:mm
+    public String horaFin;  // hh:mm
     public String categoria;
     public ServicioEstado estado;
     public String empresa;
