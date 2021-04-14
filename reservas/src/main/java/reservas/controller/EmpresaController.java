@@ -29,4 +29,6 @@ import javax.servlet.http.HttpSession;
 @CrossOrigin(origins = "http://localhost:19006", methods= {RequestMethod.GET,RequestMethod.POST})
 @RestController
 public class EmpresaController {
+    //MOSTRAR CLIENTES RELACIONADOS CON EMPRESA
+    //@GetMapping
 }

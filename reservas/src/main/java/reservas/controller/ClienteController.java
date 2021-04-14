@@ -43,12 +43,8 @@ public class ClienteController {
     @Autowired
     ManagerUserSession managerUserSesion;
 
-    @GetMapping("/reservas/{nombreUser}")
-    public ResponseEntity<?> reservasUsuario(@PathVariable(value="nombreUser") String nombreUser, Model model, HttpSession session) {
-        managerUserSesion.comprobarUsuarioLogeado(session, nombreUser);
-        //List<Servicio> servicesUser = servicioService.getServiciosUser();
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
+    //MOSTRAR TODOS CLIENTES
+    //@GetMapping
 
 
 
