@@ -41,7 +41,6 @@ public class ServicioTest {
 
     @Test
     public void getServicio(){
-
         Servicio resultadoReal = servicioService.getService(1);
         assertEquals(1, resultadoReal.getId());
     }
@@ -55,6 +54,19 @@ public class ServicioTest {
         service = servicioService.getService(2);
         resultadoEsperado.add(service);
         List<Servicio> resultadoReal = servicioService.getServicios("taesEmpresa", 1);
+
+        for(int i = 0; i < resultadoEsperado.size(); i++) {
+            assertEquals(resultadoEsperado.get(i).getId(), resultadoReal.get(i).getId());
+        }
+    }
+
+    @Test
+    public void getServiciosPorCategoria(){
+        List<Servicio> resultadoEsperado = new ArrayList<>();
+        Servicio service;
+        service = servicioService.getService(1);
+        resultadoEsperado.add(service);
+        List<Servicio> resultadoReal = servicioService.getServiciosPorCategoria("Peluqueria");
 
         for(int i = 0; i < resultadoEsperado.size(); i++) {
             assertEquals(resultadoEsperado.get(i).getId(), resultadoReal.get(i).getId());

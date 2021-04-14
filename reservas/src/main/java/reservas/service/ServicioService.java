@@ -89,7 +89,7 @@ public class ServicioService {
 
             rs.next();
 
-            service.setId(rs.getInt("id"));
+            service.id = rs.getInt("id");
             service.nombre = rs.getString("nombre");
             service.direccion = rs.getString("direccion");
             service.precio = rs.getDouble("precio");
@@ -146,7 +146,7 @@ public class ServicioService {
             while (rs.next())
             {
                 Servicio service = new Servicio();
-                service.setId(rs.getInt("id"));
+                service.id = rs.getInt("id");
                 service.nombre = rs.getString("nombre");
                 service.direccion = rs.getString("direccion");
                 service.precio = rs.getDouble("precio");
@@ -183,12 +183,12 @@ public class ServicioService {
         }
     }
 
-    public List<Servicio> getServiciosPorCategoria(Categoria categoria){
+    public List<Servicio> getServiciosPorCategoria(String nombreCategoria){
         Connection conn = SQL.conectarMySQL();  // Nos conectamos a la BBDD
         List<Servicio> services = new ArrayList<>();
 
         try {
-            String query = "SELECT * FROM servicio WHERE categoria='"+ categoria.getNombre() + "' and estado='LIBRE';";
+            String query = "SELECT * FROM servicio WHERE categoria='"+ nombreCategoria + "' and estado='LIBRE';";
 
             Statement st = conn.createStatement(); //creamos el statement -> nos permite sacar los datos obtenidos de la select
             ResultSet rs = st.executeQuery(query); //ejecutamos la query
