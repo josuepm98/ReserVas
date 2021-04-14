@@ -72,7 +72,7 @@ public class ServicioController {
     }
 
     @GetMapping("/services/{id}") //NO SE LA RUTA QUE PEDIRAN
-    public ResponseEntity<?> servicioInfo(@PathVariable(value="id") Integer idService, Model model, HttpSession session) {
+    public ResponseEntity<?> servicioInfo(@PathVariable(value="id") Integer idService, HttpSession session) {
         String nombreUsuarioLogeado = (String) session.getAttribute("nombreUserLogeado");
 
         if(nombreUsuarioLogeado == null){
@@ -86,5 +86,27 @@ public class ServicioController {
 
         return new ResponseEntity<>(json ,HttpStatus.OK);
     }
+
+    @GetMapping("/{category}/services") //NO SE LA RUTA QUE PEDIRAN
+    public ResponseEntity<?> servicioInfo(@PathVariable(value="category") String categoryName, HttpSession session) {
+        String nombreUsuarioLogeado = (String) session.getAttribute("nombreUserLogeado");
+
+        if(nombreUsuarioLogeado == null){
+            return new ResponseEntity<>("Usuario no autorizado, debes iniciar sesión", HttpStatus.UNAUTHORIZED);
+        }
+
+        List<Servicio> services = servicioService.getServiciosPorCategoria(categoryName); //DEVOLVEMOS LA SELECT DE SERVICIO Y PASARLA AL FRONT COMO JSON
+
+        Gson gson =  new Gson();
+        String json = gson.toJson(services);
+
+        return new ResponseEntity<>(json ,HttpStatus.OK);
+    }
+
+    //CREAR SERVICIO
+    //@PostMapping
+
+    //MOSTRAR RUTAS
+    //@GetMapping
 
 }
