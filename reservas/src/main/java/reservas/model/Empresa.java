@@ -36,4 +36,5 @@ public class Empresa extends Usuario{
     public boolean eliminarEmpresa() {
         return super.eliminarUsuario();
     }
+
 }

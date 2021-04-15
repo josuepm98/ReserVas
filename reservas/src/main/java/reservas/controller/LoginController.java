@@ -67,7 +67,12 @@ public class LoginController {
         } else {
             return new ResponseEntity<>("Nombre de usuario o contraseña incorrectos", HttpStatus.FORBIDDEN);
         }
-        return new ResponseEntity<>("Sesión iniciada correctamente", HttpStatus.OK);
+        if(clienteService.existeCliente(nombreUser)){
+            return new ResponseEntity<>("Cliente", HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity<>("Empresa", HttpStatus.OK);
+        }
     }
 
 

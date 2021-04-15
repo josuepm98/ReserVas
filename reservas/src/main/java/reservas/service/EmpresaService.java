@@ -3,11 +3,14 @@ package reservas.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import reservas.model.Cliente;
 import reservas.model.Empresa;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class EmpresaService extends UsuarioService{
@@ -56,6 +59,53 @@ public class EmpresaService extends UsuarioService{
             e.printStackTrace();
             System.out.println("Se ha producido un error.");
             return resultado;
+        } finally {
+            try {
+                if(conn != null){
+                    conn.close();
+                }
+            } catch (SQLException e){
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    public List<Cliente> getClientesEmpresa(String nombreEmpresa){
+        Connection conn = SQL.conectarMySQL();  // Nos conectamos a la BBDD
+        List<Cliente> clientes = new ArrayList<>();
+
+        try {
+            String query = "";
+
+            query = "select distinct cliente.nombreUser, cliente.fechaNac, usuario.password, usuario.nombre, usuario.apellidos, usuario.email, usuario.img from cliente join servicio on cliente.nombreUser = servicio.cliente and servicio.empresa = '" + nombreEmpresa + "' join usuario on cliente.nombreUser = usuario.nombreUser;";
+
+            Statement st = conn.createStatement(); //creamos el statement -> nos permite sacar los datos obtenidos de la select
+            ResultSet rs = st.executeQuery(query); //ejecutamos la query
+
+            while (rs.next())
+            {
+                Cliente cliente = new Cliente();
+                //NO SE POR QUE MUESTRA ANTES LA FECHA QUE EL NOMBRE EN EL JSON FINAL
+                cliente.nombreUser = rs.getString("nombreUser");
+
+                DateFormat dateFormatFecha = new SimpleDateFormat("yyyy-mm-dd"); //se necesita para la conversión de la BBDD (Date) a String
+                cliente.fechaNac = dateFormatFecha.format(rs.getDate("fechaNac"));
+
+                cliente.password = rs.getString("password");
+                cliente.nombre = rs.getString("nombre");
+                cliente.apellidos = rs.getString("apellidos");
+                cliente.email = rs.getString("email");
+                cliente.img = rs.getString("img");
+
+                clientes.add(cliente);
+            }
+
+            return clientes;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Se ha producido un error.");
+            return clientes;
         } finally {
             try {
                 if(conn != null){

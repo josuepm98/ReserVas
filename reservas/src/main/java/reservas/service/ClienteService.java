@@ -3,10 +3,14 @@ package reservas.service;
 import ch.qos.logback.core.net.SyslogOutputStream;
 import org.springframework.stereotype.Service;
 import reservas.model.Cliente;
+import reservas.model.Servicio;
+import reservas.model.Usuario;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class ClienteService extends UsuarioService{
@@ -53,6 +57,82 @@ public class ClienteService extends UsuarioService{
             e.printStackTrace();
             System.out.println("Se ha producido un error.");
             return resultado;
+        } finally {
+            try {
+                if(conn != null){
+                    conn.close();
+                }
+            } catch (SQLException e){
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    public boolean existeCliente(String nombreUser){
+        Connection conn = SQL.conectarMySQL();  // Nos conectamos a la BBDD
+        boolean resultado = true;
+
+        Statement comando;
+        ResultSet consulta = null;
+
+        try {
+            comando = conn.createStatement();
+            consulta = comando.executeQuery("select * from cliente where nombreUser='" + nombreUser + "';");
+
+            if(!consulta.next()) {
+                resultado = false;
+            }
+            return resultado;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return resultado;
+        } finally {
+            try {
+                if(conn != null){
+                    conn.close();
+                }
+            } catch (SQLException e){
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    public List<Cliente> getClientes(){
+        Connection conn = SQL.conectarMySQL();  // Nos conectamos a la BBDD
+        List<Cliente> clientes = new ArrayList<>();
+
+        try {
+            String query = "";
+
+            query = "select distinct usuario.nombreUser, cliente.fechaNac, usuario.password, usuario.nombre, usuario.apellidos, usuario.email, usuario.img from cliente join usuario on cliente.nombreUser = usuario.nombreUser;";
+
+            Statement st = conn.createStatement(); //creamos el statement -> nos permite sacar los datos obtenidos de la select
+            ResultSet rs = st.executeQuery(query); //ejecutamos la query
+
+            while (rs.next())
+            {
+                Cliente cliente = new Cliente();
+                //NO SE POR QUE MUESTRA ANTES LA FECHA QUE EL NOMBRE EN EL JSON FINAL
+                cliente.nombreUser = rs.getString("nombreUser");
+
+                DateFormat dateFormatFecha = new SimpleDateFormat("yyyy-mm-dd"); //se necesita para la conversión de la BBDD (Date) a String
+                cliente.fechaNac = dateFormatFecha.format(rs.getDate("fechaNac"));
+
+                cliente.password = rs.getString("password");
+                cliente.nombre = rs.getString("nombre");
+                cliente.apellidos = rs.getString("apellidos");
+                cliente.email = rs.getString("email");
+                cliente.img = rs.getString("img");
+
+                clientes.add(cliente);
+            }
+
+            return clientes;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Se ha producido un error.");
+            return clientes;
         } finally {
             try {
                 if(conn != null){
