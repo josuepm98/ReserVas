@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import reservas.model.Usuario;
 
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 
 @Service
@@ -114,5 +116,39 @@ public class UsuarioService {
             }
         }
     }
+
+    /*public Usuario getUsuario(String nombreUser){
+        Connection conn = SQL.conectarMySQL();  // Nos conectamos a la BBDD
+        Usuario usuario = new Usuario();
+
+        try {
+            String query = "select * from usuario where nombreUser='" + nombreUser + "';";
+
+            Statement st = conn.createStatement(); //creamos el statement -> nos permite sacar los datos obtenidos de la select
+            ResultSet rs = st.executeQuery(query); //ejecutamos la query
+
+            rs.next();
+
+            usuario.nombreUser = rs.getString("nombreUser");
+            usuario.password = rs.getString("password");
+            usuario.nombre = rs.getString("nombre");
+            usuario.apellidos = rs.getString("apellidos");
+            usuario.email = rs.getString("email");
+            usuario.img = rs.getString("img");
+
+            return usuario;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return usuario;
+        } finally {
+            try {
+                if(conn != null){
+                    conn.close();
+                }
+            } catch (SQLException e){
+                System.out.println(e.getMessage());
+            }
+        }
+    }*/
 
 }

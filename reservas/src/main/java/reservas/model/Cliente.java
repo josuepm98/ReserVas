@@ -4,7 +4,7 @@ import reservas.service.ClienteService;
 
 public class Cliente extends Usuario{
 
-    private String fechaNac;
+    public String fechaNac;
 
     public Cliente() {super();}
 
