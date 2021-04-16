@@ -3,11 +3,16 @@ package reservas;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import reservas.model.Servicio;
 import reservas.model.Usuario;
 import reservas.model.Cliente;
+import reservas.service.ClienteService;
+
 import static org.junit.Assert.assertEquals;
 
 public class ClienteTest {
+
+    ClienteService clienteService = new ClienteService();
 
     @Test
     public void testExiste1() {
@@ -75,6 +80,12 @@ public class ClienteTest {
         resultadoEsperado = false;
         resultadoReal = cliente.existe();
         assertEquals(resultadoEsperado, resultadoReal);
+    }
+
+    @Test
+    public void getClienteTest(){
+        Cliente resultadoReal = clienteService.getCliente("taesCliente");
+        assertEquals("TaesCliente", resultadoReal.getNombre());
     }
 
 }

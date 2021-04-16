@@ -18,7 +18,7 @@ public class ServicioTest {
     ServicioService servicioService = new ServicioService();
 
     @Test
-    public void crearServicio(){
+    public void crearServicioTest(){
         Servicio servicio = new Servicio("nombrePrueba", "Aspe", 500.5, "2021-05-10", "08:00:00", "09:00:00", "Peluqueria", Servicio.ServicioEstado.LIBRE, "taesEmpresa", null);
         boolean resultadoEsperado = true;
         boolean resultadoReal = servicio.createService();
@@ -31,7 +31,7 @@ public class ServicioTest {
     }
 
     @Test
-    public void deleteServicio(){
+    public void deleteServicioTest(){
         Servicio servicio = new Servicio("PruebaEliminar", "Aspe", 500.5, "2021-05-10", "08:00:00", "09:00:00", "Peluqueria", Servicio.ServicioEstado.LIBRE, "taesEmpresa", null);
         servicio.createService();  // insertamos
         boolean resultadoEsperado = true;
@@ -40,13 +40,13 @@ public class ServicioTest {
     }
 
     @Test
-    public void getServicio(){
+    public void getServicioTest(){
         Servicio resultadoReal = servicioService.getService(1);
         assertEquals(1, resultadoReal.getId());
     }
 
     @Test
-    public void getServicios(){
+    public void getServiciosTest(){
         List<Servicio> resultadoEsperado = new ArrayList<>();
         Servicio service;
         service = servicioService.getService(1);
@@ -61,7 +61,7 @@ public class ServicioTest {
     }
 
     @Test
-    public void getServiciosPorCategoria(){
+    public void getServiciosPorCategoriaTest(){
         List<Servicio> resultadoEsperado = new ArrayList<>();
         Servicio service;
         service = servicioService.getService(1);

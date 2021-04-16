@@ -3,10 +3,22 @@ package reservas;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import reservas.model.Cliente;
 import reservas.model.Empresa;
+import reservas.model.Servicio;
+import reservas.service.ClienteService;
+import reservas.service.EmpresaService;
+import reservas.service.ServicioService;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 
 public class EmpresaTest {
+
+    ClienteService clienteService = new ClienteService();
+    EmpresaService empresaService = new EmpresaService();
 
     @Test
     public void testExiste1() {
@@ -74,6 +86,21 @@ public class EmpresaTest {
         resultadoEsperado = false;
         resultadoReal = empresa.existe();
         assertEquals(resultadoEsperado, resultadoReal);
+    }
+
+    @Test
+    public void testGetClientesEmpresa() {
+        List<Cliente> resultadoEsperado = new ArrayList<>();
+        Cliente cliente;
+        cliente = clienteService.getCliente("taesCliente");
+        resultadoEsperado.add(cliente);
+        cliente = clienteService.getCliente("taesCliente2");
+        resultadoEsperado.add(cliente);
+        List<Cliente> resultadoReal = empresaService.getClientesEmpresa("taesEmpresa");
+
+        for (int i = 0; i < resultadoEsperado.size(); i++) {
+            assertEquals(resultadoEsperado.get(i).getNombreUser(), resultadoReal.get(i).getNombreUser());
+        }
     }
 
 }

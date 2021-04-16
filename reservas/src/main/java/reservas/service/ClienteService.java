@@ -143,4 +143,45 @@ public class ClienteService extends UsuarioService{
             }
         }
     }
+
+    public Cliente getCliente(String nombreUser){
+        Connection conn = SQL.conectarMySQL();  // Nos conectamos a la BBDD
+        Cliente cliente = new Cliente();
+
+        try {
+            String query = "select distinct cliente.nombreUser, cliente.fechaNac, usuario.password, usuario.nombre, usuario.apellidos, usuario.email, usuario.img from cliente, usuario where cliente.nombreUser = usuario.nombreUser and cliente.nombreUser = '" + nombreUser + "';";
+
+            Statement st = conn.createStatement(); //creamos el statement -> nos permite sacar los datos obtenidos de la select
+            ResultSet rs = st.executeQuery(query); //ejecutamos la query
+
+            rs.next();
+
+            //NO SE POR QUE MUESTRA ANTES LA FECHA QUE EL NOMBRE EN EL JSON FINAL
+            cliente.nombreUser = rs.getString("nombreUser");
+
+            DateFormat dateFormatFecha = new SimpleDateFormat("yyyy-mm-dd"); //se necesita para la conversión de la BBDD (Date) a String
+            cliente.fechaNac = dateFormatFecha.format(rs.getDate("fechaNac"));
+
+            cliente.password = rs.getString("password");
+            cliente.nombre = rs.getString("nombre");
+            cliente.apellidos = rs.getString("apellidos");
+            cliente.email = rs.getString("email");
+            cliente.img = rs.getString("img");
+
+            return cliente;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Se ha producido un error.");
+            return cliente;
+        } finally {
+            try {
+                if(conn != null){
+                    conn.close();
+                }
+            } catch (SQLException e){
+                System.out.println(e.getMessage());
+            }
+        }
+    }
 }
