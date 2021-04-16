@@ -63,8 +63,4 @@ public class ClienteController {
 
         return new ResponseEntity<>(json ,HttpStatus.OK);
     }
-
-
-
-
 }
