@@ -15,8 +15,8 @@ public class Servicio {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int id;
 
-    public String nombre;
-    public String direccion;
+    public String nombre; //nombre de la empresa-servicio
+    public String direccion; //direccion de la empres
     public double precio;
     public String fecha;
     public String horaInicio;  // hh:mm

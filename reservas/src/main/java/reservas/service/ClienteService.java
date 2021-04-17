@@ -115,7 +115,7 @@ public class ClienteService extends UsuarioService{
                 //NO SE POR QUE MUESTRA ANTES LA FECHA QUE EL NOMBRE EN EL JSON FINAL
                 cliente.nombreUser = rs.getString("nombreUser");
 
-                DateFormat dateFormatFecha = new SimpleDateFormat("yyyy-mm-dd"); //se necesita para la conversión de la BBDD (Date) a String
+                DateFormat dateFormatFecha = new SimpleDateFormat("yyyy-MM-dd"); //se necesita para la conversión de la BBDD (Date) a String
                 cliente.fechaNac = dateFormatFecha.format(rs.getDate("fechaNac"));
 
                 cliente.password = rs.getString("password");
@@ -159,7 +159,7 @@ public class ClienteService extends UsuarioService{
             //NO SE POR QUE MUESTRA ANTES LA FECHA QUE EL NOMBRE EN EL JSON FINAL
             cliente.nombreUser = rs.getString("nombreUser");
 
-            DateFormat dateFormatFecha = new SimpleDateFormat("yyyy-mm-dd"); //se necesita para la conversión de la BBDD (Date) a String
+            DateFormat dateFormatFecha = new SimpleDateFormat("yyyy-MM-dd"); //se necesita para la conversión de la BBDD (Date) a String
             cliente.fechaNac = dateFormatFecha.format(rs.getDate("fechaNac"));
 
             cliente.password = rs.getString("password");

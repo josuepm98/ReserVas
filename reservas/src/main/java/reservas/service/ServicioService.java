@@ -94,7 +94,7 @@ public class ServicioService {
             service.direccion = rs.getString("direccion");
             service.precio = rs.getDouble("precio");
 
-            DateFormat dateFormatFecha = new SimpleDateFormat("yyyy-mm-dd"); //se necesita para la conversión de la BBDD (Date) a String
+            DateFormat dateFormatFecha = new SimpleDateFormat("yyyy-MM-dd"); //se necesita para la conversión de la BBDD (Date) a String
             service.fecha = dateFormatFecha.format(rs.getDate("fecha"));
 
             DateFormat dateFormatHora = new SimpleDateFormat("hh:mm:ss"); //se necesita para la conversión de la BBDD (Time) a String
@@ -149,7 +149,7 @@ public class ServicioService {
                 service.direccion = rs.getString("direccion");
                 service.precio = rs.getDouble("precio");
 
-                DateFormat dateFormatFecha = new SimpleDateFormat("yyyy-mm-dd"); //se necesita para la conversión de la BBDD (Date) a String
+                DateFormat dateFormatFecha = new SimpleDateFormat("yyyy-MM-dd"); //se necesita para la conversión de la BBDD (Date) a String
                 service.fecha = dateFormatFecha.format(rs.getDate("fecha"));
 
                 DateFormat dateFormatHora = new SimpleDateFormat("hh:mm:ss"); //se necesita para la conversión de la BBDD (Time) a String
@@ -198,7 +198,7 @@ public class ServicioService {
                 service.direccion = rs.getString("direccion");
                 service.precio = rs.getDouble("precio");
 
-                DateFormat dateFormatFecha = new SimpleDateFormat("yyyy-mm-dd"); //se necesita para la conversión de la BBDD (Date) a String
+                DateFormat dateFormatFecha = new SimpleDateFormat("yyyy-MM-dd"); //se necesita para la conversión de la BBDD (Date) a String
                 service.fecha = dateFormatFecha.format(rs.getDate("fecha"));
 
                 DateFormat dateFormatHora = new SimpleDateFormat("hh:mm:ss"); //se necesita para la conversión de la BBDD (Time) a String
