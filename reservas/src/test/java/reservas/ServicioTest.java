@@ -73,5 +73,18 @@ public class ServicioTest {
         }
     }
 
+    @Test
+    public void getServiciosPorFecha(){
+        String nombreUser = "taesEmpresa";
+        String fecha = "2021-04-20";
+        int resultadoEsperado[] = {1, 2, 3};
+        Servicio servicio = new Servicio();
+        List<Servicio> operacion = servicio.getServiciosPorFecha(nombreUser, fecha);
+        int resultadoReal[] = new int [3];
+        for(int i=0; i<operacion.size(); i++){
+            resultadoReal[i] = operacion.get(i).getId();
+        }
+        assertArrayEquals(resultadoEsperado, resultadoReal);
+    }
 
 }

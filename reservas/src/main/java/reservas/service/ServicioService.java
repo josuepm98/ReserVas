@@ -77,6 +77,40 @@ public class ServicioService {
         }
     }
 
+    public List<Servicio> crearArray(ResultSet rs){
+        List<Servicio> services = new ArrayList<>();
+
+        try {
+
+            while (rs.next()) {
+                Servicio service = new Servicio();
+                service.id = rs.getInt("id");
+                service.nombre = rs.getString("nombre");
+                service.direccion = rs.getString("direccion");
+                service.precio = rs.getDouble("precio");
+
+                DateFormat dateFormatFecha = new SimpleDateFormat("yyyy-mm-dd"); //se necesita para la conversión de la BBDD (Date) a String
+                service.fecha = dateFormatFecha.format(rs.getDate("fecha"));
+
+                DateFormat dateFormatHora = new SimpleDateFormat("hh:mm:ss"); //se necesita para la conversión de la BBDD (Time) a String
+                service.horaInicio = dateFormatHora.format(rs.getDate("horaInicio"));
+                service.horaFin = dateFormatHora.format(rs.getDate("horaFin"));
+
+                service.categoria = rs.getString("categoria");
+                service.estado = service.estado.valueOf(rs.getString("estado")); //se necesita la conversión a ENUM (valueOf) (Yo cambiaría el enum si nos da problemas)
+                service.empresa = rs.getString("empresa");
+                service.cliente = rs.getString("cliente");
+
+                services.add(service);
+            }
+            return services;
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("Se ha producido un error.");
+            return services;
+        }
+    }
+
     public Servicio getService(int serviceId){
         Connection conn = SQL.conectarMySQL();  // Nos conectamos a la BBDD
         Servicio service = new Servicio();
@@ -141,28 +175,7 @@ public class ServicioService {
             Statement st = conn.createStatement(); //creamos el statement -> nos permite sacar los datos obtenidos de la select
             ResultSet rs = st.executeQuery(query); //ejecutamos la query
 
-            while (rs.next())
-            {
-                Servicio service = new Servicio();
-                service.id = rs.getInt("id");
-                service.nombre = rs.getString("nombre");
-                service.direccion = rs.getString("direccion");
-                service.precio = rs.getDouble("precio");
-
-                DateFormat dateFormatFecha = new SimpleDateFormat("yyyy-mm-dd"); //se necesita para la conversión de la BBDD (Date) a String
-                service.fecha = dateFormatFecha.format(rs.getDate("fecha"));
-
-                DateFormat dateFormatHora = new SimpleDateFormat("hh:mm:ss"); //se necesita para la conversión de la BBDD (Time) a String
-                service.horaInicio = dateFormatHora.format(rs.getDate("horaInicio"));
-                service.horaFin = dateFormatHora.format(rs.getDate("horaFin"));
-
-                service.categoria = rs.getString("categoria");
-                service.estado = service.estado.valueOf(rs.getString("estado")); //se necesita la conversión a ENUM (valueOf) (Yo cambiaría el enum si nos da problemas)
-                service.empresa = rs.getString("empresa");
-                service.cliente = rs.getString("cliente");
-
-                servicesUser.add(service);
-            }
+            servicesUser = crearArray(rs);
 
             return servicesUser;
 
@@ -191,27 +204,38 @@ public class ServicioService {
             Statement st = conn.createStatement(); //creamos el statement -> nos permite sacar los datos obtenidos de la select
             ResultSet rs = st.executeQuery(query); //ejecutamos la query
 
-            while (rs.next()) {
-                Servicio service = new Servicio();
-                service.id = rs.getInt("id");
-                service.nombre = rs.getString("nombre");
-                service.direccion = rs.getString("direccion");
-                service.precio = rs.getDouble("precio");
+            services = crearArray(rs);
 
-                DateFormat dateFormatFecha = new SimpleDateFormat("yyyy-mm-dd"); //se necesita para la conversión de la BBDD (Date) a String
-                service.fecha = dateFormatFecha.format(rs.getDate("fecha"));
+            return services;
 
-                DateFormat dateFormatHora = new SimpleDateFormat("hh:mm:ss"); //se necesita para la conversión de la BBDD (Time) a String
-                service.horaInicio = dateFormatHora.format(rs.getDate("horaInicio"));
-                service.horaFin = dateFormatHora.format(rs.getDate("horaFin"));
-
-                service.categoria = rs.getString("categoria");
-                service.estado = service.estado.valueOf(rs.getString("estado")); //se necesita la conversión a ENUM (valueOf) (Yo cambiaría el enum si nos da problemas)
-                service.empresa = rs.getString("empresa");
-                service.cliente = rs.getString("cliente");
-
-                services.add(service);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Se ha producido un error.");
+            return services;
+        } finally {
+            try {
+                if(conn != null){
+                    conn.close();
+                }
+            } catch (SQLException e){
+                System.out.println(e.getMessage());
             }
+        }
+    }
+
+    public List<Servicio> getServiciosPorFecha(String nombreUser, String fecha){
+        Connection conn = SQL.conectarMySQL();  // Nos conectamos a la BBDD
+        List<Servicio> services = new ArrayList<>();
+
+        try {
+
+            String query = "SELECT * FROM servicio WHERE (`cliente` = '" + nombreUser + "' or `empresa` = '" + nombreUser + "') " +
+                    "and (`fecha` = '" + fecha + "');";
+
+            Statement st = conn.createStatement(); //creamos el statement -> nos permite sacar los datos obtenidos de la select
+            ResultSet rs = st.executeQuery(query); //ejecutamos la query
+
+            services = crearArray(rs);
 
             return services;
 
