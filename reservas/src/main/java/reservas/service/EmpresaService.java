@@ -4,10 +4,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import reservas.model.Empresa;
+import reservas.model.Servicio;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 @Service
 public class EmpresaService extends UsuarioService{
@@ -67,16 +71,16 @@ public class EmpresaService extends UsuarioService{
         }
     }
 
-    /* LO TENGO QUE HACER @JOSE
-    public boolean generarDia() {
+    public boolean generarDia(Servicio servicio) {
         Connection conn = SQL.conectarMySQL();  // Nos conectamos a la BBDD
         boolean resultado = false;
 
         try {
+                Date date = new Date();
+                DateFormat format = new SimpleDateFormat("HHmm");
+                System.out.println(format.format(date));
 
-            if(empresa.existe()) {
-                System.out.println("Esa empresa ya existe");
-            }else {
+                Servicio servicio = new Servicio();
 
                 // query para insertar en la tabla usuario
                 String query1 = "insert into usuario values ('" + empresa.getNombreUser() + "', '" + contrasenyaEncriptada + "', '" +
@@ -115,6 +119,5 @@ public class EmpresaService extends UsuarioService{
             }
         }
     }
-     */
 
 }
