@@ -1,5 +1,6 @@
 package reservas.controller;
 
+import com.google.gson.Gson;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.http.HttpStatus;
@@ -38,19 +39,28 @@ public class ClienteController {
     ServicioService servicioService;
 
     @Autowired
+    ClienteService clienteService;
+
+    @Autowired
     ServicioService usuarioService;
 
     @Autowired
     ManagerUserSession managerUserSesion;
 
-    @GetMapping("/reservas/{nombreUser}")
-    public ResponseEntity<?> reservasUsuario(@PathVariable(value="nombreUser") String nombreUser, Model model, HttpSession session) {
-        managerUserSesion.comprobarUsuarioLogeado(session, nombreUser);
-        //List<Servicio> servicesUser = servicioService.getServiciosUser();
-        return new ResponseEntity<>(HttpStatus.OK);
+    //MOSTRAR TODOS CLIENTES
+    @GetMapping("/clientes")
+    public ResponseEntity<?> allClientes(HttpSession session) {
+        String nombreUsuarioLogeado = (String) session.getAttribute("nombreUserLogeado");
+
+        if(nombreUsuarioLogeado == null){
+            return new ResponseEntity<>("Usuario no autorizado, debes iniciar sesión", HttpStatus.UNAUTHORIZED);
+        }
+
+        List<Cliente> clientes = clienteService.getClientes(); //TENEMOS QUE DEVOLVER LA SELECT DE CLIENTES Y PASARLA AL FRONT COMO JSON
+        //NO SE POR QUE MUESTRA ANTES LA FECHA QUE EL NOMBRE EN EL JSON
+        Gson gson =  new Gson();
+        String json = gson.toJson(clientes);
+
+        return new ResponseEntity<>(json ,HttpStatus.OK);
     }
-
-
-
-
 }
