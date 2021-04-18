@@ -121,24 +121,25 @@ public class ServicioService {
             Statement st = conn.createStatement(); //creamos el statement -> nos permite sacar los datos obtenidos de la select
             ResultSet rs = st.executeQuery(query); //ejecutamos la query
 
-            rs.next();
+            if(rs.next()){
 
-            service.id = rs.getInt("id");
-            service.nombre = rs.getString("nombre");
-            service.direccion = rs.getString("direccion");
-            service.precio = rs.getDouble("precio");
+                service.id = rs.getInt("id");
+                service.nombre = rs.getString("nombre");
+                service.direccion = rs.getString("direccion");
+                service.precio = rs.getDouble("precio");
 
-            DateFormat dateFormatFecha = new SimpleDateFormat("yyyy-mm-dd"); //se necesita para la conversión de la BBDD (Date) a String
-            service.fecha = dateFormatFecha.format(rs.getDate("fecha"));
+                DateFormat dateFormatFecha = new SimpleDateFormat("yyyy-MM-dd"); //se necesita para la conversión de la BBDD (Date) a String
+                service.fecha = dateFormatFecha.format(rs.getDate("fecha"));
 
-            DateFormat dateFormatHora = new SimpleDateFormat("hh:mm:ss"); //se necesita para la conversión de la BBDD (Time) a String
-            service.horaInicio = dateFormatHora.format(rs.getDate("horaInicio"));
-            service.horaFin = dateFormatHora.format(rs.getDate("horaFin"));
+                DateFormat dateFormatHora = new SimpleDateFormat("hh:mm:ss"); //se necesita para la conversión de la BBDD (Time) a String
+                service.horaInicio = dateFormatHora.format(rs.getDate("horaInicio"));
+                service.horaFin = dateFormatHora.format(rs.getDate("horaFin"));
 
-            service.categoria = rs.getString("categoria");
-            service.estado = service.estado.valueOf(rs.getString("estado")); //se necesita la conversión a ENUM (valueOf) (Yo cambiaría el enum si nos da problemas)
-            service.empresa = rs.getString("empresa");
-            service.cliente = rs.getString("cliente");
+                service.categoria = rs.getString("categoria");
+                service.estado = service.estado.valueOf(rs.getString("estado")); //se necesita la conversión a ENUM (valueOf) (Yo cambiaría el enum si nos da problemas)
+                service.empresa = rs.getString("empresa");
+                service.cliente = rs.getString("cliente");
+            }
 
             return service;
 

@@ -115,7 +115,7 @@ public class ClienteService extends UsuarioService{
                 //NO SE POR QUE MUESTRA ANTES LA FECHA QUE EL NOMBRE EN EL JSON FINAL
                 cliente.nombreUser = rs.getString("nombreUser");
 
-                DateFormat dateFormatFecha = new SimpleDateFormat("yyyy-mm-dd"); //se necesita para la conversión de la BBDD (Date) a String
+                DateFormat dateFormatFecha = new SimpleDateFormat("yyyy-MM-dd"); //se necesita para la conversión de la BBDD (Date) a String
                 cliente.fechaNac = dateFormatFecha.format(rs.getDate("fechaNac"));
 
                 cliente.password = rs.getString("password");
@@ -154,19 +154,19 @@ public class ClienteService extends UsuarioService{
             Statement st = conn.createStatement(); //creamos el statement -> nos permite sacar los datos obtenidos de la select
             ResultSet rs = st.executeQuery(query); //ejecutamos la query
 
-            rs.next();
+            if(rs.next()) {
+                //NO SE POR QUE MUESTRA ANTES LA FECHA QUE EL NOMBRE EN EL JSON FINAL
+                cliente.nombreUser = rs.getString("nombreUser");
 
-            //NO SE POR QUE MUESTRA ANTES LA FECHA QUE EL NOMBRE EN EL JSON FINAL
-            cliente.nombreUser = rs.getString("nombreUser");
+                DateFormat dateFormatFecha = new SimpleDateFormat("yyyy-MM-dd"); //se necesita para la conversión de la BBDD (Date) a String
+                cliente.fechaNac = dateFormatFecha.format(rs.getDate("fechaNac"));
 
-            DateFormat dateFormatFecha = new SimpleDateFormat("yyyy-mm-dd"); //se necesita para la conversión de la BBDD (Date) a String
-            cliente.fechaNac = dateFormatFecha.format(rs.getDate("fechaNac"));
-
-            cliente.password = rs.getString("password");
-            cliente.nombre = rs.getString("nombre");
-            cliente.apellidos = rs.getString("apellidos");
-            cliente.email = rs.getString("email");
-            cliente.img = rs.getString("img");
+                cliente.password = rs.getString("password");
+                cliente.nombre = rs.getString("nombre");
+                cliente.apellidos = rs.getString("apellidos");
+                cliente.email = rs.getString("email");
+                cliente.img = rs.getString("img");
+            }
 
             return cliente;
 

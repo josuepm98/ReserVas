@@ -82,7 +82,7 @@ public class EmpresaService extends UsuarioService{
         try {
             String query = "";
 
-            query = "select distinct cliente.nombreUser, cliente.fechaNac, usuario.password, usuario.nombre, usuario.apellidos, usuario.email, usuario.img from cliente join servicio on cliente.nombreUser = servicio.cliente and servicio.empresa = '" + nombreEmpresa + "' join usuario on cliente.nombreUser = usuario.nombreUser;";
+            query = "select distinct cliente.nombreUser, cliente.fechaNac, usuario.nombre, usuario.apellidos, usuario.email, usuario.img from cliente join servicio on cliente.nombreUser = servicio.cliente and servicio.empresa = '" + nombreEmpresa + "' join usuario on cliente.nombreUser = usuario.nombreUser;";
 
             Statement st = conn.createStatement(); //creamos el statement -> nos permite sacar los datos obtenidos de la select
             ResultSet rs = st.executeQuery(query); //ejecutamos la query
@@ -93,10 +93,9 @@ public class EmpresaService extends UsuarioService{
                 //NO SE POR QUE MUESTRA ANTES LA FECHA QUE EL NOMBRE EN EL JSON FINAL
                 cliente.nombreUser = rs.getString("nombreUser");
 
-                DateFormat dateFormatFecha = new SimpleDateFormat("yyyy-mm-dd"); //se necesita para la conversión de la BBDD (Date) a String
+                DateFormat dateFormatFecha = new SimpleDateFormat("yyyy-MM-dd"); //se necesita para la conversión de la BBDD (Date) a String
                 cliente.fechaNac = dateFormatFecha.format(rs.getDate("fechaNac"));
 
-                cliente.password = rs.getString("password");
                 cliente.nombre = rs.getString("nombre");
                 cliente.apellidos = rs.getString("apellidos");
                 cliente.email = rs.getString("email");
