@@ -92,9 +92,8 @@ public class ServicioService {
                 DateFormat dateFormatFecha = new SimpleDateFormat("yyyy-mm-dd"); //se necesita para la conversión de la BBDD (Date) a String
                 service.fecha = dateFormatFecha.format(rs.getDate("fecha"));
 
-                DateFormat dateFormatHora = new SimpleDateFormat("hh:mm:ss"); //se necesita para la conversión de la BBDD (Time) a String
-                service.horaInicio = dateFormatHora.format(rs.getDate("horaInicio"));
-                service.horaFin = dateFormatHora.format(rs.getDate("horaFin"));
+                service.horaInicio = rs.getString("horaInicio");
+                service.horaFin = rs.getString("horaFin");
 
                 service.categoria = rs.getString("categoria");
                 service.estado = service.estado.valueOf(rs.getString("estado")); //se necesita la conversión a ENUM (valueOf) (Yo cambiaría el enum si nos da problemas)
@@ -131,9 +130,8 @@ public class ServicioService {
             DateFormat dateFormatFecha = new SimpleDateFormat("yyyy-mm-dd"); //se necesita para la conversión de la BBDD (Date) a String
             service.fecha = dateFormatFecha.format(rs.getDate("fecha"));
 
-            DateFormat dateFormatHora = new SimpleDateFormat("hh:mm:ss"); //se necesita para la conversión de la BBDD (Time) a String
-            service.horaInicio = dateFormatHora.format(rs.getDate("horaInicio"));
-            service.horaFin = dateFormatHora.format(rs.getDate("horaFin"));
+            service.horaInicio = rs.getString("horaInicio");
+            service.horaFin = rs.getString("horaFin");
 
             service.categoria = rs.getString("categoria");
             service.estado = service.estado.valueOf(rs.getString("estado")); //se necesita la conversión a ENUM (valueOf) (Yo cambiaría el enum si nos da problemas)

@@ -54,8 +54,8 @@ CREATE TABLE `reservas`.`servicio` (
   `direccion` VARCHAR(255) NOT NULL,
   `precio` DOUBLE NOT NULL,
   `fecha` DATE NOT NULL,
-  `horaInicio` TIME NOT NULL,
-  `horaFin` TIME NOT NULL,
+  `horaInicio` VARCHAR(255) NOT NULL,
+  `horaFin` VARCHAR(255) NOT NULL,
   `categoria` VARCHAR(255) NOT NULL,
   `estado` VARCHAR(255) NOT NULL,
   `empresa` VARCHAR(255) NOT NULL,
@@ -81,13 +81,13 @@ CREATE TABLE `reservas`.`servicio` (
     ON UPDATE CASCADE);
     
 INSERT INTO `reservas`.`servicio` (id, nombre, direccion, precio, fecha, horaInicio, horaFin, categoria, estado, empresa,
-cliente) VALUES (null, 'corte de pelo', 'San Vicente', 11.5, '2021-04-20', '08:00:00', '09:00:00', 'Peluqueria',
+cliente) VALUES (null, 'corte de pelo', 'San Vicente', 11.5, '2021-04-20', '08:00', '09:00', 'Peluqueria',
 'LIBRE', 'taesEmpresa', null);
 
 INSERT INTO `reservas`.`servicio` (id, nombre, direccion, precio, fecha, horaInicio, horaFin, categoria, estado, empresa,
-cliente) VALUES (null, 'corte de pelo', 'San Vicente', 11.5, '2021-04-20', '09:00:00', '10:00:00', 'Peluqueria',
+cliente) VALUES (null, 'corte de pelo', 'San Vicente', 11.5, '2021-04-20', '09:00', '10:00', 'Peluqueria',
 'RESERVADO', 'taesEmpresa', 'taesCliente');
 
 INSERT INTO `reservas`.`servicio` (id, nombre, direccion, precio, fecha, horaInicio, horaFin, categoria, estado, empresa,
-cliente) VALUES (null, 'corte de pelo', 'San Vicente', 11.5, '2021-04-20', '10:00:00', '11:00:00', 'Peluqueria',
+cliente) VALUES (null, 'corte de pelo', 'San Vicente', 11.5, '2021-04-20', '10:00', '11:00', 'Peluqueria',
 'RESERVADO', 'taesEmpresa', 'taesCliente2');
