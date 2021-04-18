@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reservas.authentication.ManagerUserSession;
+import reservas.authentication.UsuarioNoLogeadoException;
 import reservas.model.Cliente;
 import reservas.model.Empresa;
 import reservas.model.Usuario;
@@ -20,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
@@ -76,7 +78,7 @@ public class ServicioController {
         String nombreUsuarioLogeado = (String) session.getAttribute("nombreUserLogeado");
 
         if(nombreUsuarioLogeado == null){
-            return new ResponseEntity<>("Usuario no autorizado, debes iniciar sesión", HttpStatus.UNAUTHORIZED);
+            throw new UsuarioNoLogeadoException();
         }
 
         Servicio service = servicioService.getService(idService); //DEVOLVEMOS LA SELECT DE SERVICIO Y PASARLA AL FRONT COMO JSON
@@ -92,7 +94,7 @@ public class ServicioController {
         String nombreUsuarioLogeado = (String) session.getAttribute("nombreUserLogeado");
 
         if(nombreUsuarioLogeado == null){
-            return new ResponseEntity<>("Usuario no autorizado, debes iniciar sesión", HttpStatus.UNAUTHORIZED);
+            throw new UsuarioNoLogeadoException();
         }
 
         List<Servicio> services = servicioService.getServiciosPorCategoria(categoryName); //DEVOLVEMOS LA SELECT DE SERVICIO Y PASARLA AL FRONT COMO JSON
@@ -101,6 +103,23 @@ public class ServicioController {
         String json = gson.toJson(services);
 
         return new ResponseEntity<>(json ,HttpStatus.OK);
+    }
+
+    @DeleteMapping("/services/{id}/delete")
+    public String deleteServicio(@PathVariable(value="id") Integer idService, HttpSession session){
+        String nombreUsuarioLogeado = (String) session.getAttribute("nombreUserLogeado");
+
+        if(nombreUsuarioLogeado == null){
+            throw new UsuarioNoLogeadoException();
+        }
+
+        Servicio servicio = servicioService.getService(idService);
+
+        if(servicioService.deleteService(servicio)) {
+            return "redirect:/stores/" + nombreUsuarioLogeado + "/services";
+        }else{
+            return "No existe ningun servicio con ese ID";
+        }
     }
 
     //CREAR SERVICIO
