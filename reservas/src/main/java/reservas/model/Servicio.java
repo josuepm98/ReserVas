@@ -6,6 +6,7 @@ import reservas.service.ServicioService;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import java.sql.Time;
+import java.util.List;
 import java.util.Objects;
 
 public class Servicio {
@@ -18,7 +19,7 @@ public class Servicio {
     public String nombre; //nombre de la empresa-servicio
     public String direccion; //direccion de la empres
     public double precio;
-    public String fecha;
+    public String fecha;  // yyyy-mm-dd
     public String horaInicio;  // hh:mm
     public String horaFin;  // hh:mm
     public String categoria;
@@ -144,5 +145,10 @@ public class Servicio {
     public boolean deleteService() {
         ServicioService servicio = new ServicioService();
         return servicio.deleteService(this);
+    }
+
+    public List<Servicio> getServiciosPorFecha(String nombreUser, String fecha){
+        ServicioService servicio = new ServicioService();
+        return servicio.getServiciosPorFecha(nombreUser, fecha);
     }
 }

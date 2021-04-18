@@ -5,12 +5,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import reservas.model.Cliente;
 import reservas.model.Empresa;
+import reservas.model.Servicio;
 
-import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.*;
+import java.time.LocalDate;
+import java.util.*;
+
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Service
 public class EmpresaService extends UsuarioService{
@@ -116,37 +121,84 @@ public class EmpresaService extends UsuarioService{
         }
     }
 
-    /* LO TENGO QUE HACER @JOSE
-    public boolean generarDia() {
+    // Formato de tiempo-> HH:mm
+    public String getHoraTexto(String tiempo){
+        String[] partes = tiempo.split(":");
+        int hora = Integer.parseInt(partes[0]);
+        Format f = new SimpleDateFormat("HH");
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, hora);
+        Date date = cal.getTime();
+        String resultado = f.format(date);
+        return resultado;
+    }
+
+    // Formato de tiempo-> HH:mm
+    public String getMinutosTexto(String tiempo){
+        String[] partes = tiempo.split(":");
+        int minutos = Integer.parseInt(partes[1]);
+        Format f = new SimpleDateFormat("mm");
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.MINUTE, minutos);
+        Date date = cal.getTime();
+        String resultado = f.format(date);
+        return resultado;
+    }
+
+    // Formato de tiempo-> HH:mm
+    public int getHora(String tiempo){
+        String[] partes = tiempo.split(":");
+        int hora = Integer.parseInt(partes[0]);
+        Format f = new SimpleDateFormat("HH");
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, hora);
+        Date date = cal.getTime();
+        String resultado = f.format(date);
+        return Integer.parseInt(resultado);
+    }
+
+    // Formato de tiempo-> HH:mm
+    public int getMinutos(String tiempo){
+        String[] partes = tiempo.split(":");
+        int minutos = Integer.parseInt(partes[1]);
+        Format f = new SimpleDateFormat("mm");
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.MINUTE, minutos);
+        Date date = cal.getTime();
+        String resultado = f.format(date);
+        return Integer.parseInt(resultado);
+    }
+
+    // metodo para ver si la actividad cabe en la franja horaria que marca inicio-fin
+    public boolean cabeActividad(String inicio, String fin, String actividad) {
+        /* Los formatos que recibimos son:
+            inicio-> hh:mm
+            fin-> hh:mm
+            actividad-> x minutos
+        */
+
+
+        return true;
+    }
+    /*
+    public boolean generarDia(Empresa empresa, String nombreServicio, String direccionServicio, double precio, String fecha) {
         Connection conn = SQL.conectarMySQL();  // Nos conectamos a la BBDD
         boolean resultado = false;
 
         try {
+            Servicio servicio = new Servicio();
+            List<Servicio> listaServicios = servicio.getServiciosPorFecha(empresa.getNombreUser(), fecha);
 
-            if(empresa.existe()) {
-                System.out.println("Esa empresa ya existe");
-            }else {
+            while()
+            for(int i=0; i<listaServicios.size(); i++) {
 
-                // query para insertar en la tabla usuario
-                String query1 = "insert into usuario values ('" + empresa.getNombreUser() + "', '" + contrasenyaEncriptada + "', '" +
-                        empresa.getNombre() + "', '" + empresa.getApellidos() + "', '" + empresa.getEmail() + "', default);";
+            }
 
-                // query para insertar en la tabla empresa
-                String query2 = "insert into empresa values ('" + empresa.getNombreUser() + "', '" + empresa.getDireccion() + "');";
 
-                // Empieza la transacción
-                conn.setAutoCommit(false);
 
-                PreparedStatement comando1 = conn.prepareStatement(query1);
-                PreparedStatement comando2 = conn.prepareStatement(query2);
-                if(comando1.executeUpdate() > 0 && comando2.executeUpdate() > 0) {  // Se han ejecutado las 2 queries bien
-                    resultado = true;
-                }
+                Servicio servicio = new Servicio();
 
-                // Fin transaccion
-                conn.commit();
-                // Le devolvemos su valor por defecto
-                conn.setAutoCommit(true);
+
             }
             return resultado;
 
@@ -163,7 +215,6 @@ public class EmpresaService extends UsuarioService{
                 System.out.println(e.getMessage());
             }
         }
-    }
-     */
+    }*/
 
 }

@@ -13,6 +13,7 @@ import reservas.service.ServicioService;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 public class EmpresaTest {
@@ -101,6 +102,78 @@ public class EmpresaTest {
         for (int i = 0; i < resultadoEsperado.size(); i++) {
             assertEquals(resultadoEsperado.get(i).getNombreUser(), resultadoReal.get(i).getNombreUser());
         }
+    }
+
+    @Test
+    public void getHoraTexto(){
+        String tiempo = "09:20";
+        String resultadoEsperado = "09";
+        EmpresaService empresa = new EmpresaService();
+        String resultadoReal = empresa.getHoraTexto(tiempo);
+        assertEquals(resultadoEsperado, resultadoReal);
+    }
+
+    @Test
+    public void getHora2Texto(){
+        String tiempo = "22:20";
+        String resultadoEsperado = "22";
+        EmpresaService empresa = new EmpresaService();
+        String resultadoReal = empresa.getHoraTexto(tiempo);
+        assertEquals(resultadoEsperado, resultadoReal);
+    }
+
+    @Test
+    public void getMinutosTexto(){
+        String tiempo = "09:25";
+        String resultadoEsperado = "25";
+        EmpresaService empresa = new EmpresaService();
+        String resultadoReal = empresa.getMinutosTexto(tiempo);
+        assertEquals(resultadoEsperado, resultadoReal);
+    }
+
+    @Test
+    public void getMinutos2Texto(){
+        String tiempo = "22:05";
+        String resultadoEsperado = "05";
+        EmpresaService empresa = new EmpresaService();
+        String resultadoReal = empresa.getMinutosTexto(tiempo);
+        assertEquals(resultadoEsperado, resultadoReal);
+    }
+
+    @Test
+    public void getHora(){
+        String tiempo = "09:20";
+        int resultadoEsperado = 9;
+        EmpresaService empresa = new EmpresaService();
+        int resultadoReal = empresa.getHora(tiempo);
+        assertEquals(resultadoEsperado, resultadoReal);
+    }
+
+    @Test
+    public void getHora2(){
+        String tiempo = "22:20";
+        int resultadoEsperado = 22;
+        EmpresaService empresa = new EmpresaService();
+        int resultadoReal = empresa.getHora(tiempo);
+        assertEquals(resultadoEsperado, resultadoReal);
+    }
+
+    @Test
+    public void getMinutos(){
+        String tiempo = "09:25";
+        int resultadoEsperado = 25;
+        EmpresaService empresa = new EmpresaService();
+        int resultadoReal = empresa.getMinutos(tiempo);
+        assertEquals(resultadoEsperado, resultadoReal);
+    }
+
+    @Test
+    public void getMinutos2(){
+        String tiempo = "22:05";
+        int resultadoEsperado = 05;
+        EmpresaService empresa = new EmpresaService();
+        int resultadoReal = empresa.getMinutos(tiempo);
+        assertEquals(resultadoEsperado, resultadoReal);
     }
 
 }
