@@ -13,8 +13,8 @@ import reservas.service.ServicioService;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+
 
 public class EmpresaTest {
 
@@ -86,6 +86,15 @@ public class EmpresaTest {
         // Ya no existe
         resultadoEsperado = false;
         resultadoReal = empresa.existe();
+        assertEquals(resultadoEsperado, resultadoReal);
+    }
+
+    @Test
+    public void getEmpresaTest(){
+        Empresa empresa = new Empresa();
+        empresa.setNombreUser("taesEmpresa");
+        String resultadoEsperado = "TaesEmpresa";
+        String resultadoReal = empresa.getEmpresa().getNombre();
         assertEquals(resultadoEsperado, resultadoReal);
     }
 

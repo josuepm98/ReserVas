@@ -45,6 +45,11 @@ public class Empresa extends Usuario{
         return empresa.crearEmpresa(this);
     }
 
+    public Empresa getEmpresa(){
+        EmpresaService empresa = new EmpresaService();
+        return empresa.getEmpresa(this.getNombreUser());
+    }
+
     public boolean eliminarEmpresa() {
         return super.eliminarUsuario();
     }

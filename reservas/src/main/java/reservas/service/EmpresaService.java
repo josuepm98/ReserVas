@@ -75,6 +75,55 @@ public class EmpresaService extends UsuarioService{
         }
     }
 
+    public Empresa getEmpresa(String nombreUser){
+        Connection conn = SQL.conectarMySQL();  // Nos conectamos a la BBDD
+        Empresa empresa = new Empresa();
+
+        try {
+            /*
+            También se puede:
+            select empresa.nombreUser, empresa.direccion, empresa.inicioJornada, empresa.finJornada,
+                    empresa.tiempoServicio, usuario.password, usuario.nombre, usuario.apellidos, usuario.email,
+                    usuario.img from empresa inner join usuario on empresa.nombreUser = usuario.nombreUser;
+            */
+            String query = "select distinct empresa.nombreUser, empresa.direccion, empresa.inicioJornada, empresa.finJornada, " +
+                    "empresa.tiempoServicio, usuario.password, usuario.nombre, usuario.apellidos, usuario.email," +
+                    "usuario.img from empresa, usuario where empresa.nombreUser = usuario.nombreUser and empresa.nombreUser = '" + nombreUser + "';";
+
+            Statement st = conn.createStatement(); //creamos el statement -> nos permite sacar los datos obtenidos de la select
+            ResultSet rs = st.executeQuery(query); //ejecutamos la query
+
+            if(rs.next()) {
+                empresa.setNombreUser(rs.getString("nombreUser"));
+                empresa.setPassword(rs.getString("password"));
+                empresa.setNombre(rs.getString("nombre"));
+                empresa.setApellidos(rs.getString("apellidos"));
+                empresa.setEmail(rs.getString("email"));
+                empresa.setImg(rs.getString("img"));
+
+                empresa.setDireccion(rs.getString("direccion"));
+                empresa.setInicioJornada(rs.getString("inicioJornada"));
+                empresa.setFinJornada(rs.getString("finJornada"));
+                empresa.setTiempoServicio(rs.getString("tiempoServicio"));
+            }
+
+            return empresa;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Se ha producido un error.");
+            return empresa;
+        } finally {
+            try {
+                if(conn != null){
+                    conn.close();
+                }
+            } catch (SQLException e){
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
     public List<Cliente> getClientesEmpresa(String nombreEmpresa){
         Connection conn = SQL.conectarMySQL();  // Nos conectamos a la BBDD
         List<Cliente> clientes = new ArrayList<>();
