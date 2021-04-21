@@ -13,6 +13,9 @@ public class Usuario{
     public String email;
     public String img;
 
+
+    public String token;
+
     public Usuario() {}
 
     // Constructor público con todos los parámetros para evitar valores nulos.
@@ -28,6 +31,10 @@ public class Usuario{
     public String getNombreUser() {
         return nombreUser;
     }
+    public void setToken(String token) {
+        this.token = token;
+    }
+
 
     public void setNombreUser(String nombreUser) {
         this.nombreUser = nombreUser;
