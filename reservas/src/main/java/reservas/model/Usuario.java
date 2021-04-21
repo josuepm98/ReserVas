@@ -12,8 +12,6 @@ public class Usuario{
     public String apellidos;
     public String email;
     public String img;
-
-
     public String token;
 
     public Usuario() {}
@@ -31,10 +29,6 @@ public class Usuario{
     public String getNombreUser() {
         return nombreUser;
     }
-    public void setToken(String token) {
-        this.token = token;
-    }
-
 
     public void setNombreUser(String nombreUser) {
         this.nombreUser = nombreUser;
@@ -78,6 +72,14 @@ public class Usuario{
 
     public void setImg(String img) {
         this.img = img;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public boolean eliminarUsuario() {
