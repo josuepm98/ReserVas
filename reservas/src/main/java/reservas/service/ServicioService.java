@@ -121,7 +121,6 @@ public class ServicioService {
             ResultSet rs = st.executeQuery(query); //ejecutamos la query
 
             if(rs.next()){
-
                 service.id = rs.getInt("id");
                 service.nombre = rs.getString("nombre");
                 service.direccion = rs.getString("direccion");

@@ -81,7 +81,16 @@ public class ServicioController {
             throw new UsuarioNoLogeadoException();
         }
 
-        Servicio service = servicioService.getService(idService); //DEVOLVEMOS LA SELECT DE SERVICIO Y PASARLA AL FRONT COMO JSON
+        //DEVOLVEMOS LA SELECT DE SERVICIO Y PASARLA AL FRONT COMO JSON
+        Servicio service = new Servicio();
+        service.setId(idService);
+        service = service.getService();
+
+        //Servicio service = servicioService.getService(idService);
+
+        if(service.id == 0 && service.precio == 0.0){
+            return new ResponseEntity<>("No existe ningún servicio con ese ID", HttpStatus.NOT_FOUND);
+        }
 
         Gson gson =  new Gson();
         String json = gson.toJson(service);
@@ -90,7 +99,7 @@ public class ServicioController {
     }
 
     @GetMapping("/{category}/services") //NO SE LA RUTA QUE PEDIRAN
-    public ResponseEntity<?> servicioInfo(@PathVariable(value="category") String categoryName, HttpSession session) {
+    public ResponseEntity<?> serviciosCategoria(@PathVariable(value="category") String categoryName, HttpSession session) {
         String nombreUsuarioLogeado = (String) session.getAttribute("nombreUserLogeado");
 
         if(nombreUsuarioLogeado == null){

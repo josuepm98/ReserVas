@@ -1,6 +1,7 @@
 package reservas.model;
 
 import reservas.service.ClienteService;
+import reservas.service.EmpresaService;
 import reservas.service.ServicioService;
 
 import javax.persistence.GeneratedValue;
@@ -145,6 +146,11 @@ public class Servicio {
     public boolean deleteService() {
         ServicioService servicio = new ServicioService();
         return servicio.deleteService(this);
+    }
+
+    public Servicio getService(){
+        ServicioService servicio = new ServicioService();
+        return servicio.getService(this.id);
     }
 
     public List<Servicio> getServiciosPorFecha(String nombreUser, String fecha){
