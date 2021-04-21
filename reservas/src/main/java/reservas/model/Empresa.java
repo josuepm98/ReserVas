@@ -2,6 +2,8 @@ package reservas.model;
 
 import reservas.service.EmpresaService;
 
+import java.util.List;
+
 public class Empresa extends Usuario{
 
     private String direccion;
@@ -52,6 +54,11 @@ public class Empresa extends Usuario{
 
     public boolean eliminarEmpresa() {
         return super.eliminarUsuario();
+    }
+
+    public List<Cliente> getClientesEmpresa(){
+        EmpresaService empresa = new EmpresaService();
+        return empresa.getClientesEmpresa(this.nombreUser);
     }
 
 }

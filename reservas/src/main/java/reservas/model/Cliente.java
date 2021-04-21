@@ -1,6 +1,7 @@
 package reservas.model;
 
 import reservas.service.ClienteService;
+import reservas.service.EmpresaService;
 
 public class Cliente extends Usuario{
 
@@ -31,5 +32,9 @@ public class Cliente extends Usuario{
         return super.eliminarUsuario();
     }
 
-
+    public Cliente getCliente(){
+        ClienteService cliente = new ClienteService();
+        return cliente.getCliente(this.getNombreUser());
+    }
+    
 }

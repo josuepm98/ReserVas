@@ -50,8 +50,11 @@ public class EmpresaController {
     public ResponseEntity<?> clientesEmpresa(@PathVariable(value="nombreUser") String nombreUser, HttpSession session) {
         managerUserSesion.comprobarUsuarioLogeado(session, nombreUser);
 
-        List<Cliente> clientes = empresaService.getClientesEmpresa(nombreUser); //TENEMOS QUE DEVOLVER LA SELECT DE CLIENTES Y PASARLA AL FRONT COMO JSON
-        //NO SE POR QUE MUESTRA ANTES LA FECHA QUE EL NOMBRE EN EL JSON
+        Empresa empresa = new Empresa();
+        empresa.setNombreUser(nombreUser);
+        empresa = empresa.getEmpresa();
+
+        List<Cliente> clientes = empresa.getClientesEmpresa(); //TENEMOS QUE DEVOLVER LA SELECT DE CLIENTES Y PASARLA AL FRONT COMO JSON
         Gson gson =  new Gson();
         String json = gson.toJson(clientes);
 
