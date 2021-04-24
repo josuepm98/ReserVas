@@ -19,7 +19,7 @@ public class ServicioTest {
 
     @Test
     public void crearServicioTest(){
-        Servicio servicio = new Servicio("nombrePrueba", "Aspe", 500.5, "2021-05-10", "08:00:00", "09:00:00", "Peluqueria", Servicio.ServicioEstado.LIBRE, "taesEmpresa", null);
+        Servicio servicio = new Servicio("nombrePrueba", "Aspe", 500.5, "2021-05-10", "08:00:00", "09:00:00", Servicio.ServicioEstado.LIBRE, "taesEmpresa", null);
         boolean resultadoEsperado = true;
         boolean resultadoReal = servicio.createService();
         assertEquals(resultadoEsperado, resultadoReal);
@@ -32,7 +32,7 @@ public class ServicioTest {
 
     @Test
     public void deleteServicioTest(){
-        Servicio servicio = new Servicio("PruebaEliminar", "Aspe", 500.5, "2021-05-10", "08:00:00", "09:00:00", "Peluqueria", Servicio.ServicioEstado.LIBRE, "taesEmpresa", null);
+        Servicio servicio = new Servicio("PruebaEliminar", "Aspe", 500.5, "2021-05-10", "08:00:00", "09:00:00", Servicio.ServicioEstado.LIBRE, "taesEmpresa", null);
         servicio.createService();  // insertamos
         boolean resultadoEsperado = true;
         boolean resultadoReal = servicio.deleteService();

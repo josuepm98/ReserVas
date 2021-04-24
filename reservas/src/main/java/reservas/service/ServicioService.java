@@ -22,10 +22,10 @@ public class ServicioService {
         boolean resultado = false;
 
         try{
-            String query = "INSERT INTO servicio (id, nombre, direccion, precio, fecha, horaInicio, horaFin, categoria, estado, " +
+            String query = "INSERT INTO servicio (id, nombre, direccion, precio, fecha, horaInicio, horaFin, estado, " +
                     "empresa, cliente) VALUES (null, '" + servicio.nombre + "', '" + servicio.direccion + "', " + servicio.precio +
-                    ", '" + servicio.fecha + "', '" + servicio.horaInicio + "', '" + servicio.horaFin + "', '" + servicio.categoria +
-                    "', '" + servicio.estado + "', '" + servicio.empresa + "', null);";
+                    ", '" + servicio.fecha + "', '" + servicio.horaInicio + "', '" + servicio.horaFin + "', '" + servicio.estado +
+                    "', '" + servicio.empresa + "', null);";
 
             String generatedColumns[] = { "ID" };
             PreparedStatement comando = conn.prepareStatement(query, generatedColumns);  // IMP añadir el id al insertar
@@ -95,7 +95,6 @@ public class ServicioService {
                 service.horaInicio = rs.getString("horaInicio");
                 service.horaFin = rs.getString("horaFin");
 
-                service.categoria = rs.getString("categoria");
                 service.estado = service.estado.valueOf(rs.getString("estado")); //se necesita la conversión a ENUM (valueOf) (Yo cambiaría el enum si nos da problemas)
                 service.empresa = rs.getString("empresa");
                 service.cliente = rs.getString("cliente");
@@ -132,7 +131,6 @@ public class ServicioService {
                 service.horaInicio = rs.getString("horaInicio");
                 service.horaFin = rs.getString("horaFin");
 
-                service.categoria = rs.getString("categoria");
                 service.estado = service.estado.valueOf(rs.getString("estado")); //se necesita la conversión a ENUM (valueOf) (Yo cambiaría el enum si nos da problemas)
                 service.empresa = rs.getString("empresa");
                 service.cliente = rs.getString("cliente");
@@ -197,7 +195,9 @@ public class ServicioService {
         List<Servicio> services = new ArrayList<>();
 
         try {
-            String query = "SELECT * FROM servicio WHERE categoria='"+ nombreCategoria + "' and estado='LIBRE';";
+
+            String query = "SELECT servicio.*, empresa.categoria FROM servicio inner join empresa on servicio.empresa = empresa.nombreUser " +
+                    " WHERE empresa.categoria ='"+ nombreCategoria + "' and servicio.estado='LIBRE';";
 
             Statement st = conn.createStatement(); //creamos el statement -> nos permite sacar los datos obtenidos de la select
             ResultSet rs = st.executeQuery(query); //ejecutamos la query

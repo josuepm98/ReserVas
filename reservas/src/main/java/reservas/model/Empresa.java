@@ -8,6 +8,8 @@ public class Empresa extends Usuario{
 
     private String direccion;
 
+    private String categoria;
+
     private String inicioJornada;  // hh:mm
 
     private String finJornada;  // hh:mm
@@ -16,9 +18,10 @@ public class Empresa extends Usuario{
 
     public Empresa() {}
 
-    public Empresa(String nombreUser, String password, String nombre, String apellidos, String email, String direccion) {
+    public Empresa(String nombreUser, String password, String nombre, String apellidos, String email, String direccion, String categoria) {
         super(nombreUser, password, nombre, apellidos, email);
         this.direccion = direccion;
+        this.categoria = categoria;
     }
 
     //getters and setters
@@ -28,6 +31,14 @@ public class Empresa extends Usuario{
 
     public void setDireccion(String direccion) {
         this.direccion = direccion;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
     }
 
     public String getInicioJornada() { return inicioJornada; }

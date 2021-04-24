@@ -24,7 +24,8 @@ public class EmpresaTest {
     @Test
     public void testExiste1() {
         // Debe dar true ya que buscamos una empresa que SÍ existe
-        Empresa empresa = new Empresa("taesEmpresa", "taes", "TaesCliente", "Taes Taes", "taesCliente@gmail.com", "Aspe");
+        Empresa empresa = new Empresa("taesEmpresa", "taes", "TaesCliente", "Taes Taes",
+                "taesCliente@gmail.com", "Aspe", "Peluqueria");
         boolean resultadoEsperado = true;
         boolean resultadoReal = empresa.existe();
         assertEquals(resultadoEsperado, resultadoReal);
@@ -33,7 +34,8 @@ public class EmpresaTest {
     @Test
     public void testExiste2() {
         // Debe dar false ya que buscamos una empresa que NO existe
-        Empresa empresa = new Empresa("noExiste", "taes", "TaesCliente", "Taes Taes", "taesCliente@gmail.com", "Aspe");
+        Empresa empresa = new Empresa("noExiste", "taes", "TaesCliente", "Taes Taes",
+                "taesCliente@gmail.com", "Aspe", "Peluqueria");
         boolean resultadoEsperado = false;
         boolean resultadoReal = empresa.existe();
         assertEquals(resultadoEsperado, resultadoReal);
@@ -42,7 +44,8 @@ public class EmpresaTest {
     @Test
     public void testAutenticacion1() {
         // Debe dar true ya que la empresa existe y la contraseña está bien
-        Empresa empresa = new Empresa("taesEmpresa", "taes", "TaesCliente", "Taes Taes", "taesCliente@gmail.com", "Aspe");
+        Empresa empresa = new Empresa("taesEmpresa", "taes", "TaesCliente", "Taes Taes",
+                "taesCliente@gmail.com", "Aspe", "Peluqueria");
         boolean resultadoEsperado = true;
         boolean resultadoReal = empresa.autenticacion();
         assertEquals(resultadoEsperado, resultadoReal);
@@ -51,7 +54,8 @@ public class EmpresaTest {
     @Test
     public void testAutenticacion2() {
         // Debe dar false ya que la empresa existe pero la contraseña está mal
-        Empresa empresa = new Empresa("taesEmpresa", "errorPassword", "TaesCliente", "Taes Taes", "taesCliente@gmail.com", "Aspe");
+        Empresa empresa = new Empresa("taesEmpresa", "errorPassword", "TaesCliente", "Taes Taes",
+                "taesCliente@gmail.com", "Aspe", "Peluqueria");
         boolean resultadoEsperado = false;
         boolean resultadoReal = empresa.autenticacion();
         assertEquals(resultadoEsperado, resultadoReal);
@@ -61,7 +65,8 @@ public class EmpresaTest {
     public void testCrearEmpresa() {
         // Este test prueba que se crea correctamente las empresas
 
-        Empresa empresa = new Empresa("taesNuevo", "taes", "TaesNuevo", "Taes Nuevo", "taesNuevo@gmail.com", "Aspe");
+        Empresa empresa = new Empresa("taesNuevo", "taes", "TaesNuevo", "Taes Nuevo",
+                "taesNuevo@gmail.com", "Aspe", "Peluqueria");
 
         // Debe dar false ya que la empresa NO existe
         boolean resultadoEsperado = false;
