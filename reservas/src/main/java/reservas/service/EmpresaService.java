@@ -42,7 +42,8 @@ public class EmpresaService extends UsuarioService{
                         empresa.getNombre() + "', '" + empresa.getApellidos() + "', '" + empresa.getEmail() + "', default);";
 
                 // query para insertar en la tabla empresa
-                String query2 = "insert into empresa (`nombreUser`, `direccion`) values ('" + empresa.getNombreUser() + "', '" + empresa.getDireccion() + "');";
+                String query2 = "insert into empresa (`nombreUser`, `direccion`, `categoria`) values ('" + empresa.getNombreUser() +
+                        "', '" + empresa.getDireccion() + "', '"+ empresa.getCategoria() + "');";
 
                 // Empieza la transacción
                 conn.setAutoCommit(false);
@@ -86,7 +87,7 @@ public class EmpresaService extends UsuarioService{
                     empresa.tiempoServicio, usuario.password, usuario.nombre, usuario.apellidos, usuario.email,
                     usuario.img from empresa inner join usuario on empresa.nombreUser = usuario.nombreUser;
             */
-            String query = "select distinct empresa.nombreUser, empresa.direccion, empresa.inicioJornada, empresa.finJornada, " +
+            String query = "select distinct empresa.nombreUser, empresa.direccion, empresa.categoria, empresa.inicioJornada, empresa.finJornada, " +
                     "empresa.tiempoServicio, usuario.password, usuario.nombre, usuario.apellidos, usuario.email," +
                     "usuario.img from empresa, usuario where empresa.nombreUser = usuario.nombreUser and empresa.nombreUser = '" + nombreUser + "';";
 
@@ -102,6 +103,7 @@ public class EmpresaService extends UsuarioService{
                 empresa.setImg(rs.getString("img"));
 
                 empresa.setDireccion(rs.getString("direccion"));
+                empresa.setCategoria(rs.getString("categoria"));
                 empresa.setInicioJornada(rs.getString("inicioJornada"));
                 empresa.setFinJornada(rs.getString("finJornada"));
                 empresa.setTiempoServicio(rs.getString("tiempoServicio"));

@@ -23,7 +23,6 @@ public class Servicio {
     public String fecha;  // yyyy-mm-dd
     public String horaInicio;  // hh:mm
     public String horaFin;  // hh:mm
-    public String categoria;
     public ServicioEstado estado;
     public String empresa;
     public String cliente;
@@ -35,14 +34,13 @@ public class Servicio {
         this.nombre = nombre;
     }
 
-    public Servicio(String nombre, String direccion, double precio, String fecha, String horaInicio, String horaFin, String categoria,ServicioEstado estado, String empresa, String cliente){
+    public Servicio(String nombre, String direccion, double precio, String fecha, String horaInicio, String horaFin, ServicioEstado estado, String empresa, String cliente){
         this.nombre = nombre;
         this.direccion = direccion;
         this.precio = precio;
         this.fecha = fecha;
         this.horaInicio = horaInicio;
         this.horaFin = horaFin;
-        this.categoria = categoria;
         this.estado = estado;
         this.empresa = empresa;
         this.cliente = cliente;
@@ -76,10 +74,6 @@ public class Servicio {
 
     public String getHoraFin() {
         return horaFin;
-    }
-
-    public String getCategoria() {
-        return categoria;
     }
 
     public ServicioEstado getEstado() {
@@ -120,10 +114,6 @@ public class Servicio {
 
     public void setHoraFin(String horaFin) {
         this.horaFin = horaFin;
-    }
-
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
     }
 
     public void setEstado(ServicioEstado estado) {
