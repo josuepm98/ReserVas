@@ -11,6 +11,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 public class EmpresaTest {
 
@@ -186,5 +187,82 @@ public class EmpresaTest {
         int resultadoReal = empresa.getMinutos(tiempo);
         assertEquals(resultadoEsperado, resultadoReal);
     }
+
+    @Test
+    public void cabeActividad1(){
+        String inicio = "09:00";
+        String fin = "11:00";
+        String duracion = "45";
+
+        EmpresaService empresa = new EmpresaService();
+        boolean resultadoReal = empresa.cabeActividad(inicio, fin, duracion);
+
+        assertTrue(resultadoReal);
+    }
+
+    @Test
+    public void cabeActividad2(){
+        String inicio = "09:00";
+        String fin = "10:00";
+        String duracion = "60";
+
+        EmpresaService empresa = new EmpresaService();
+        boolean resultadoReal = empresa.cabeActividad(inicio, fin, duracion);
+
+        assertTrue(resultadoReal);
+    }
+
+    @Test
+    public void cabeActividad3(){
+        String inicio = "09:00";
+        String fin = "09:00";
+        String duracion = "45";
+
+        EmpresaService empresa = new EmpresaService();
+        boolean resultadoReal = empresa.cabeActividad(inicio, fin, duracion);
+
+        assertFalse(resultadoReal);
+    }
+
+    @Test
+    public void cabeActividad4(){
+        String inicio = "17:00";
+        String fin = "19:00";
+        String duracion = "30";
+
+        EmpresaService empresa = new EmpresaService();
+        boolean resultadoReal = empresa.cabeActividad(inicio, fin, duracion);
+
+        assertTrue(resultadoReal);
+    }
+
+    @Test
+    public void cabeActividad5(){
+        String inicio = "13:00";
+        String fin = "12:00";
+        String duracion = "45";
+
+        EmpresaService empresa = new EmpresaService();
+        boolean resultadoReal = empresa.cabeActividad(inicio, fin, duracion);
+
+        assertFalse(resultadoReal);
+    }
+
+    @Test
+    public void generarDia(){
+        Empresa empresa = empresaService.getEmpresa("empresaSpa3");
+        empresa.setInicioJornada("09:00");
+        empresa.setFinJornada("13:00");
+        empresa.setTiempoServicio("45");
+
+        String nombreServicio = "Prueba";
+        String direccionServicio = "Dir Prueba";
+        double precio = 22.2;
+        String fecha = "2021-06-28";
+        empresa.generarDia(nombreServicio, direccionServicio, precio, fecha);
+
+        // No limpiamos la BD
+    }
+
 
 }
