@@ -1,6 +1,5 @@
 package reservas;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -10,7 +9,6 @@ import java.util.List;
 import org.junit.Test;
 
 import reservas.model.Categoria;
-import reservas.model.Cliente;
 import reservas.service.CategoriaService;
 
 public class CategoriaTest {
@@ -50,13 +48,18 @@ public class CategoriaTest {
     }
     @Test
     public void testGetCategorias() {
-    
-    	CategoriaService cService = new CategoriaService(); 
+
+    	CategoriaService cService = new CategoriaService();
     	List<Categoria> resultadoEsperado = new ArrayList<>();
     	resultadoEsperado.add(new Categoria("Peluqueria"));
     	resultadoEsperado.add(new Categoria("Spa"));
+        resultadoEsperado.add(new Categoria("Restaurante"));
+        resultadoEsperado.add(new Categoria("Gimnasio"));
+        resultadoEsperado.add(new Categoria("Medico"));
 
-    	System.out.println(cService.getCategorias());
-    	assertEquals(resultadoEsperado,cService.getCategorias());
+        List<Categoria> resultadoReal = cService.getCategorias();
+    	for(int i=0; i<resultadoEsperado.size(); i++){
+    	    assertTrue(resultadoEsperado.contains(resultadoReal.get(i)));
+        }
     }
 }
