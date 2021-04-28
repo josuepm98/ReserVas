@@ -11,25 +11,22 @@ import java.util.Set;
 
 
 public class Plan {
-    private static final int serialVersionUID = 1;
-
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Integer id;
-
+    public int id;
     public String nombre;
     public String descripcion;
     public double precioTotal;
 
-    public Set<Servicio> servicios = new HashSet<>();
+    public ArrayList<Servicio> servicios;
 
-    public Plan(){
-
+    public Plan() {
+        servicios = new ArrayList<Servicio>();
     }
 
     public Plan(String nombre, String descripcion, double precioTotal){
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precioTotal = precioTotal;
+        this.servicios = new ArrayList<Servicio>();
     }
 
     public int getId() {

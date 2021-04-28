@@ -18,34 +18,24 @@ import java.util.List;
 @Service
 public class PlanService {
     private ConexionMySQL SQL = new ConexionMySQL();
-    ServicioService servicioService;
+    ServicioService servicioService = new ServicioService();
 
     public Plan getPlan(int planId){
         Connection conn = SQL.conectarMySQL();  // Nos conectamos a la BBDD
         Plan plan = new Plan();
-        Integer auxService;
-        Servicio servicio;
 
         try {
-            String query = "SELECT DISTINCT * FROM planes WHERE (`id` = '" + planId + "');";
+            String query = "SELECT * FROM planes WHERE (`id` = '" + planId + "');";
 
             Statement st = conn.createStatement(); //creamos el statement -> nos permite sacar los datos obtenidos de la select
             ResultSet rs = st.executeQuery(query); //ejecutamos la query
 
-            if(rs.next()){
+            while(rs.next()){
                 plan.id = rs.getInt("id");
-                auxService = rs.getInt("servicio_id");
-                servicio = servicioService.getService(auxService);
-                plan.servicios.add(servicio);
+                plan.servicios.add(servicioService.getService(rs.getInt("servicio_id")));
                 plan.nombre = rs.getString("nombre");
                 plan.descripcion = rs.getString("descripcion");
-                plan.precioTotal = rs.getInt("precioTotal");
-            }
-
-            while(rs.next()){
-                auxService = rs.getInt("servicio_id");
-                servicio = servicioService.getService(auxService);
-                plan.servicios.add(servicio);
+                plan.precioTotal = rs.getDouble("precioTotal");
             }
 
             return plan;
@@ -65,29 +55,37 @@ public class PlanService {
         }
     }
 
-    public List<Plan> getPlanes(){
+    public ArrayList<Plan> getPlanes(){
         Connection conn = SQL.conectarMySQL();  // Nos conectamos a la BBDD
-        List<Plan> planes = new ArrayList<>();
-        Integer auxService;
+        ArrayList<Plan> planes = new ArrayList<Plan>();
 
         try {
-            String query = "SELECT DISTINCT * FROM planes;";
+            String query = "SELECT * FROM planes;";
 
             Statement st = conn.createStatement(); //creamos el statement -> nos permite sacar los datos obtenidos de la select
             ResultSet rs = st.executeQuery(query); //ejecutamos la query
 
+            int idAnterior = -1;
+            Plan plan = new Plan();
             while (rs.next()) {
-                Plan plan = new Plan();
-                plan.id = rs.getInt("id");
-                //FALLA AL COGER EL SERVICIO ID
-                /*auxService = rs.getInt("servicio_id");
-                Servicio servicio = servicioService.getService(auxService);
-                plan.servicios.add(servicio);*/
-                plan.nombre = rs.getString("nombre");
-                plan.descripcion = rs.getString("descripcion");
-                plan.precioTotal = rs.getDouble("precioTotal");
-                //HAY QUE VER COMO RESCATAR PARA CADA PLAN SU VECTOR DE SERVICIOS
-                //EJEMPLO POR PROBAR
+                if(idAnterior == rs.getInt("id")){
+                    plan.servicios.add(servicioService.getService(rs.getInt("servicio_id")));
+                }else{
+                    if(idAnterior != -1){
+                        planes.add(plan);
+                    }
+                    plan = new Plan();
+                    plan.id = rs.getInt("id");
+                    plan.servicios.add(servicioService.getService(rs.getInt("servicio_id")));
+                    plan.nombre = rs.getString("nombre");
+                    plan.descripcion = rs.getString("descripcion");
+                    plan.precioTotal = rs.getDouble("precioTotal");
+
+                    idAnterior = plan.getId();
+                }
+            }
+            // Para meter el último plan
+            if(plan.getNombre() != null){
                 planes.add(plan);
             }
 
