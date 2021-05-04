@@ -220,43 +220,78 @@ public class EmpresaService extends UsuarioService{
         return Integer.parseInt(resultado);
     }
 
-    // metodo para ver si la actividad cabe en la franja horaria que marca inicio-fin
-    public boolean cabeActividad(String inicio, String fin, String actividad) {
-        /* Los formatos que recibimos son:
-            inicio-> hh:mm
-            fin-> hh:mm
-            actividad-> x minutos
-        */
+    // Método para ver si la actividad cabe en la franja horaria que marca inicio-fin
+    public boolean cabeActividad(String inicio, String fin, String duracion) {
+        int horasASumar = Integer.parseInt(duracion)/60;
+        int minutosASumar = Integer.parseInt(duracion)%60;
 
+        Calendar cal = Calendar.getInstance();
 
-        return true;
+        String[] partes = inicio.split(":");
+        int hora = Integer.parseInt(partes[0]);
+        int minutos = Integer.parseInt(partes[1]);
+        Format f = new SimpleDateFormat("HH:mm");
+        cal.set(Calendar.HOUR_OF_DAY, hora);
+        cal.set(Calendar.MINUTE, minutos);
+        cal.add(Calendar.HOUR, horasASumar);
+        cal.add(Calendar.MINUTE, minutosASumar);
+        Date date = cal.getTime();
+        inicio = f.format(date);
+
+        if(getHora(inicio) < getHora(fin)) {
+            return true;
+        }else if(getHora(inicio) == getHora(fin)) {
+            if(getMinutos(inicio) < getMinutos(fin) || getMinutos(inicio) == getMinutos(fin)) {
+                return true;
+            }else {
+                return false;
+            }
+        }else {
+            return false;
+        }
     }
-    /*
-    public boolean generarDia(Empresa empresa, String nombreServicio, String direccionServicio, double precio, String fecha) {
+
+    public void generarDia(Empresa empresa, String nombreServicio, String direccionServicio, double precio, String fecha) {
         Connection conn = SQL.conectarMySQL();  // Nos conectamos a la BBDD
-        boolean resultado = false;
 
         try {
-            Servicio servicio = new Servicio();
-            List<Servicio> listaServicios = servicio.getServiciosPorFecha(empresa.getNombreUser(), fecha);
+            Servicio servicio;
 
-            while()
-            for(int i=0; i<listaServicios.size(); i++) {
+            String iteradorTiempo = empresa.getInicioJornada();
+            int horasASumar = Integer.parseInt(empresa.getTiempoServicio())/60;
+            int minutosASumar = Integer.parseInt(empresa.getTiempoServicio())%60;
+
+            while(cabeActividad(iteradorTiempo, empresa.getFinJornada(), empresa.getTiempoServicio())){
+
+                String horaInicioServicio = iteradorTiempo;
+
+                // Sumamos la duración del servicio a la variable iteradora
+                Calendar cal = Calendar.getInstance();
+
+                String[] partes = iteradorTiempo.split(":");
+                int hora = Integer.parseInt(partes[0]);
+                int minutos = Integer.parseInt(partes[1]);
+                Format f = new SimpleDateFormat("HH:mm");
+                cal.set(Calendar.HOUR_OF_DAY, hora);
+                cal.set(Calendar.MINUTE, minutos);
+                cal.add(Calendar.HOUR, horasASumar);
+                cal.add(Calendar.MINUTE, minutosASumar);
+                Date date = cal.getTime();
+                iteradorTiempo = f.format(date);
+
+                String horaFinServicio = iteradorTiempo;
+
+                /*
+                    Creación servicio para esa franja
+                */
+                servicio = new Servicio(nombreServicio, direccionServicio, precio, fecha, horaInicioServicio, horaFinServicio, Servicio.ServicioEstado.LIBRE, empresa.getNombreUser(), null);
+                servicio.createService();
 
             }
-
-
-
-                Servicio servicio = new Servicio();
-
-
-            }
-            return resultado;
 
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Se ha producido un error.");
-            return resultado;
         } finally {
             try {
                 if(conn != null){
@@ -266,6 +301,6 @@ public class EmpresaService extends UsuarioService{
                 System.out.println(e.getMessage());
             }
         }
-    }*/
+    }
 
 }

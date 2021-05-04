@@ -18,7 +18,7 @@ public class Servicio {
     public int id;
 
     public String nombre; //nombre de la empresa-servicio
-    public String direccion; //direccion de la empres
+    public String direccion; //direccion de la empresa
     public double precio;
     public String fecha;  // yyyy-mm-dd
     public String horaInicio;  // hh:mm

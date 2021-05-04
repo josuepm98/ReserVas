@@ -72,4 +72,9 @@ public class Empresa extends Usuario{
         return empresa.getClientesEmpresa(this.nombreUser);
     }
 
+    public void generarDia(String nombreServicio, String direccionServicio, double precio, String fecha){
+        EmpresaService empresa = new EmpresaService();
+        empresa.generarDia(this, nombreServicio, direccionServicio, precio, fecha);
+    }
+
 }
