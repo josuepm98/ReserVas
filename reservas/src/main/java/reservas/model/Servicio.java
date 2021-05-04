@@ -1,11 +1,13 @@
 package reservas.model;
 
 import reservas.service.ClienteService;
+import reservas.service.EmpresaService;
 import reservas.service.ServicioService;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import java.sql.Time;
+import java.util.List;
 import java.util.Objects;
 
 public class Servicio {
@@ -15,13 +17,12 @@ public class Servicio {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int id;
 
-    public String nombre;
-    public String direccion;
+    public String nombre; //nombre de la empresa-servicio
+    public String direccion; //direccion de la empresa
     public double precio;
-    public String fecha;
-    public String horaInicio;
-    public String horaFin;
-    public String categoria;
+    public String fecha;  // yyyy-mm-dd
+    public String horaInicio;  // hh:mm
+    public String horaFin;  // hh:mm
     public ServicioEstado estado;
     public String empresa;
     public String cliente;
@@ -29,14 +30,17 @@ public class Servicio {
     //Constructores
     public Servicio(){ }
 
-    public Servicio(String nombre, String direccion, double precio, String fecha, String horaInicio, String horaFin, String categoria,ServicioEstado estado, String empresa, String cliente){
+    public Servicio(String nombre){
+        this.nombre = nombre;
+    }
+
+    public Servicio(String nombre, String direccion, double precio, String fecha, String horaInicio, String horaFin, ServicioEstado estado, String empresa, String cliente){
         this.nombre = nombre;
         this.direccion = direccion;
         this.precio = precio;
         this.fecha = fecha;
         this.horaInicio = horaInicio;
         this.horaFin = horaFin;
-        this.categoria = categoria;
         this.estado = estado;
         this.empresa = empresa;
         this.cliente = cliente;
@@ -70,10 +74,6 @@ public class Servicio {
 
     public String getHoraFin() {
         return horaFin;
-    }
-
-    public String getCategoria() {
-        return categoria;
     }
 
     public ServicioEstado getEstado() {
@@ -116,10 +116,6 @@ public class Servicio {
         this.horaFin = horaFin;
     }
 
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
-    }
-
     public void setEstado(ServicioEstado estado) {
         this.estado = estado;
     }
@@ -140,5 +136,15 @@ public class Servicio {
     public boolean deleteService() {
         ServicioService servicio = new ServicioService();
         return servicio.deleteService(this);
+    }
+
+    public Servicio getService(){
+        ServicioService servicio = new ServicioService();
+        return servicio.getService(this.id);
+    }
+
+    public List<Servicio> getServiciosPorFecha(String nombreUser, String fecha){
+        ServicioService servicio = new ServicioService();
+        return servicio.getServiciosPorFecha(nombreUser, fecha);
     }
 }

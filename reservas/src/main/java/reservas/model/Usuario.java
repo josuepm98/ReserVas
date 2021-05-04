@@ -11,6 +11,8 @@ public class Usuario{
     public String nombre;
     public String apellidos;
     public String email;
+    public String img;
+    public String token;
 
     public Usuario() {}
 
@@ -64,6 +66,22 @@ public class Usuario{
         this.email = email;
     }
 
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
     public boolean eliminarUsuario() {
         UsuarioService usuario = new UsuarioService();
         return usuario.eliminarUsuario(this);
@@ -72,13 +90,17 @@ public class Usuario{
     public boolean existe() {
         UsuarioService usuario = new UsuarioService();
         return usuario.existe(nombreUser);
-        
     }
 
     public boolean autenticacion() {
         UsuarioService usuario = new UsuarioService();
         return usuario.autenticacion(nombreUser, password);
     }
+
+    /*public Usuario getUsuario(String nombreUser){
+        UsuarioService usuario = new UsuarioService();
+        return usuario.getUsuario(nombreUser);
+    }*/
 
     //Equals basado en el nombreUser
     @Override

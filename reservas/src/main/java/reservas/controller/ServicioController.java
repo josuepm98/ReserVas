@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reservas.authentication.ManagerUserSession;
+import reservas.authentication.UsuarioNoLogeadoException;
 import reservas.model.Cliente;
 import reservas.model.Empresa;
 import reservas.model.Usuario;
@@ -20,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
@@ -63,12 +65,76 @@ public class ServicioController {
     public ResponseEntity<?> serviciosEmpresa(@PathVariable(value="nombreUser") String nombreUser, Model model, HttpSession session) {
         managerUserSesion.comprobarUsuarioLogeado(session, nombreUser);
 
-        List<Servicio> services = servicioService.getServicios(nombreUser, 1); //TENEMOS QUE DEVOLVER LA SELECT DE SERVICIOS Y PASARLA AL FRONT COMO JSON
+        List<Servicio> services = servicioService.getServicios(nombreUser, 1); //DEVOLVEMOS LA SELECT DE SERVICIOS Y PASARLA AL FRONT COMO JSON
 
         Gson gson =  new Gson();
         String json = gson.toJson(services);
 
         return new ResponseEntity<>(json ,HttpStatus.OK);
     }
+
+    @GetMapping("/services/{id}") //NO SE LA RUTA QUE PEDIRAN
+    public ResponseEntity<?> servicioInfo(@PathVariable(value="id") Integer idService, HttpSession session) {
+        String nombreUsuarioLogeado = (String) session.getAttribute("nombreUserLogeado");
+
+        if(nombreUsuarioLogeado == null){
+            throw new UsuarioNoLogeadoException();
+        }
+
+        //DEVOLVEMOS LA SELECT DE SERVICIO Y PASARLA AL FRONT COMO JSON
+        Servicio service = new Servicio();
+        service.setId(idService);
+        service = service.getService();
+
+        //Servicio service = servicioService.getService(idService);
+
+        if(service.id == 0 && service.precio == 0.0){
+            return new ResponseEntity<>("No existe ningún servicio con ese ID", HttpStatus.NOT_FOUND);
+        }
+
+        Gson gson =  new Gson();
+        String json = gson.toJson(service);
+
+        return new ResponseEntity<>(json ,HttpStatus.OK);
+    }
+
+    @GetMapping("/{category}/services") //NO SE LA RUTA QUE PEDIRAN
+    public ResponseEntity<?> serviciosCategoria(@PathVariable(value="category") String categoryName, HttpSession session) {
+        String nombreUsuarioLogeado = (String) session.getAttribute("nombreUserLogeado");
+
+        if(nombreUsuarioLogeado == null){
+            throw new UsuarioNoLogeadoException();
+        }
+
+        List<Servicio> services = servicioService.getServiciosPorCategoria(categoryName); //DEVOLVEMOS LA SELECT DE SERVICIO Y PASARLA AL FRONT COMO JSON
+
+        Gson gson =  new Gson();
+        String json = gson.toJson(services);
+
+        return new ResponseEntity<>(json ,HttpStatus.OK);
+    }
+
+    @DeleteMapping("/services/{id}/delete")
+    public String deleteServicio(@PathVariable(value="id") Integer idService, HttpSession session){
+        String nombreUsuarioLogeado = (String) session.getAttribute("nombreUserLogeado");
+
+        if(nombreUsuarioLogeado == null){
+            throw new UsuarioNoLogeadoException();
+        }
+
+        Servicio servicio = servicioService.getService(idService);
+
+        if(servicioService.deleteService(servicio)) {
+            return "redirect:/stores/" + nombreUsuarioLogeado + "/services";
+        }else{
+            return "No existe ningun servicio con ese ID";
+        }
+    }
+
+    //CREAR SERVICIO
+    //@PostMapping
+
+    //MOSTRAR RUTAS
+    //@GetMapping
 
 }
