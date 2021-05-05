@@ -7,14 +7,15 @@ import reservas.model.Cliente;
 import reservas.model.Empresa;
 import reservas.model.Servicio;
 
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
+import java.security.Key;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.*;
 
 import java.text.Format;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Service
@@ -25,6 +26,18 @@ public class EmpresaService extends UsuarioService{
     // Creamos la cadena para conectar a la BBDD
     private ConexionMySQL SQL = new ConexionMySQL();
 
+    private static String  ENCRYPT_KEY="passwordpassword";
+
+    private static String encript(String text) throws Exception {
+        Key aesKey = new SecretKeySpec(ENCRYPT_KEY.getBytes(), "AES");
+
+        Cipher cipher = Cipher.getInstance("AES");
+        cipher.init(Cipher.ENCRYPT_MODE, aesKey);
+
+        byte[] encrypted = cipher.doFinal(text.getBytes());
+        return Base64.getEncoder().encodeToString(encrypted);
+    }
+
     public boolean crearEmpresa(Empresa empresa) {
         Connection conn = SQL.conectarMySQL();  // Nos conectamos a la BBDD
         boolean resultado = false;
@@ -34,8 +47,8 @@ public class EmpresaService extends UsuarioService{
             if(empresa.existe()) {
                 System.out.println("Esa empresa ya existe");
             }else {
-                // String contrasenyaEncriptada = encript(usuario.getPassword());  // Esta línea será para encriptar cuando tengamos el método
-                String contrasenyaEncriptada = empresa.getPassword();
+                String contrasenyaEncriptada = encript(empresa.getPassword());  // Esta línea será para encriptar cuando tengamos el método
+                // String contrasenyaEncriptada = empresa.getPassword();
 
                 // query para insertar en la tabla usuario
                 String query1 = "insert into usuario values ('" + empresa.getNombreUser() + "', '" + contrasenyaEncriptada + "', '" +
