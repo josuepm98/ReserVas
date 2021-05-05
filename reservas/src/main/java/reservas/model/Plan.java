@@ -5,12 +5,9 @@ import reservas.service.PlanService;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 
 public class Plan {
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int id;
     public String nombre;
     public String descripcion;
