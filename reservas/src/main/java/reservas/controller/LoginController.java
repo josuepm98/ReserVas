@@ -16,12 +16,10 @@ import reservas.service.ClienteService;
 import reservas.service.EmpresaService;
 import reservas.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -29,7 +27,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import sun.security.util.SecurityConstants;
 
 
 import javax.servlet.http.HttpSession;
