@@ -1,13 +1,8 @@
 package reservas.model;
 
-import reservas.service.PlanService;
-
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import java.util.ArrayList;
 
 public class Plan {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int id;
     public String nombre;
     public String descripcion;
