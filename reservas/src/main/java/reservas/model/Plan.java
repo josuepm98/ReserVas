@@ -12,6 +12,7 @@ public class Plan {
     public String nombre;
     public String descripcion;
     public double precioTotal;
+    public String imagen;
 
     public ArrayList<Servicio> servicios;
 
@@ -58,6 +59,12 @@ public class Plan {
         this.precioTotal = precioTotal;
     }
 
+    public String getImagen() {
+        return imagen;
+    }
 
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
+    }
 
 }
