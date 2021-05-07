@@ -139,6 +139,50 @@ public class EmpresaService extends UsuarioService{
         }
     }
 
+    public List<Empresa> getEmpresasPorCategoria(String categoryName){
+        Connection conn = SQL.conectarMySQL();  // Nos conectamos a la BBDD
+        List<Empresa> empresas = new ArrayList<>();
+
+        try {
+            /*
+            También se puede:
+            select empresa.nombreUser, empresa.direccion, empresa.inicioJornada, empresa.finJornada,
+                    empresa.tiempoServicio, usuario.password, usuario.nombre, usuario.apellidos, usuario.email,
+                    usuario.img from empresa inner join usuario on empresa.nombreUser = usuario.nombreUser;
+            */
+            String query = "select distinct empresa.nombreUser, empresa.direccion, empresa.categoria, usuario.email," +
+                    "usuario.img from empresa, usuario where empresa.nombreUser = usuario.nombreUser and empresa.categoria = '" + categoryName + "';";
+
+            Statement st = conn.createStatement(); //creamos el statement -> nos permite sacar los datos obtenidos de la select
+            ResultSet rs = st.executeQuery(query); //ejecutamos la query
+
+            while(rs.next()) {
+                Empresa empresa = new Empresa();
+                empresa.setNombreUser(rs.getString("nombreUser"));
+                empresa.setEmail(rs.getString("email"));
+                empresa.setImg(rs.getString("img"));
+                empresa.setDireccion(rs.getString("direccion"));
+
+                empresas.add(empresa);
+            }
+
+            return empresas;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Se ha producido un error.");
+            return empresas;
+        } finally {
+            try {
+                if(conn != null){
+                    conn.close();
+                }
+            } catch (SQLException e){
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
     public List<Cliente> getClientesEmpresa(String nombreEmpresa){
         Connection conn = SQL.conectarMySQL();  // Nos conectamos a la BBDD
         List<Cliente> clientes = new ArrayList<>();

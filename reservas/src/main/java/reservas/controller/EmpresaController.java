@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reservas.authentication.ManagerUserSession;
+import reservas.authentication.UsuarioNoLogeadoException;
 import reservas.model.Cliente;
 import reservas.model.Empresa;
 import reservas.service.ClienteService;
@@ -48,6 +49,22 @@ public class EmpresaController {
         List<Cliente> clientes = empresa.getClientesEmpresa(); //TENEMOS QUE DEVOLVER LA SELECT DE CLIENTES Y PASARLA AL FRONT COMO JSON
         Gson gson =  new Gson();
         String json = gson.toJson(clientes);
+
+        return new ResponseEntity<>(json ,HttpStatus.OK);
+    }
+
+    @GetMapping("/{category}/stores") //NO SE LA RUTA QUE PEDIRAN
+    public ResponseEntity<?> empresasCategoria(@PathVariable(value="category") String categoryName, HttpSession session) {
+        String nombreUsuarioLogeado = (String) session.getAttribute("nombreUserLogeado");
+
+        if(nombreUsuarioLogeado == null){
+            throw new UsuarioNoLogeadoException();
+        }
+
+        List<Empresa> empresas = empresaService.getEmpresasPorCategoria(categoryName); //DEVOLVEMOS LA SELECT DE SERVICIO Y PASARLA AL FRONT COMO JSON
+
+        Gson gson =  new Gson();
+        String json = gson.toJson(empresas);
 
         return new ResponseEntity<>(json ,HttpStatus.OK);
     }
