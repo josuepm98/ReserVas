@@ -49,23 +49,23 @@ CREATE TABLE `reservas`.`empresa` (
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 
-INSERT INTO `reservas`.`usuario` (`nombreUser`, `password`, `nombre`, `apellidos`, `email`) VALUES ('clienteJose', 'password', 'Jose', 'Jose Jose', 'jose@gmail.com');
-INSERT INTO `reservas`.`usuario` (`nombreUser`, `password`, `nombre`, `apellidos`, `email`) VALUES ('clienteJosue', 'password', 'Josue', 'Josue Josue', 'josue@gmail.com');
-INSERT INTO `reservas`.`usuario` (`nombreUser`, `password`, `nombre`, `apellidos`, `email`) VALUES ('clienteJoaquin', 'password', 'Joaquin', 'Joaquin Joaquin', 'joaquin@gmail.com');
-INSERT INTO `reservas`.`usuario` (`nombreUser`, `password`, `nombre`, `apellidos`, `email`) VALUES ('clienteSameh', 'password', 'Sameh', 'Sameh Sameh', 'sameh@gmail.com');
+INSERT INTO `reservas`.`usuario` (`nombreUser`, `password`, `nombre`, `apellidos`, `email`) VALUES ('clienteJose', 'cGBbJaKU33UhK4d6b72Y8w==', 'Jose', 'Jose Jose', 'jose@gmail.com');
+INSERT INTO `reservas`.`usuario` (`nombreUser`, `password`, `nombre`, `apellidos`, `email`) VALUES ('clienteJosue', 'cGBbJaKU33UhK4d6b72Y8w==', 'Josue', 'Josue Josue', 'josue@gmail.com');
+INSERT INTO `reservas`.`usuario` (`nombreUser`, `password`, `nombre`, `apellidos`, `email`) VALUES ('clienteJoaquin', 'cGBbJaKU33UhK4d6b72Y8w==', 'Joaquin', 'Joaquin Joaquin', 'joaquin@gmail.com');
+INSERT INTO `reservas`.`usuario` (`nombreUser`, `password`, `nombre`, `apellidos`, `email`) VALUES ('clienteSameh', 'cGBbJaKU33UhK4d6b72Y8w==', 'Sameh', 'Sameh Sameh', 'sameh@gmail.com');
 
 INSERT INTO `reservas`.`cliente` (`nombreUser`, `fechaNac`) VALUES ('clienteJose', '2000-05-10');
 INSERT INTO `reservas`.`cliente` (`nombreUser`, `fechaNac`) VALUES ('clienteJosue', '2000-05-10');
 INSERT INTO `reservas`.`cliente` (`nombreUser`, `fechaNac`) VALUES ('clienteJoaquin', '2000-05-10');
 INSERT INTO `reservas`.`cliente` (`nombreUser`, `fechaNac`) VALUES ('clienteSameh', '2000-05-10');
 
-INSERT INTO `reservas`.`usuario` (`nombreUser`, `password`, `nombre`, `apellidos`, `email`) VALUES ('empresaPeluqueria', 'password', 'Peluqueria', 'Peluqueria Peluqueria', 'peluqueria@gmail.com');
-INSERT INTO `reservas`.`usuario` (`nombreUser`, `password`, `nombre`, `apellidos`, `email`) VALUES ('empresaSpa1', 'password', 'Spa1', 'Spa1 Spa1', 'spa1@gmail.com');
-INSERT INTO `reservas`.`usuario` (`nombreUser`, `password`, `nombre`, `apellidos`, `email`) VALUES ('empresaSpa2', 'password', 'Spa2', 'Spa2 Spa2', 'spa2@gmail.com');
-INSERT INTO `reservas`.`usuario` (`nombreUser`, `password`, `nombre`, `apellidos`, `email`) VALUES ('empresaSpa3', 'password', 'Spa3', 'Spa3 Spa3', 'spa3@gmail.com');
-INSERT INTO `reservas`.`usuario` (`nombreUser`, `password`, `nombre`, `apellidos`, `email`) VALUES ('empresaRestaurante', 'password', 'Restaurante', 'Restaurante Restaurante', 'restaurante@gmail.com');
-INSERT INTO `reservas`.`usuario` (`nombreUser`, `password`, `nombre`, `apellidos`, `email`) VALUES ('empresaGimnasio1', 'password', 'Gimnasio1', 'Gimnasio1 Gimnasio1', 'gimnasio1@gmail.com');
-INSERT INTO `reservas`.`usuario` (`nombreUser`, `password`, `nombre`, `apellidos`, `email`) VALUES ('empresaGimnasio2', 'password', 'Gimnasio2', 'Gimnasio2 Gimnasio2', 'gimnasio2@gmail.com');
+INSERT INTO `reservas`.`usuario` (`nombreUser`, `password`, `nombre`, `apellidos`, `email`) VALUES ('empresaPeluqueria', 'cGBbJaKU33UhK4d6b72Y8w==', 'Peluqueria', 'Peluqueria Peluqueria', 'peluqueria@gmail.com');
+INSERT INTO `reservas`.`usuario` (`nombreUser`, `password`, `nombre`, `apellidos`, `email`) VALUES ('empresaSpa1', 'cGBbJaKU33UhK4d6b72Y8w==', 'Spa1', 'Spa1 Spa1', 'spa1@gmail.com');
+INSERT INTO `reservas`.`usuario` (`nombreUser`, `password`, `nombre`, `apellidos`, `email`) VALUES ('empresaSpa2', 'cGBbJaKU33UhK4d6b72Y8w==', 'Spa2', 'Spa2 Spa2', 'spa2@gmail.com');
+INSERT INTO `reservas`.`usuario` (`nombreUser`, `password`, `nombre`, `apellidos`, `email`) VALUES ('empresaSpa3', 'cGBbJaKU33UhK4d6b72Y8w==', 'Spa3', 'Spa3 Spa3', 'spa3@gmail.com');
+INSERT INTO `reservas`.`usuario` (`nombreUser`, `password`, `nombre`, `apellidos`, `email`) VALUES ('empresaRestaurante', 'cGBbJaKU33UhK4d6b72Y8w==', 'Restaurante', 'Restaurante Restaurante', 'restaurante@gmail.com');
+INSERT INTO `reservas`.`usuario` (`nombreUser`, `password`, `nombre`, `apellidos`, `email`) VALUES ('empresaGimnasio1', 'cGBbJaKU33UhK4d6b72Y8w==', 'Gimnasio1', 'Gimnasio1 Gimnasio1', 'gimnasio1@gmail.com');
+INSERT INTO `reservas`.`usuario` (`nombreUser`, `password`, `nombre`, `apellidos`, `email`) VALUES ('empresaGimnasio2', 'cGBbJaKU33UhK4d6b72Y8w==', 'Gimnasio2', 'Gimnasio2 Gimnasio2', 'gimnasio2@gmail.com');
 
 INSERT INTO `reservas`.`empresa` (`nombreUser`, `direccion`, `categoria`) VALUES ('empresaPeluqueria', 'San Vicente', 'Peluqueria');
 INSERT INTO `reservas`.`empresa` (`nombreUser`, `direccion`, `categoria`) VALUES ('empresaSpa1', 'Alicante', 'Spa');

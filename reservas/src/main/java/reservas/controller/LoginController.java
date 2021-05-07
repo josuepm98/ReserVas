@@ -82,7 +82,7 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody Usuario usuario, Model model, HttpSession session) {
+    public ResponseEntity<?> login(@RequestBody Usuario usuario, HttpSession session) {
 
         String nombreUser = usuario.getNombreUser();
         String token = "";
@@ -123,9 +123,12 @@ public class LoginController {
             return new ResponseEntity<>("Ya existe un usuario con ese nombre de usuario", HttpStatus.CONFLICT);
         }
 
-        clienteService.crearCliente(cliente);
-
-        return new ResponseEntity<>("Registro realizado correctamente", HttpStatus.OK);
+        if(clienteService.crearCliente(cliente)) {
+            return new ResponseEntity<>("Registro realizado correctamente", HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>("Error en el registro, comprueba los datos", HttpStatus.OK);
+        }
     }
 
 
@@ -139,9 +142,12 @@ public class LoginController {
             return new ResponseEntity<>("Ya existe una empresa con ese nombre de usuario", HttpStatus.CONFLICT);
         }
 
-        empresaService.crearEmpresa(empresa);
-
-        return new ResponseEntity<>("Registro realizado correctamente", HttpStatus.OK);
+        if(empresaService.crearEmpresa(empresa)) {
+            return new ResponseEntity<>("Registro realizado correctamente", HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>("Error en el registro, comprueba los datos", HttpStatus.OK);
+        }
     }
 
     @GetMapping("/logout")

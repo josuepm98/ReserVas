@@ -44,11 +44,28 @@ public class ServicioController {
         return new ResponseEntity<>(json ,HttpStatus.OK);
     }
 
+    //TODOS LOS SERVICIOS (TANTO LIBRES COMO RESERVADOS) DE UNA EMPRESA EN CONCRETO
     @GetMapping("/stores/{nombreUser}/services") //NO SE LA RUTA QUE PEDIRAN
     public ResponseEntity<?> serviciosEmpresa(@PathVariable(value="nombreUser") String nombreUser, Model model, HttpSession session) {
         managerUserSesion.comprobarUsuarioLogeado(session, nombreUser);
 
         List<Servicio> services = servicioService.getServicios(nombreUser, 1); //DEVOLVEMOS LA SELECT DE SERVICIOS Y PASARLA AL FRONT COMO JSON
+
+        Gson gson =  new Gson();
+        String json = gson.toJson(services);
+
+        return new ResponseEntity<>(json ,HttpStatus.OK);
+    }
+
+    @GetMapping("/stores/services/disponibles/{nombreUser}") //NO SE LA RUTA QUE PEDIRAN
+    public ResponseEntity<?> serviciosLibresEmpresa(@PathVariable(value="nombreUser") String nombreUser, Model model, HttpSession session) {
+        String nombreUsuarioLogeado = (String) session.getAttribute("nombreUserLogeado");
+
+        if(nombreUsuarioLogeado == null){
+            throw new UsuarioNoLogeadoException();
+        }
+
+        List<Servicio> services = servicioService.getServiciosLibres(nombreUser); //DEVOLVEMOS LA SELECT DE SERVICIOS Y PASARLA AL FRONT COMO JSON
 
         Gson gson =  new Gson();
         String json = gson.toJson(services);
@@ -81,7 +98,7 @@ public class ServicioController {
         return new ResponseEntity<>(json ,HttpStatus.OK);
     }
 
-    @GetMapping("/{category}/services") //NO SE LA RUTA QUE PEDIRAN
+    /*@GetMapping("/{category}/services") //NO SE LA RUTA QUE PEDIRAN
     public ResponseEntity<?> serviciosCategoria(@PathVariable(value="category") String categoryName, HttpSession session) {
         String nombreUsuarioLogeado = (String) session.getAttribute("nombreUserLogeado");
 
@@ -95,7 +112,7 @@ public class ServicioController {
         String json = gson.toJson(services);
 
         return new ResponseEntity<>(json ,HttpStatus.OK);
-    }
+    }*/
 
     @DeleteMapping("/services/{id}/delete")
     public String deleteServicio(@PathVariable(value="id") Integer idService, HttpSession session){

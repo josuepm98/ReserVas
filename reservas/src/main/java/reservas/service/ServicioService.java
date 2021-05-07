@@ -190,6 +190,38 @@ public class ServicioService {
         }
     }
 
+    public List<Servicio> getServiciosLibres(String nombreUser){
+        Connection conn = SQL.conectarMySQL();  // Nos conectamos a la BBDD
+        List<Servicio> services = new ArrayList<>();
+
+        try {
+            String query = "";
+
+            query = "SELECT * FROM servicio WHERE (`empresa` = '" + nombreUser + "' and estado='LIBRE');";
+
+
+            Statement st = conn.createStatement(); //creamos el statement -> nos permite sacar los datos obtenidos de la select
+            ResultSet rs = st.executeQuery(query); //ejecutamos la query
+
+            services = crearArray(rs);
+
+            return services;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Se ha producido un error.");
+            return services;
+        } finally {
+            try {
+                if(conn != null){
+                    conn.close();
+                }
+            } catch (SQLException e){
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
     public List<Servicio> getServiciosPorCategoria(String nombreCategoria){
         Connection conn = SQL.conectarMySQL();  // Nos conectamos a la BBDD
         List<Servicio> services = new ArrayList<>();
