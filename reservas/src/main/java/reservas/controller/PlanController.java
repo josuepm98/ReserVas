@@ -26,11 +26,11 @@ public class PlanController {
 
     @GetMapping("/plans") //NO SE LA RUTA QUE PEDIRAN
     public ResponseEntity<?> planes(HttpSession session) {
-        String nombreUsuarioLogeado = (String) session.getAttribute("nombreUserLogeado");
+        /*String nombreUsuarioLogeado = (String) session.getAttribute("nombreUserLogeado");
 
         if(nombreUsuarioLogeado == null){
             throw new UsuarioNoLogeadoException();
-        }
+        }*/
 
         List<Plan> planes = planService.getPlanes(); //TENEMOS QUE DEVOLVER LA SELECT DE SERVICIOS Y PASARLA AL FRONT COMO JSON
 
@@ -40,7 +40,7 @@ public class PlanController {
         return new ResponseEntity<>(json ,HttpStatus.OK);
     }
 
-    @GetMapping("/plan/{id}") //NO SE LA RUTA QUE PEDIRAN
+    /*@GetMapping("/plan/{id}") //NO SE LA RUTA QUE PEDIRAN
     public ResponseEntity<?> plan(@PathVariable(value="id") Integer idPlan, HttpSession session) {
         String nombreUsuarioLogeado = (String) session.getAttribute("nombreUserLogeado");
 
@@ -54,6 +54,6 @@ public class PlanController {
         String json = gson.toJson(plan);
 
         return new ResponseEntity<>(json ,HttpStatus.OK);
-    }
+    }*/
 
 }

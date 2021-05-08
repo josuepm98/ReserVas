@@ -40,7 +40,7 @@ public class EmpresaController {
     //MOSTRAR CLIENTES RELACIONADOS CON EMPRESA
     @GetMapping("/stores/{nombreUser}/clientes")
     public ResponseEntity<?> clientesEmpresa(@PathVariable(value="nombreUser") String nombreUser, HttpSession session) {
-        managerUserSesion.comprobarUsuarioLogeado(session, nombreUser);
+        //managerUserSesion.comprobarUsuarioLogeado(session, nombreUser);
 
         Empresa empresa = new Empresa();
         empresa.setNombreUser(nombreUser);
@@ -55,11 +55,11 @@ public class EmpresaController {
 
     @GetMapping("/{category}/stores") //NO SE LA RUTA QUE PEDIRAN
     public ResponseEntity<?> empresasCategoria(@PathVariable(value="category") String categoryName, HttpSession session) {
-        String nombreUsuarioLogeado = (String) session.getAttribute("nombreUserLogeado");
+        /*String nombreUsuarioLogeado = (String) session.getAttribute("nombreUserLogeado");
 
         if(nombreUsuarioLogeado == null){
             throw new UsuarioNoLogeadoException();
-        }
+        }*/
 
         List<Empresa> empresas = empresaService.getEmpresasPorCategoria(categoryName); //DEVOLVEMOS LA SELECT DE SERVICIO Y PASARLA AL FRONT COMO JSON
 
