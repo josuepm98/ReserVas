@@ -38,11 +38,11 @@ public class ClienteController {
     //MOSTRAR TODOS CLIENTES
     @GetMapping("/clientes")
     public ResponseEntity<?> allClientes(HttpSession session) {
-        String nombreUsuarioLogeado = (String) session.getAttribute("nombreUserLogeado");
+        /*String nombreUsuarioLogeado = (String) session.getAttribute("nombreUserLogeado");
 
         if(nombreUsuarioLogeado == null){
             throw new UsuarioNoLogeadoException();
-        }
+        }*/
 
         List<Cliente> clientes = clienteService.getClientes(); //TENEMOS QUE DEVOLVER LA SELECT DE CLIENTES Y PASARLA AL FRONT COMO JSON
         //NO SE POR QUE MUESTRA ANTES LA FECHA QUE EL NOMBRE EN EL JSON

@@ -34,7 +34,7 @@ public class ServicioController {
 
     @GetMapping("/users/{nombreUser}/services") //NO SE LA RUTA QUE PEDIRAN
     public ResponseEntity<?> serviciosCliente(@PathVariable(value="nombreUser") String nombreUser, Model model, HttpSession session) {
-        managerUserSesion.comprobarUsuarioLogeado(session, nombreUser);
+        //managerUserSesion.comprobarUsuarioLogeado(session, nombreUser);
 
         List<Servicio> services = servicioService.getServicios(nombreUser, 0); //TENEMOS QUE DEVOLVER LA SELECT DE SERVICIOS Y PASARLA AL FRONT COMO JSON
 
@@ -47,7 +47,7 @@ public class ServicioController {
     //TODOS LOS SERVICIOS (TANTO LIBRES COMO RESERVADOS) DE UNA EMPRESA EN CONCRETO
     @GetMapping("/stores/{nombreUser}/services") //NO SE LA RUTA QUE PEDIRAN
     public ResponseEntity<?> serviciosEmpresa(@PathVariable(value="nombreUser") String nombreUser, Model model, HttpSession session) {
-        managerUserSesion.comprobarUsuarioLogeado(session, nombreUser);
+        //managerUserSesion.comprobarUsuarioLogeado(session, nombreUser);
 
         List<Servicio> services = servicioService.getServicios(nombreUser, 1); //DEVOLVEMOS LA SELECT DE SERVICIOS Y PASARLA AL FRONT COMO JSON
 
@@ -59,11 +59,11 @@ public class ServicioController {
 
     @GetMapping("/stores/services/disponibles/{nombreUser}") //NO SE LA RUTA QUE PEDIRAN
     public ResponseEntity<?> serviciosLibresEmpresa(@PathVariable(value="nombreUser") String nombreUser, Model model, HttpSession session) {
-        String nombreUsuarioLogeado = (String) session.getAttribute("nombreUserLogeado");
+        /*String nombreUsuarioLogeado = (String) session.getAttribute("nombreUserLogeado");
 
         if(nombreUsuarioLogeado == null){
             throw new UsuarioNoLogeadoException();
-        }
+        }*/
 
         List<Servicio> services = servicioService.getServiciosLibres(nombreUser); //DEVOLVEMOS LA SELECT DE SERVICIOS Y PASARLA AL FRONT COMO JSON
 
@@ -75,11 +75,11 @@ public class ServicioController {
 
     @GetMapping("/services/{id}") //NO SE LA RUTA QUE PEDIRAN
     public ResponseEntity<?> servicioInfo(@PathVariable(value="id") Integer idService, HttpSession session) {
-        String nombreUsuarioLogeado = (String) session.getAttribute("nombreUserLogeado");
+        /*String nombreUsuarioLogeado = (String) session.getAttribute("nombreUserLogeado");
 
         if(nombreUsuarioLogeado == null){
             throw new UsuarioNoLogeadoException();
-        }
+        }*/
 
         //DEVOLVEMOS LA SELECT DE SERVICIO Y PASARLA AL FRONT COMO JSON
         Servicio service = new Servicio();
@@ -115,17 +115,17 @@ public class ServicioController {
     }*/
 
     @DeleteMapping("/services/{id}/delete")
-    public String deleteServicio(@PathVariable(value="id") Integer idService, HttpSession session){
-        String nombreUsuarioLogeado = (String) session.getAttribute("nombreUserLogeado");
+    public String deleteServicio(@RequestBody String nombreUser, @PathVariable(value="id") Integer idService, HttpSession session){
+        /*String nombreUsuarioLogeado = (String) session.getAttribute("nombreUserLogeado");
 
         if(nombreUsuarioLogeado == null){
             throw new UsuarioNoLogeadoException();
-        }
+        }*/
 
         Servicio servicio = servicioService.getService(idService);
 
         if(servicioService.deleteService(servicio)) {
-            return "redirect:/stores/" + nombreUsuarioLogeado + "/services";
+            return "redirect:/stores/" + nombreUser + "/services";
         }else{
             return "No existe ningun servicio con ese ID";
         }
