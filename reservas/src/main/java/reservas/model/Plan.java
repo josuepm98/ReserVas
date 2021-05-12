@@ -7,7 +7,7 @@ public class Plan {
     public String nombre;
     public String descripcion;
     public double precioTotal;
-    public String imagen;
+    public String img;
 
     public ArrayList<Servicio> servicios;
 
@@ -55,11 +55,11 @@ public class Plan {
     }
 
     public String getImagen() {
-        return imagen;
+        return img;
     }
 
     public void setImagen(String imagen) {
-        this.imagen = imagen;
+        this.img = imagen;
     }
 
 }

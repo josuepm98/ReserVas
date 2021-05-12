@@ -32,8 +32,36 @@ public class ServicioController {
     @Autowired
     ManagerUserSession managerUserSesion;
 
+    @PostMapping("/services/{id}/reserve/{nombreUser}")
+    public ResponseEntity<?> reservaServicio(@PathVariable(value="nombreUser") String nombreUser, @PathVariable(value="id") Integer idService){
+        boolean reserva = false;
+
+        reserva = servicioService.reserveService(idService, nombreUser);
+
+        if(reserva){
+            return new ResponseEntity<>("Servicio reservado correctamente" ,HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>("No se ha podido reservar el servicio", HttpStatus.OK);
+        }
+    }
+
+    @PostMapping("/services/{id}/cancel")
+    public ResponseEntity<?> cancelaServicio(@PathVariable(value="id") Integer idService){
+        boolean reserva = false;
+
+        reserva = servicioService.cancelService(idService);
+
+        if(reserva){
+            return new ResponseEntity<>("Servicio cancelado correctamente" ,HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>("No se ha podido cancelar el servicio", HttpStatus.OK);
+        }
+    }
+
     @GetMapping("/users/{nombreUser}/services") //NO SE LA RUTA QUE PEDIRAN
-    public ResponseEntity<?> serviciosCliente(@PathVariable(value="nombreUser") String nombreUser, Model model, HttpSession session) {
+    public ResponseEntity<?> serviciosCliente(@PathVariable(value="nombreUser") String nombreUser, HttpSession session) {
         //managerUserSesion.comprobarUsuarioLogeado(session, nombreUser);
 
         List<Servicio> services = servicioService.getServicios(nombreUser, 0); //TENEMOS QUE DEVOLVER LA SELECT DE SERVICIOS Y PASARLA AL FRONT COMO JSON
@@ -46,7 +74,7 @@ public class ServicioController {
 
     //TODOS LOS SERVICIOS (TANTO LIBRES COMO RESERVADOS) DE UNA EMPRESA EN CONCRETO
     @GetMapping("/stores/{nombreUser}/services") //NO SE LA RUTA QUE PEDIRAN
-    public ResponseEntity<?> serviciosEmpresa(@PathVariable(value="nombreUser") String nombreUser, Model model, HttpSession session) {
+    public ResponseEntity<?> serviciosEmpresa(@PathVariable(value="nombreUser") String nombreUser, HttpSession session) {
         //managerUserSesion.comprobarUsuarioLogeado(session, nombreUser);
 
         List<Servicio> services = servicioService.getServicios(nombreUser, 1); //DEVOLVEMOS LA SELECT DE SERVICIOS Y PASARLA AL FRONT COMO JSON
@@ -57,8 +85,8 @@ public class ServicioController {
         return new ResponseEntity<>(json ,HttpStatus.OK);
     }
 
-    @GetMapping("/stores/services/disponibles/{nombreUser}") //NO SE LA RUTA QUE PEDIRAN
-    public ResponseEntity<?> serviciosLibresEmpresa(@PathVariable(value="nombreUser") String nombreUser, Model model, HttpSession session) {
+    @GetMapping("/stores/services/available/{nombreUser}") //NO SE LA RUTA QUE PEDIRAN
+    public ResponseEntity<?> serviciosLibresEmpresa(@PathVariable(value="nombreUser") String nombreUser, HttpSession session) {
         /*String nombreUsuarioLogeado = (String) session.getAttribute("nombreUserLogeado");
 
         if(nombreUsuarioLogeado == null){
