@@ -162,6 +162,7 @@ public class EmpresaService extends UsuarioService{
                 empresa.setEmail(rs.getString("email"));
                 empresa.setImg(rs.getString("img"));
                 empresa.setDireccion(rs.getString("direccion"));
+                empresa.setCategoria(rs.getString("categoria"));
 
                 empresas.add(empresa);
             }
