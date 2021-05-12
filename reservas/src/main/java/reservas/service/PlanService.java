@@ -36,6 +36,7 @@ public class PlanService {
                 plan.nombre = rs.getString("nombre");
                 plan.descripcion = rs.getString("descripcion");
                 plan.precioTotal = rs.getDouble("precioTotal");
+                plan.img = rs.getString("img");
             }
 
             return plan;
@@ -80,6 +81,7 @@ public class PlanService {
                     plan.nombre = rs.getString("nombre");
                     plan.descripcion = rs.getString("descripcion");
                     plan.precioTotal = rs.getDouble("precioTotal");
+                    plan.img = rs.getString("img");
 
                     idAnterior = plan.getId();
                 }

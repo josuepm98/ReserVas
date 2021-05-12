@@ -162,6 +162,7 @@ CREATE TABLE `reservas`.`planes` (
   `nombre` VARCHAR(255) NOT NULL,
   `descripcion` VARCHAR(255) NOT NULL,
   `precioTotal` DOUBLE NOT NULL,
+  `img` VARCHAR(255) NOT NULL DEFAULT 'src/main/resources/imagenes/Default.jpg',
   PRIMARY KEY (`id`, `servicio_id`),
   INDEX `servicio_id_idx` (`servicio_id` ASC) VISIBLE,
   CONSTRAINT `servicio_id`

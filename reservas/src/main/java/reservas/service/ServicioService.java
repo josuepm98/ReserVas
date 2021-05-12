@@ -17,6 +17,59 @@ public class ServicioService {
 
     private ConexionMySQL SQL = new ConexionMySQL();
 
+    public boolean reserveService(int serviceId, String nombreUser){
+        Connection conn = SQL.conectarMySQL();  // Nos conectamos a la BBDD
+        boolean resultado = false;
+
+        try{
+            String query = "UPDATE servicio SET `estado` = 'RESERVADO', `cliente` = '" + nombreUser + "' WHERE `id` = '" + serviceId + "';";
+
+            PreparedStatement comando = conn.prepareStatement(query);
+            if(comando.executeUpdate() > 0) {  // Se ha eliminado el servicio
+                resultado = true;
+            }
+            return resultado;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Se ha producido un error.");
+            return resultado;
+        }finally {
+            try {
+                conn.close();
+            }catch (Exception e){
+                System.out.println("Error al cerrar la conexión");
+            }
+        }
+
+    }
+
+    public boolean cancelService(int serviceId){
+        Connection conn = SQL.conectarMySQL();  // Nos conectamos a la BBDD
+        boolean resultado = false;
+
+        try{
+            String query = "UPDATE servicio SET `estado` = 'LIBRE', `cliente` = null WHERE `id` = '" + serviceId + "';";
+
+            PreparedStatement comando = conn.prepareStatement(query);
+            if(comando.executeUpdate() > 0) {  // Se ha eliminado el servicio
+                resultado = true;
+            }
+            return resultado;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Se ha producido un error.");
+            return resultado;
+        }finally {
+            try {
+                conn.close();
+            }catch (Exception e){
+                System.out.println("Error al cerrar la conexión");
+            }
+        }
+    }
+
     public boolean createService(Servicio servicio){
         Connection conn = SQL.conectarMySQL();  // Nos conectamos a la BBDD
         boolean resultado = false;
