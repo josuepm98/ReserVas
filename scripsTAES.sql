@@ -120,41 +120,41 @@ cliente) VALUES (null, 'Corte de pelo', 'San Vicente', 11.5, '2021-06-20', '11:3
 
 
 INSERT INTO `reservas`.`servicio` (id, nombre, direccion, precio, fecha, horaInicio, horaFin, estado, empresa,
-cliente) VALUES (null, 'Masaje', 'Alicante', 20, '2021-06-20', '09:00', '10:00', 'LIBRE', 'empresaSpa1', null);
+cliente) VALUES (null, 'Masaje', 'Alicante', 20, '2021-06-20', '09:00', '10:00', 'PLAN', 'empresaSpa1', null);
 
 INSERT INTO `reservas`.`servicio` (id, nombre, direccion, precio, fecha, horaInicio, horaFin, estado, empresa,
-cliente) VALUES (null, 'Masaje', 'Alicante', 20, '2021-06-20', '10:00', '11:00', 'LIBRE', 'empresaSpa1', null);
+cliente) VALUES (null, 'Masaje', 'Alicante', 20, '2021-06-20', '10:00', '11:00', 'PLAN', 'empresaSpa1', null);
 
 
 INSERT INTO `reservas`.`servicio` (id, nombre, direccion, precio, fecha, horaInicio, horaFin, estado, empresa,
-cliente) VALUES (null, 'Masaje', 'Aspe', 25, '2021-06-20', '11:00', '12:00', 'LIBRE', 'empresaSpa2', null);
+cliente) VALUES (null, 'Masaje', 'Aspe', 25, '2021-06-20', '11:00', '12:00', 'PLAN', 'empresaSpa2', null);
 
 INSERT INTO `reservas`.`servicio` (id, nombre, direccion, precio, fecha, horaInicio, horaFin, estado, empresa,
 cliente) VALUES (null, 'Masaje', 'Aspe', 25, '2021-06-20', '12:00', '13:00', 'RESERVADO', 'empresaSpa2', 'clienteSameh');
 
 
 INSERT INTO `reservas`.`servicio` (id, nombre, direccion, precio, fecha, horaInicio, horaFin, estado, empresa,
-cliente) VALUES (null, 'Masaje', 'Torrevieja', 30, '2021-06-20', '19:00', '20:00', 'LIBRE', 'empresaSpa3', null);
+cliente) VALUES (null, 'Masaje', 'Torrevieja', 30, '2021-06-20', '19:00', '20:00', 'PLAN', 'empresaSpa3', null);
 
 
 INSERT INTO `reservas`.`servicio` (id, nombre, direccion, precio, fecha, horaInicio, horaFin, estado, empresa,
-cliente) VALUES (null, 'Comida', 'Aspe', 0, '2021-06-20', '13:00', '15:00', 'LIBRE', 'empresaRestaurante', null);
+cliente) VALUES (null, 'Comida', 'Aspe', 0, '2021-06-20', '13:00', '15:00', 'PLAN', 'empresaRestaurante', null);
 
 
 INSERT INTO `reservas`.`servicio` (id, nombre, direccion, precio, fecha, horaInicio, horaFin, estado, empresa,
 cliente) VALUES (null, 'Gimnasio', 'Alicante', 3, '2021-06-20', '07:00', '08:00', 'RESERVADO', 'empresaGimnasio1', 'clienteJosue');
 
 INSERT INTO `reservas`.`servicio` (id, nombre, direccion, precio, fecha, horaInicio, horaFin, estado, empresa,
-cliente) VALUES (null, 'Gimnasio', 'Alicante', 3, '2021-06-20', '08:00', '09:00', 'LIBRE', 'empresaGimnasio1', null);
+cliente) VALUES (null, 'Gimnasio', 'Alicante', 3, '2021-06-20', '08:00', '09:00', 'PLAN', 'empresaGimnasio1', null);
 
 INSERT INTO `reservas`.`servicio` (id, nombre, direccion, precio, fecha, horaInicio, horaFin, estado, empresa,
 cliente) VALUES (null, 'Gimnasio', 'Alicante', 3, '2021-06-20', '09:00', '10:00', 'LIBRE', 'empresaGimnasio1', null);
 
 INSERT INTO `reservas`.`servicio` (id, nombre, direccion, precio, fecha, horaInicio, horaFin, estado, empresa,
-cliente) VALUES (null, 'Gimnasio', 'Alicante', 3, '2021-06-20', '10:00', '11:00', 'LIBRE', 'empresaGimnasio1', null);
+cliente) VALUES (null, 'Gimnasio', 'Alicante', 3, '2021-06-20', '10:00', '11:00', 'PLAN', 'empresaGimnasio1', null);
 
 INSERT INTO `reservas`.`servicio` (id, nombre, direccion, precio, fecha, horaInicio, horaFin, estado, empresa,
-cliente) VALUES (null, 'Gimnasio', 'Alicante', 3, '2021-06-20', '11:00', '12:00', 'LIBRE', 'empresaGimnasio1', null);
+cliente) VALUES (null, 'Gimnasio', 'Alicante', 3, '2021-06-20', '11:00', '12:00', 'PLAN', 'empresaGimnasio1', null);
 
 CREATE TABLE `reservas`.`planes` (
   `id` INT NOT NULL AUTO_INCREMENT,
@@ -162,25 +162,33 @@ CREATE TABLE `reservas`.`planes` (
   `nombre` VARCHAR(255) NOT NULL,
   `descripcion` VARCHAR(255) NOT NULL,
   `precioTotal` DOUBLE NOT NULL,
+  `estado` VARCHAR(255) NOT NULL,
+  `cliente` VARCHAR(255) NULL,
   `img` VARCHAR(255) NOT NULL DEFAULT 'src/main/resources/imagenes/Default.jpg',
   PRIMARY KEY (`id`, `servicio_id`),
   INDEX `servicio_id_idx` (`servicio_id` ASC) VISIBLE,
+  INDEX `tablaPlan_cliente_idx` (`cliente` ASC) VISIBLE,
   CONSTRAINT `servicio_id`
     FOREIGN KEY (`servicio_id`)
     REFERENCES `reservas`.`servicio` (`id`)
     ON DELETE CASCADE
+    ON UPDATE CASCADE,
+ CONSTRAINT `tablaPlan_cliente`
+    FOREIGN KEY (`cliente`)
+    REFERENCES `reservas`.`cliente` (`nombreUser`)
+    ON DELETE CASCADE
     ON UPDATE CASCADE);
     
-INSERT INTO `reservas`.`planes` (`id`, `servicio_id`, `nombre`, `descripcion`, `precioTotal`) VALUES ('1', '7', 'Plan de spas', 'Disfruta de un día de relajación completo', '75');
-INSERT INTO `reservas`.`planes` (`id`, `servicio_id`, `nombre`, `descripcion`, `precioTotal`) VALUES ('1', '9', 'Plan de spas', 'Disfruta de un día de relajación completo', '75');
-INSERT INTO `reservas`.`planes` (`id`, `servicio_id`, `nombre`, `descripcion`, `precioTotal`) VALUES ('1', '11', 'Plan de spas', 'Disfruta de un día de relajación completo', '75');
+INSERT INTO `reservas`.`planes` (`id`, `servicio_id`, `nombre`, `descripcion`, `precioTotal`, `estado`, `cliente`) VALUES ('1', '7', 'Plan de spas', 'Disfruta de un día de relajación completo', '75', 'LIBRE', null);
+INSERT INTO `reservas`.`planes` (`id`, `servicio_id`, `nombre`, `descripcion`, `precioTotal`, `estado`, `cliente`) VALUES ('1', '9', 'Plan de spas', 'Disfruta de un día de relajación completo', '75', 'LIBRE', null);
+INSERT INTO `reservas`.`planes` (`id`, `servicio_id`, `nombre`, `descripcion`, `precioTotal`, `estado`, `cliente`) VALUES ('1', '11', 'Plan de spas', 'Disfruta de un día de relajación completo', '75', 'LIBRE', null);
 
 
-INSERT INTO `reservas`.`planes` (`id`, `servicio_id`, `nombre`, `descripcion`, `precioTotal`) VALUES ('2', '14', 'Día de actividad', '¡Llena tu día de acividades y aumenta tu energía!', '0');
-INSERT INTO `reservas`.`planes` (`id`, `servicio_id`, `nombre`, `descripcion`, `precioTotal`) VALUES ('2', '8', 'Día de actividad', '¡Llena tu día de acividades y aumenta tu energía!', '0');
-INSERT INTO `reservas`.`planes` (`id`, `servicio_id`, `nombre`, `descripcion`, `precioTotal`) VALUES ('2', '12', 'Día de actividad', '¡Llena tu día de acividades y aumenta tu energía!', '0');
+INSERT INTO `reservas`.`planes` (`id`, `servicio_id`, `nombre`, `descripcion`, `precioTotal`, `estado`, `cliente`) VALUES ('2', '14', 'Día de actividad', '¡Llena tu día de acividades y aumenta tu energía!', '0', 'LIBRE', null);
+INSERT INTO `reservas`.`planes` (`id`, `servicio_id`, `nombre`, `descripcion`, `precioTotal`, `estado`, `cliente`) VALUES ('2', '8', 'Día de actividad', '¡Llena tu día de acividades y aumenta tu energía!', '0', 'LIBRE', null);
+INSERT INTO `reservas`.`planes` (`id`, `servicio_id`, `nombre`, `descripcion`, `precioTotal`, `estado`, `cliente`) VALUES ('2', '12', 'Día de actividad', '¡Llena tu día de acividades y aumenta tu energía!', '0', 'LIBRE', null);
 
 
-INSERT INTO `reservas`.`planes` (`id`, `servicio_id`, `nombre`, `descripcion`, `precioTotal`) VALUES ('3', '16', 'Fuerza máxima', 'Un día con extra de ejercicio, ¿te vas a rendir?', '6');
-INSERT INTO `reservas`.`planes` (`id`, `servicio_id`, `nombre`, `descripcion`, `precioTotal`) VALUES ('3', '17', 'Fuerza máxima', 'Un día con extra de ejercicio, ¿te vas a rendir?', '6');
+INSERT INTO `reservas`.`planes` (`id`, `servicio_id`, `nombre`, `descripcion`, `precioTotal`, `estado`, `cliente`) VALUES ('3', '16', 'Fuerza máxima', 'Un día con extra de ejercicio, ¿te vas a rendir?', '6', 'LIBRE', null);
+INSERT INTO `reservas`.`planes` (`id`, `servicio_id`, `nombre`, `descripcion`, `precioTotal`, `estado`, `cliente`) VALUES ('3', '17', 'Fuerza máxima', 'Un día con extra de ejercicio, ¿te vas a rendir?', '6', 'LIBRE', null);
 

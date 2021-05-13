@@ -142,7 +142,7 @@ public class ServicioService {
                 service.direccion = rs.getString("direccion");
                 service.precio = rs.getDouble("precio");
 
-                DateFormat dateFormatFecha = new SimpleDateFormat("yyyy-mm-dd"); //se necesita para la conversión de la BBDD (Date) a String
+                DateFormat dateFormatFecha = new SimpleDateFormat("yyyy-MM-dd"); //se necesita para la conversión de la BBDD (Date) a String
                 service.fecha = dateFormatFecha.format(rs.getDate("fecha"));
 
                 service.horaInicio = rs.getString("horaInicio");
@@ -208,6 +208,7 @@ public class ServicioService {
 
     //0 -> cliente
     //1 -> empresa
+    //NO DEVOLVER SERVICIOS QUE ESTEN EN UN PLAN
     public List<Servicio> getServicios(String nombreUser, int value){
         Connection conn = SQL.conectarMySQL();  // Nos conectamos a la BBDD
         List<Servicio> servicesUser = new ArrayList<>();
@@ -215,7 +216,7 @@ public class ServicioService {
         try {
             String query = "";
             if(value == 0) { //miramos según el value (0,1) si hacemos la select con cliente o empresa
-                query = "SELECT * FROM servicio WHERE (`cliente` = '" + nombreUser + "');";
+                query = "SELECT * FROM servicio WHERE (`cliente` = '" + nombreUser + "') and (`estado` <> 'PLAN');";
             }
             else{
                 query = "SELECT * FROM servicio WHERE (`empresa` = '" + nombreUser + "');";

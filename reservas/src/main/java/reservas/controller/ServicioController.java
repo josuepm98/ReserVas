@@ -72,7 +72,7 @@ public class ServicioController {
         return new ResponseEntity<>(json ,HttpStatus.OK);
     }
 
-    //TODOS LOS SERVICIOS (TANTO LIBRES COMO RESERVADOS) DE UNA EMPRESA EN CONCRETO
+    //TODOS LOS SERVICIOS (TANTO LIBRES, RESERVADOS y PLAN) DE UNA EMPRESA EN CONCRETO
     @GetMapping("/stores/{nombreUser}/services") //NO SE LA RUTA QUE PEDIRAN
     public ResponseEntity<?> serviciosEmpresa(@PathVariable(value="nombreUser") String nombreUser, HttpSession session) {
         //managerUserSesion.comprobarUsuarioLogeado(session, nombreUser);

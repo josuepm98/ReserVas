@@ -25,7 +25,7 @@ public class PlanServiceTest {
         resultadoEsperado.add(plan2);
         resultadoEsperado.add(plan3);
         PlanService plan = new PlanService();
-        ArrayList<Plan> resultadoReal = plan.getPlanes();
+        ArrayList<Plan> resultadoReal = plan.getPlanesLibres();
         for(int i=0; i < resultadoEsperado.size(); i++){
             assertEquals(resultadoEsperado.get(i).getId(), resultadoReal.get(i).getId());
         }

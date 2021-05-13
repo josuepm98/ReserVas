@@ -3,10 +3,13 @@ package reservas.model;
 import java.util.ArrayList;
 
 public class Plan {
+    public enum PlanEstado {LIBRE, RESERVADO}
+
     public int id;
     public String nombre;
     public String descripcion;
     public double precioTotal;
+    public PlanEstado estado;
     public String img;
 
     public ArrayList<Servicio> servicios;
@@ -38,6 +41,10 @@ public class Plan {
         return precioTotal;
     }
 
+    public PlanEstado getEstado() {
+        return estado;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -52,6 +59,10 @@ public class Plan {
 
     public void setPrecioTotal(double precioTotal){
         this.precioTotal = precioTotal;
+    }
+
+    public void setEstado(PlanEstado estado) {
+        this.estado = estado;
     }
 
     public String getImagen() {
