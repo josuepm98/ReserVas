@@ -72,6 +72,23 @@ public class EmpresaController {
     }
 
     //ESTABLECER HORARIOS EMPRESA
+    @PostMapping("/establishTimetable/{nombreUser}")
+    public ResponseEntity<?> establecerHorario(@PathVariable(value="nombreUser") String nombreUser, @RequestBody Empresa empresa){
+        String inicioJornada = empresa.getInicioJornada();
+        String finJornada = empresa.getFinJornada();
+        String tiempoServicio = empresa.getTiempoServicio();
+
+        boolean establecer = false;
+
+        establecer = empresaService.establecerHorarioEmpresa(nombreUser, inicioJornada, finJornada, tiempoServicio);
+
+        if(establecer){
+            return new ResponseEntity<>("Horario establecido correctamente" ,HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>("No se ha podido establecer el horario", HttpStatus.OK);
+        }
+    }
 
     @PostMapping("/generateDay/{nombreUser}")
     public ResponseEntity<?> generarDia(@PathVariable(value="nombreUser") String nombreUser, @RequestBody Servicio servicio){
