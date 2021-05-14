@@ -42,7 +42,7 @@ public class ServicioController {
             return new ResponseEntity<>("Servicio reservado correctamente" ,HttpStatus.OK);
         }
         else{
-            return new ResponseEntity<>("No se ha podido reservar el servicio", HttpStatus.OK);
+            return new ResponseEntity<>("No se ha podido reservar el servicio", HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -56,7 +56,7 @@ public class ServicioController {
             return new ResponseEntity<>("Servicio cancelado correctamente" ,HttpStatus.OK);
         }
         else{
-            return new ResponseEntity<>("No se ha podido cancelar el servicio", HttpStatus.OK);
+            return new ResponseEntity<>("No se ha podido cancelar el servicio", HttpStatus.BAD_REQUEST);
         }
     }
 
