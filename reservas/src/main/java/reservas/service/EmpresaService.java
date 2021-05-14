@@ -309,8 +309,9 @@ public class EmpresaService extends UsuarioService{
         }
     }
 
-    public void generarDia(Empresa empresa, String nombreServicio, String direccionServicio, double precio, String fecha) {
+    public boolean generarDia(Empresa empresa, String nombreServicio, String direccionServicio, double precio, String fecha) {
         Connection conn = SQL.conectarMySQL();  // Nos conectamos a la BBDD
+        boolean resultado = false;
 
         try {
             Servicio servicio;
@@ -347,9 +348,13 @@ public class EmpresaService extends UsuarioService{
 
             }
 
+            resultado = true;
+            return resultado;
+
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Se ha producido un error.");
+            return resultado;
         } finally {
             try {
                 if(conn != null){
