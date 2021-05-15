@@ -25,7 +25,7 @@ public class ServicioService {
             String query = "UPDATE servicio SET `estado` = 'RESERVADO', `cliente` = '" + nombreUser + "' WHERE `id` = '" + serviceId + "';";
 
             PreparedStatement comando = conn.prepareStatement(query);
-            if(comando.executeUpdate() > 0) {  // Se ha eliminado el servicio
+            if(comando.executeUpdate() > 0) {  // Se ha reservado el servicio
                 resultado = true;
             }
             return resultado;

@@ -139,6 +139,32 @@ public class EmpresaService extends UsuarioService{
         }
     }
 
+    public boolean establecerHorarioEmpresa(String nombreUser, String inicioJornada, String finJornada, String tiempoServicio){
+        Connection conn = SQL.conectarMySQL();
+        boolean resultado = false;
+
+        try{
+            String query = "UPDATE empresa SET `inicioJornada` = '" + inicioJornada + "', `finJornada` = '" + finJornada + "' , `tiempoServicio` = '" + tiempoServicio + "' WHERE `nombreUser` = '" + nombreUser + "';";
+
+            PreparedStatement comando = conn.prepareStatement(query);
+            if(comando.executeUpdate() > 0) {  // Se ha establecido la jornada
+                resultado = true;
+            }
+            return resultado;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Se ha producido un error.");
+            return resultado;
+        }finally {
+            try {
+                conn.close();
+            }catch (Exception e){
+                System.out.println("Error al cerrar la conexión");
+            }
+        }
+    }
+
     public List<Empresa> getEmpresasPorCategoria(String categoryName){
         Connection conn = SQL.conectarMySQL();  // Nos conectamos a la BBDD
         List<Empresa> empresas = new ArrayList<>();
@@ -309,8 +335,9 @@ public class EmpresaService extends UsuarioService{
         }
     }
 
-    public void generarDia(Empresa empresa, String nombreServicio, String direccionServicio, double precio, String fecha) {
+    public boolean generarDia(Empresa empresa, String nombreServicio, String direccionServicio, double precio, String fecha) {
         Connection conn = SQL.conectarMySQL();  // Nos conectamos a la BBDD
+        boolean resultado = false;
 
         try {
             Servicio servicio;
@@ -347,9 +374,13 @@ public class EmpresaService extends UsuarioService{
 
             }
 
+            resultado = true;
+            return resultado;
+
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Se ha producido un error.");
+            return resultado;
         } finally {
             try {
                 if(conn != null){

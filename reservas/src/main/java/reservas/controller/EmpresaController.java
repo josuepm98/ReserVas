@@ -8,6 +8,8 @@ import reservas.authentication.ManagerUserSession;
 import reservas.authentication.UsuarioNoLogeadoException;
 import reservas.model.Cliente;
 import reservas.model.Empresa;
+import reservas.model.Servicio;
+import reservas.model.Usuario;
 import reservas.service.ClienteService;
 import reservas.service.EmpresaService;
 import reservas.service.UsuarioService;
@@ -67,5 +69,44 @@ public class EmpresaController {
         String json = gson.toJson(empresas);
 
         return new ResponseEntity<>(json ,HttpStatus.OK);
+    }
+
+    //ESTABLECER HORARIOS EMPRESA
+    @PostMapping("/establishTimetable/{nombreUser}")
+    public ResponseEntity<?> establecerHorario(@PathVariable(value="nombreUser") String nombreUser, @RequestBody Empresa empresa){
+        String inicioJornada = empresa.getInicioJornada();
+        String finJornada = empresa.getFinJornada();
+        String tiempoServicio = empresa.getTiempoServicio();
+
+        boolean establecer = false;
+
+        establecer = empresaService.establecerHorarioEmpresa(nombreUser, inicioJornada, finJornada, tiempoServicio);
+
+        if(establecer){
+            return new ResponseEntity<>("Horario establecido correctamente" ,HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>("No se ha podido establecer el horario", HttpStatus.OK);
+        }
+    }
+
+    @PostMapping("/generateDay/{nombreUser}")
+    public ResponseEntity<?> generarDia(@PathVariable(value="nombreUser") String nombreUser, @RequestBody Servicio servicio){
+        String nombreServicio = servicio.getNombre();
+        String direccionServicio = servicio.getDireccion();
+        double precio = servicio.getPrecio();
+        String fecha = servicio.getFecha();
+        Empresa empresa = empresaService.getEmpresa(nombreUser);
+
+        boolean generar = false;
+
+        generar = empresaService.generarDia(empresa, nombreServicio, direccionServicio, precio, fecha);
+
+        if(generar){
+            return new ResponseEntity<>("Día generado correctamente" ,HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>("No se ha podido generar este día porque ya tiene servicios", HttpStatus.OK);
+        }
     }
 }
