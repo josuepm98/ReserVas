@@ -48,7 +48,7 @@ public class ClienteService extends UsuarioService{
 
                 // query para insertar en la tabla usuario
                 String query1 = "insert into usuario values ('" + cliente.getNombreUser() + "', '" + contrasenyaEncriptada + "', '" +
-                        cliente.getNombre() + "', '" + cliente.getApellidos() + "', '" + cliente.getEmail() + "', default);";
+                        cliente.getNombre() + "', '" + cliente.getApellidos() + "', '" + cliente.getEmail() + "', '" + cliente.getImg() + "');";
 
                 // query para insertar en la tabla cliente
                 String query2 = "insert into cliente values ('" + cliente.getNombreUser() + "', '" + cliente.getFechaNac() + "');";

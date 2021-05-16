@@ -52,7 +52,7 @@ public class EmpresaService extends UsuarioService{
 
                 // query para insertar en la tabla usuario
                 String query1 = "insert into usuario values ('" + empresa.getNombreUser() + "', '" + contrasenyaEncriptada + "', '" +
-                        empresa.getNombre() + "', '" + empresa.getApellidos() + "', '" + empresa.getEmail() + "', default);";
+                        empresa.getNombre() + "', '" + empresa.getApellidos() + "', '" + empresa.getEmail() + "', '" + empresa.getImg() +"');";
 
                 // query para insertar en la tabla empresa
                 String query2 = "insert into empresa (`nombreUser`, `direccion`, `categoria`) values ('" + empresa.getNombreUser() +

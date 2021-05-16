@@ -116,7 +116,7 @@ public class LoginController {
 
 
     @PostMapping("/registerUser")
-    public ResponseEntity<?> registroCliente(@RequestBody Cliente cliente, Model model) {
+    public ResponseEntity<?> registroCliente(@RequestBody Cliente cliente) {
         boolean existeUsuario = usuarioService.existe(cliente.getNombreUser());
 
         if (existeUsuario) {
@@ -135,7 +135,7 @@ public class LoginController {
     //VER LAS RUTAS PORQUE REGISTRO EMPRESA NO EXISTE EN EL FRONT
 
     @PostMapping("/registerStore")
-    public ResponseEntity<?> registroEmpresa(@RequestBody Empresa empresa, Model model) {
+    public ResponseEntity<?> registroEmpresa(@RequestBody Empresa empresa) {
         boolean existeEmpresa = empresaService.existe(empresa.getNombreUser());
 
         if (existeEmpresa) {
