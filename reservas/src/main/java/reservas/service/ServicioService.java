@@ -216,10 +216,10 @@ public class ServicioService {
         try {
             String query = "";
             if(value == 0) { //miramos según el value (0,1) si hacemos la select con cliente o empresa
-                query = "SELECT * FROM servicio WHERE (`cliente` = '" + nombreUser + "') and (`estado` <> 'PLAN');";
+                query = "SELECT * FROM servicio WHERE (`cliente` = '" + nombreUser + "') and (`estado` <> 'PLAN') ORDER BY horaInicio;";
             }
             else{
-                query = "SELECT * FROM servicio WHERE (`empresa` = '" + nombreUser + "');";
+                query = "SELECT * FROM servicio WHERE (`empresa` = '" + nombreUser + "') ORDER BY horaInicio;";
             }
 
             Statement st = conn.createStatement(); //creamos el statement -> nos permite sacar los datos obtenidos de la select
@@ -251,7 +251,7 @@ public class ServicioService {
         try {
             String query = "";
 
-            query = "SELECT * FROM servicio WHERE (`empresa` = '" + nombreUser + "' and estado='LIBRE');";
+            query = "SELECT * FROM servicio WHERE (`empresa` = '" + nombreUser + "' and estado='LIBRE') ORDER BY horaInicio;";
 
 
             Statement st = conn.createStatement(); //creamos el statement -> nos permite sacar los datos obtenidos de la select
@@ -283,7 +283,7 @@ public class ServicioService {
         try {
 
             String query = "SELECT servicio.*, empresa.categoria FROM servicio inner join empresa on servicio.empresa = empresa.nombreUser " +
-                    " WHERE empresa.categoria ='"+ nombreCategoria + "' and servicio.estado='LIBRE';";
+                    " WHERE empresa.categoria ='"+ nombreCategoria + "' and servicio.estado='LIBRE' ORDER BY horaInicio;";
 
             Statement st = conn.createStatement(); //creamos el statement -> nos permite sacar los datos obtenidos de la select
             ResultSet rs = st.executeQuery(query); //ejecutamos la query
