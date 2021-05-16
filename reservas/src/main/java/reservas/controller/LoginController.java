@@ -16,12 +16,10 @@ import reservas.service.ClienteService;
 import reservas.service.EmpresaService;
 import reservas.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -29,7 +27,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import sun.security.util.SecurityConstants;
 
 
 import javax.servlet.http.HttpSession;
@@ -85,7 +82,7 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody Usuario usuario, Model model, HttpSession session) {
+    public ResponseEntity<?> login(@RequestBody Usuario usuario, HttpSession session) {
 
         String nombreUser = usuario.getNombreUser();
         String token = "";
@@ -126,9 +123,12 @@ public class LoginController {
             return new ResponseEntity<>("Ya existe un usuario con ese nombre de usuario", HttpStatus.CONFLICT);
         }
 
-        clienteService.crearCliente(cliente);
-
-        return new ResponseEntity<>("Registro realizado correctamente", HttpStatus.OK);
+        if(clienteService.crearCliente(cliente)) {
+            return new ResponseEntity<>("Registro realizado correctamente", HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>("Error en el registro, comprueba los datos", HttpStatus.OK);
+        }
     }
 
 
@@ -142,9 +142,12 @@ public class LoginController {
             return new ResponseEntity<>("Ya existe una empresa con ese nombre de usuario", HttpStatus.CONFLICT);
         }
 
-        empresaService.crearEmpresa(empresa);
-
-        return new ResponseEntity<>("Registro realizado correctamente", HttpStatus.OK);
+        if(empresaService.crearEmpresa(empresa)) {
+            return new ResponseEntity<>("Registro realizado correctamente", HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>("Error en el registro, comprueba los datos", HttpStatus.OK);
+        }
     }
 
     @GetMapping("/logout")

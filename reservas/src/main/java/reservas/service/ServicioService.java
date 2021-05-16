@@ -17,6 +17,59 @@ public class ServicioService {
 
     private ConexionMySQL SQL = new ConexionMySQL();
 
+    public boolean reserveService(int serviceId, String nombreUser){
+        Connection conn = SQL.conectarMySQL();  // Nos conectamos a la BBDD
+        boolean resultado = false;
+
+        try{
+            String query = "UPDATE servicio SET `estado` = 'RESERVADO', `cliente` = '" + nombreUser + "' WHERE `id` = '" + serviceId + "';";
+
+            PreparedStatement comando = conn.prepareStatement(query);
+            if(comando.executeUpdate() > 0) {  // Se ha reservado el servicio
+                resultado = true;
+            }
+            return resultado;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Se ha producido un error.");
+            return resultado;
+        }finally {
+            try {
+                conn.close();
+            }catch (Exception e){
+                System.out.println("Error al cerrar la conexión");
+            }
+        }
+
+    }
+
+    public boolean cancelService(int serviceId){
+        Connection conn = SQL.conectarMySQL();  // Nos conectamos a la BBDD
+        boolean resultado = false;
+
+        try{
+            String query = "UPDATE servicio SET `estado` = 'LIBRE', `cliente` = null WHERE `id` = '" + serviceId + "';";
+
+            PreparedStatement comando = conn.prepareStatement(query);
+            if(comando.executeUpdate() > 0) {  // Se ha eliminado el servicio
+                resultado = true;
+            }
+            return resultado;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Se ha producido un error.");
+            return resultado;
+        }finally {
+            try {
+                conn.close();
+            }catch (Exception e){
+                System.out.println("Error al cerrar la conexión");
+            }
+        }
+    }
+
     public boolean createService(Servicio servicio){
         Connection conn = SQL.conectarMySQL();  // Nos conectamos a la BBDD
         boolean resultado = false;
@@ -89,7 +142,7 @@ public class ServicioService {
                 service.direccion = rs.getString("direccion");
                 service.precio = rs.getDouble("precio");
 
-                DateFormat dateFormatFecha = new SimpleDateFormat("yyyy-mm-dd"); //se necesita para la conversión de la BBDD (Date) a String
+                DateFormat dateFormatFecha = new SimpleDateFormat("yyyy-MM-dd"); //se necesita para la conversión de la BBDD (Date) a String
                 service.fecha = dateFormatFecha.format(rs.getDate("fecha"));
 
                 service.horaInicio = rs.getString("horaInicio");
@@ -155,6 +208,7 @@ public class ServicioService {
 
     //0 -> cliente
     //1 -> empresa
+    //NO DEVOLVER SERVICIOS QUE ESTEN EN UN PLAN
     public List<Servicio> getServicios(String nombreUser, int value){
         Connection conn = SQL.conectarMySQL();  // Nos conectamos a la BBDD
         List<Servicio> servicesUser = new ArrayList<>();
@@ -162,7 +216,7 @@ public class ServicioService {
         try {
             String query = "";
             if(value == 0) { //miramos según el value (0,1) si hacemos la select con cliente o empresa
-                query = "SELECT * FROM servicio WHERE (`cliente` = '" + nombreUser + "');";
+                query = "SELECT * FROM servicio WHERE (`cliente` = '" + nombreUser + "') and (`estado` <> 'PLAN');";
             }
             else{
                 query = "SELECT * FROM servicio WHERE (`empresa` = '" + nombreUser + "');";
@@ -179,6 +233,38 @@ public class ServicioService {
             e.printStackTrace();
             System.out.println("Se ha producido un error.");
             return servicesUser;
+        } finally {
+            try {
+                if(conn != null){
+                    conn.close();
+                }
+            } catch (SQLException e){
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    public List<Servicio> getServiciosLibres(String nombreUser){
+        Connection conn = SQL.conectarMySQL();  // Nos conectamos a la BBDD
+        List<Servicio> services = new ArrayList<>();
+
+        try {
+            String query = "";
+
+            query = "SELECT * FROM servicio WHERE (`empresa` = '" + nombreUser + "' and estado='LIBRE');";
+
+
+            Statement st = conn.createStatement(); //creamos el statement -> nos permite sacar los datos obtenidos de la select
+            ResultSet rs = st.executeQuery(query); //ejecutamos la query
+
+            services = crearArray(rs);
+
+            return services;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Se ha producido un error.");
+            return services;
         } finally {
             try {
                 if(conn != null){

@@ -11,10 +11,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class Servicio {
-    public enum ServicioEstado {LIBRE, RESERVADO}
-    private static final int serialVersionUID = 1;
-
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public enum ServicioEstado {LIBRE, RESERVADO, PLAN}
     public int id;
 
     public String nombre; //nombre de la empresa-servicio

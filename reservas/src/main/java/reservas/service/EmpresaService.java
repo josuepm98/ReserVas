@@ -7,14 +7,15 @@ import reservas.model.Cliente;
 import reservas.model.Empresa;
 import reservas.model.Servicio;
 
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
+import java.security.Key;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.*;
 
 import java.text.Format;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Service
@@ -25,6 +26,18 @@ public class EmpresaService extends UsuarioService{
     // Creamos la cadena para conectar a la BBDD
     private ConexionMySQL SQL = new ConexionMySQL();
 
+    private static String  ENCRYPT_KEY="passwordpassword";
+
+    private static String encript(String text) throws Exception {
+        Key aesKey = new SecretKeySpec(ENCRYPT_KEY.getBytes(), "AES");
+
+        Cipher cipher = Cipher.getInstance("AES");
+        cipher.init(Cipher.ENCRYPT_MODE, aesKey);
+
+        byte[] encrypted = cipher.doFinal(text.getBytes());
+        return Base64.getEncoder().encodeToString(encrypted);
+    }
+
     public boolean crearEmpresa(Empresa empresa) {
         Connection conn = SQL.conectarMySQL();  // Nos conectamos a la BBDD
         boolean resultado = false;
@@ -34,8 +47,8 @@ public class EmpresaService extends UsuarioService{
             if(empresa.existe()) {
                 System.out.println("Esa empresa ya existe");
             }else {
-                // String contrasenyaEncriptada = encript(usuario.getPassword());  // Esta línea será para encriptar cuando tengamos el método
-                String contrasenyaEncriptada = empresa.getPassword();
+                String contrasenyaEncriptada = encript(empresa.getPassword());  // Esta línea será para encriptar cuando tengamos el método
+                // String contrasenyaEncriptada = empresa.getPassword();
 
                 // query para insertar en la tabla usuario
                 String query1 = "insert into usuario values ('" + empresa.getNombreUser() + "', '" + contrasenyaEncriptada + "', '" +
@@ -115,6 +128,77 @@ public class EmpresaService extends UsuarioService{
             e.printStackTrace();
             System.out.println("Se ha producido un error.");
             return empresa;
+        } finally {
+            try {
+                if(conn != null){
+                    conn.close();
+                }
+            } catch (SQLException e){
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    public boolean establecerHorarioEmpresa(String nombreUser, String inicioJornada, String finJornada, String tiempoServicio){
+        Connection conn = SQL.conectarMySQL();
+        boolean resultado = false;
+
+        try{
+            String query = "UPDATE empresa SET `inicioJornada` = '" + inicioJornada + "', `finJornada` = '" + finJornada + "' , `tiempoServicio` = '" + tiempoServicio + "' WHERE `nombreUser` = '" + nombreUser + "';";
+
+            PreparedStatement comando = conn.prepareStatement(query);
+            if(comando.executeUpdate() > 0) {  // Se ha establecido la jornada
+                resultado = true;
+            }
+            return resultado;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Se ha producido un error.");
+            return resultado;
+        }finally {
+            try {
+                conn.close();
+            }catch (Exception e){
+                System.out.println("Error al cerrar la conexión");
+            }
+        }
+    }
+
+    public List<Empresa> getEmpresasPorCategoria(String categoryName){
+        Connection conn = SQL.conectarMySQL();  // Nos conectamos a la BBDD
+        List<Empresa> empresas = new ArrayList<>();
+
+        try {
+            /*
+            También se puede:
+            select empresa.nombreUser, empresa.direccion, empresa.inicioJornada, empresa.finJornada,
+                    empresa.tiempoServicio, usuario.password, usuario.nombre, usuario.apellidos, usuario.email,
+                    usuario.img from empresa inner join usuario on empresa.nombreUser = usuario.nombreUser;
+            */
+            String query = "select distinct empresa.nombreUser, empresa.direccion, empresa.categoria, usuario.email," +
+                    "usuario.img from empresa, usuario where empresa.nombreUser = usuario.nombreUser and empresa.categoria = '" + categoryName + "';";
+
+            Statement st = conn.createStatement(); //creamos el statement -> nos permite sacar los datos obtenidos de la select
+            ResultSet rs = st.executeQuery(query); //ejecutamos la query
+
+            while(rs.next()) {
+                Empresa empresa = new Empresa();
+                empresa.setNombreUser(rs.getString("nombreUser"));
+                empresa.setEmail(rs.getString("email"));
+                empresa.setImg(rs.getString("img"));
+                empresa.setDireccion(rs.getString("direccion"));
+                empresa.setCategoria(rs.getString("categoria"));
+
+                empresas.add(empresa);
+            }
+
+            return empresas;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Se ha producido un error.");
+            return empresas;
         } finally {
             try {
                 if(conn != null){
@@ -251,8 +335,9 @@ public class EmpresaService extends UsuarioService{
         }
     }
 
-    public void generarDia(Empresa empresa, String nombreServicio, String direccionServicio, double precio, String fecha) {
+    public boolean generarDia(Empresa empresa, String nombreServicio, String direccionServicio, double precio, String fecha) {
         Connection conn = SQL.conectarMySQL();  // Nos conectamos a la BBDD
+        boolean resultado = false;
 
         try {
             Servicio servicio;
@@ -289,9 +374,13 @@ public class EmpresaService extends UsuarioService{
 
             }
 
+            resultado = true;
+            return resultado;
+
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Se ha producido un error.");
+            return resultado;
         } finally {
             try {
                 if(conn != null){

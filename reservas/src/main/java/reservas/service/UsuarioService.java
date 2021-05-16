@@ -4,10 +4,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import reservas.model.Usuario;
-
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
+import java.security.Key;
 import java.sql.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.util.Base64;
 
 
 @Service
@@ -17,6 +18,18 @@ public class UsuarioService {
 
     // Creamos la cadena para conectar a la BBDD
     private ConexionMySQL SQL = new ConexionMySQL();
+
+    private static String  ENCRYPT_KEY="passwordpassword";
+
+    private static String encript(String text) throws Exception {
+        Key aesKey = new SecretKeySpec(ENCRYPT_KEY.getBytes(), "AES");
+
+        Cipher cipher = Cipher.getInstance("AES");
+        cipher.init(Cipher.ENCRYPT_MODE, aesKey);
+
+        byte[] encrypted = cipher.doFinal(text.getBytes());
+        return Base64.getEncoder().encodeToString(encrypted);
+    }
 
     public boolean eliminarUsuario(Usuario usuario) {
         Connection conn = SQL.conectarMySQL();  // Nos conectamos a la BBDD
@@ -91,8 +104,8 @@ public class UsuarioService {
         ResultSet consulta = null;
 
         try {
-            // String passwordIntroducidaEncriptada = encript(passwordIntroducida);  // Esta línea será para encriptar
-            String passwordIntroducidaEncriptada = passwordIntroducida;
+            String passwordIntroducidaEncriptada = encript(passwordIntroducida);  // Esta línea será para encriptar
+            //String passwordIntroducidaEncriptada = passwordIntroducida;
 
             comando = conn.createStatement();
             consulta = comando.executeQuery("select * from usuario where nombreUser='" + nombreUser + "';");

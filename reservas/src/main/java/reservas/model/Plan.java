@@ -1,20 +1,16 @@
 package reservas.model;
 
-import reservas.service.PlanService;
-
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 
 public class Plan {
+    public enum PlanEstado {LIBRE, RESERVADO}
+
     public int id;
     public String nombre;
     public String descripcion;
     public double precioTotal;
+    public PlanEstado estado;
+    public String img;
 
     public ArrayList<Servicio> servicios;
 
@@ -45,6 +41,10 @@ public class Plan {
         return precioTotal;
     }
 
+    public PlanEstado getEstado() {
+        return estado;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -61,6 +61,16 @@ public class Plan {
         this.precioTotal = precioTotal;
     }
 
+    public void setEstado(PlanEstado estado) {
+        this.estado = estado;
+    }
 
+    public String getImagen() {
+        return img;
+    }
+
+    public void setImagen(String imagen) {
+        this.img = imagen;
+    }
 
 }

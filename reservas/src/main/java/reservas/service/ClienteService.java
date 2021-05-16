@@ -6,10 +6,14 @@ import reservas.model.Cliente;
 import reservas.model.Servicio;
 import reservas.model.Usuario;
 
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
+import java.security.Key;
 import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 @Service
@@ -17,6 +21,18 @@ public class ClienteService extends UsuarioService{
 
     // Creamos la cadena para conectar a la BBDD
     private ConexionMySQL SQL = new ConexionMySQL();
+
+    private static String  ENCRYPT_KEY="passwordpassword";
+
+    private static String encript(String text) throws Exception {
+        Key aesKey = new SecretKeySpec(ENCRYPT_KEY.getBytes(), "AES");
+
+        Cipher cipher = Cipher.getInstance("AES");
+        cipher.init(Cipher.ENCRYPT_MODE, aesKey);
+
+        byte[] encrypted = cipher.doFinal(text.getBytes());
+        return Base64.getEncoder().encodeToString(encrypted);
+    }
 
     public boolean crearCliente(Cliente cliente) {
         Connection conn = SQL.conectarMySQL();  // Nos conectamos a la BBDD
@@ -27,8 +43,8 @@ public class ClienteService extends UsuarioService{
             if(cliente.existe()) {
                 System.out.println("Ese usuario ya existe");
             }else {
-                // String contrasenyaEncriptada = encript(usuario.getPassword());  // Esta línea será para encriptar cuando tengamos el método
-                String contrasenyaEncriptada = cliente.getPassword();
+                String contrasenyaEncriptada = encript(cliente.getPassword());  // Esta línea será para encriptar cuando tengamos el método
+                //String contrasenyaEncriptada = cliente.getPassword();
 
                 // query para insertar en la tabla usuario
                 String query1 = "insert into usuario values ('" + cliente.getNombreUser() + "', '" + contrasenyaEncriptada + "', '" +
