@@ -1,68 +1,40 @@
 package reservas.model;
 
-import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import reservas.service.ClienteService;
+import reservas.service.EmpresaService;
 
-@Entity
-@Table(name = "equipos")
-public class Cliente {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String nombre;
+public class Cliente extends Usuario{
 
-    @ManyToMany
-    @JoinTable(name = "equipo_usuario",
-            joinColumns = { @JoinColumn(name = "fk_equipo") },
-            inverseJoinColumns = {@JoinColumn(name = "fk_usuario")})
-    Set<Usuario> usuarios = new HashSet<>();
+    public String fechaNac;
 
-    private Cliente(){
+    public Cliente() {super();}
 
+    public Cliente(String nombreUser, String password, String nombre, String apellidos, String email, String fechaNac) {
+        super(nombreUser, password, nombre, apellidos, email);
+        this.fechaNac = fechaNac;
     }
 
-    public Cliente(String nombre){
-        this.nombre = nombre;
+    //getters and setters
+    public String getFechaNac() {
+        return fechaNac;
     }
 
-    public Long getId() {
-        return id;
+    public void setFechaNac(String fechaNac) {
+        this.fechaNac = fechaNac;
     }
 
-    public String getNombre() {
-        return nombre;
-    }
-    public void setNombre(String nombre){
-        this.nombre = nombre;
-    }
-    public void setId(Long id){
-        this.id = id;
-    }
-    public Set<Usuario> getUsuarios() {
-        return usuarios;
-    }
-    public void setUsuarios(Set<Usuario> usuarios){
-        this.usuarios = usuarios;
+    public boolean crearCliente() {
+        ClienteService cliente = new ClienteService();
+        return cliente.crearCliente(this);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Cliente equipo = (Cliente) o;
-        if (id != null && equipo.id != null)
-            // Si tenemos los ID, comparamos por ID
-            return Objects.equals(id, equipo.id);
-        // sino comparamos por nombre
-        return nombre.equals(equipo.nombre);
+    public boolean eliminarCliente() {
+        return super.eliminarUsuario();
     }
 
-    @Override
-    public int hashCode() {
-        // Generamos un hash basado en el nombre
-        return Objects.hash(nombre);
+    public Cliente getCliente(){
+        ClienteService cliente = new ClienteService();
+        return cliente.getCliente(this.getNombreUser());
     }
-
+    
 }
